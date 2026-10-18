@@ -124,7 +124,7 @@ function PhonePreview({ featured, courses, institutes, providers }: { featured: 
           <div className="mb-3 h-8 rounded-[10px] border border-line bg-surface px-3 text-[11px] leading-8 text-ink-3">Search courses, trainers…</div>
           {rows.map(([title, list]) => (
             <div key={title} className="mb-3">
-              <p className="mb-1.5 text-[11px] font-semibold text-ink">{title}</p>
+              <p className="mb-1.5 text-[11px] font-medium text-ink">{title}</p>
               <div className="flex gap-2 overflow-hidden">
                 {list.length ? (
                   list.slice(0, 3).map((i) => (

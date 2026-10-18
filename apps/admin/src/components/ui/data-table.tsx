@@ -346,7 +346,7 @@ export function DataTable<T>({
                           className={cn(
                             "group/sort -mx-1.5 inline-flex max-w-full items-center gap-1 rounded-[4px] px-1.5 py-0.5",
                             "transition-[color,transform] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.97]",
-                            active ? "font-semibold text-ink" : "hover:text-ink",
+                            active ? "font-medium text-ink" : "hover:text-ink",
                           )}
                         >
                           {c.header}

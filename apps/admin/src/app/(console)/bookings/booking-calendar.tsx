@@ -210,7 +210,7 @@ export function BookingCalendar({
             <ChevronRight className="size-4" strokeWidth={1.75} />
           </Button>
         </div>
-        <h2 className="min-w-0 font-display text-[15px] font-semibold tracking-tight text-ink" aria-live="polite">
+        <h2 className="min-w-0 text-[15px] font-medium text-ink" aria-live="polite">
           {title}
         </h2>
         <Button size="sm" className="ml-1" disabled={showingToday} onClick={() => setAnchor(todayStart)}>
@@ -474,7 +474,7 @@ function TimeGrid({
                   <span
                     className={cn(
                       "num mx-auto mt-0.5 grid size-7 place-items-center rounded-full text-[13px]",
-                      isToday ? "bg-ink font-semibold text-paper" : "text-ink group-hover:bg-surface",
+                      isToday ? "bg-ink font-medium text-paper" : "text-ink group-hover:bg-surface",
                     )}
                   >
                     {fmtDate(d, { day: "numeric" })}
@@ -579,7 +579,7 @@ function DayView({ day, rows, now, todayStart, onOpen }: { day: number; rows: Bo
       <aside className="relative border-t border-line lg:border-l lg:border-t-0" aria-label="Bookings this day">
         <div className="flex flex-col lg:absolute lg:inset-0">
           <div className="flex items-baseline justify-between gap-2 border-b border-line px-4 py-3">
-            <p className="text-[13.5px] font-semibold text-ink">
+            <p className="text-[13.5px] font-medium text-ink">
               <span className="num">{items.length}</span> {items.length === 1 ? "booking" : "bookings"}
             </p>
             {needs ? (
@@ -692,14 +692,14 @@ function MonthGrid({
                     aria-label={`${dayName}, ${items.length ? `${items.length} ${items.length === 1 ? "booking" : "bookings"}` : "no bookings"}. Open day`}
                     className={cn(
                       "num grid size-7 place-items-center rounded-full text-[13px] transition-colors duration-150 ease-[var(--ease-out-quart)]",
-                      isToday ? "bg-ink font-semibold text-paper" : inMonth ? "text-ink hover:bg-surface" : "text-ink-3 hover:bg-surface",
+                      isToday ? "bg-ink font-medium text-paper" : inMonth ? "text-ink hover:bg-surface" : "text-ink-3 hover:bg-surface",
                     )}
                   >
                     {fmtDate(d, { day: "numeric" })}
                   </button>
                   {items.length ? (
                     <span className={cn("num text-[12px]", inMonth ? "text-ink-2" : "text-ink-3")} aria-hidden>
-                      <span className="font-semibold text-ink">{items.length}</span> {items.length === 1 ? "booking" : "bookings"}
+                      <span className="font-medium text-ink">{items.length}</span> {items.length === 1 ? "booking" : "bookings"}
                     </span>
                   ) : null}
                 </div>

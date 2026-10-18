@@ -316,7 +316,7 @@ function NavLink({
       {!collapsed ? <span className="truncate">{item.label}</span> : null}
       {!collapsed && locked ? <Lock className="ml-auto size-3.5 text-ink-3" strokeWidth={1.75} aria-label="Locked" /> : null}
       {!collapsed && !locked && badge ? (
-        <span className="num ml-auto rounded-[4px] bg-accent px-1.5 text-[11px] font-semibold leading-5 text-accent-ink">{badge}</span>
+        <span className="num ml-auto rounded-[4px] bg-accent px-1.5 text-[11px] font-medium leading-5 text-accent-ink">{badge}</span>
       ) : null}
     </>
   );

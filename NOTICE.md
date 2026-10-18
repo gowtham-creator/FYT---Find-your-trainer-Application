@@ -31,12 +31,9 @@ Changes made:
 
 | Typeface | Author | Licence | Source | Where it is used |
 | --- | --- | --- | --- | --- |
-| Satoshi | Deni Anggara, Indian Type Foundry | [ITF Free Font License](https://www.fontshare.com/licenses/itf-ffl) | [Fontshare](https://www.fontshare.com/fonts/satoshi) | Body and interface text (self-hosted variable file) |
-| Outfit | The Outfit Project Authors | [SIL Open Font License 1.1](https://openfontlicense.org) | [Google Fonts](https://fonts.google.com/specimen/Outfit) | Headings and panel titles |
+| Playfair Display | Claus Eggers Sørensen | [SIL Open Font License 1.1](https://openfontlicense.org) | [Google Fonts](https://fonts.google.com/specimen/Playfair+Display) | Page titles, sign-in headlines, drawer and dialog titles |
+| Inter | Rasmus Andersson, The Inter Project Authors | [SIL Open Font License 1.1](https://openfontlicense.org) | [Google Fonts](https://fonts.google.com/specimen/Inter) | Body and interface text |
 | Geist Mono | Vercel, with Basement Studio | [SIL Open Font License 1.1](https://openfontlicense.org) | [Google Fonts](https://fonts.google.com/specimen/Geist+Mono) | Figures, references, keyboard hints |
-
-The Satoshi licence text ships beside the font at
-`apps/admin/src/app/fonts/LICENSE-Satoshi.txt`.
 
 ## Design references (21st.dev)
 

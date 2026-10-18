@@ -84,23 +84,22 @@ const ICONS: Credit[] = [
 
 const FONTS: Credit[] = [
   {
-    name: "Satoshi",
-    by: "Deni Anggara, Indian Type Foundry",
-    use: "Body and interface text. Self-hosted as one variable file, weights 300 to 900.",
-    licence: "ITF Free Font License",
-    licenceHref: "https://www.fontshare.com/licenses/itf-ffl",
-    source: "Fontshare",
-    sourceHref: "https://www.fontshare.com/fonts/satoshi",
-    note: "Licence text ships with the font at src/app/fonts/LICENSE-Satoshi.txt.",
-  },
-  {
-    name: "Outfit",
-    by: "The Outfit Project Authors",
-    use: "Headings and panel titles.",
+    name: "Playfair Display",
+    by: "Claus Eggers Sørensen",
+    use: "Page titles, sign-in headlines, drawer and dialog titles.",
     licence: "SIL Open Font License 1.1",
     licenceHref: "https://openfontlicense.org",
     source: "Google Fonts",
-    sourceHref: "https://fonts.google.com/specimen/Outfit",
+    sourceHref: "https://fonts.google.com/specimen/Playfair+Display",
+  },
+  {
+    name: "Inter",
+    by: "Rasmus Andersson, The Inter Project Authors",
+    use: "Body and interface text.",
+    licence: "SIL Open Font License 1.1",
+    licenceHref: "https://openfontlicense.org",
+    source: "Google Fonts",
+    sourceHref: "https://fonts.google.com/specimen/Inter",
   },
   {
     name: "Geist Mono",
@@ -167,7 +166,7 @@ function CreditList({ items }: { items: Credit[] }) {
       {items.map((c) => (
         <li key={c.name} className="grid grid-cols-1 gap-x-8 gap-y-2 px-5 py-4 md:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]">
           <div className="min-w-0">
-            <p className="flex items-center gap-2 text-[14px] font-semibold text-ink">
+            <p className="flex items-center gap-2 text-[14px] font-medium text-ink">
               {c.sample ? <span className="shrink-0 text-ink-2">{c.sample}</span> : null}
               <span className="min-w-0">{c.name}</span>
             </p>

@@ -31,7 +31,7 @@ export function PanelIntro() {
 
   return (
     <>
-      <p className="font-display max-w-[460px] text-[44px] font-semibold leading-[1.06] tracking-[-0.025em] text-ink xl:text-[52px]">
+      <p className="font-display max-w-[460px] text-[44px] font-medium leading-[1.08] tracking-[-0.015em] text-ink xl:text-[52px]">
         {HEADLINE.map((word, i) => (
           <span key={i}>
             <motion.span className="inline-block" {...rise(0.15 + i * WORD_STEP, 16)}>

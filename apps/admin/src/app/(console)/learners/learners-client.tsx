@@ -186,7 +186,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
               <dd>{relTime(o.lastActiveAt, now)}</dd>
             </dl>
             <section>
-              <h3 className="mb-2 text-[13.5px] font-semibold text-ink">Bookings</h3>
+              <h3 className="mb-2 text-[13.5px] font-medium text-ink">Bookings</h3>
               {(bookingsByLearner[o.id] ?? []).length === 0 ? (
                 <p className="text-[13px] text-ink-2">No bookings yet.</p>
               ) : (

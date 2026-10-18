@@ -156,7 +156,7 @@ function RoleCell({ icon: Icon, role, count, body, you, className }: { icon: Rea
     <div className={cn("flex flex-col gap-2 px-5 py-4", className)}>
       <div className="flex items-center gap-2">
         <Icon className="size-5 text-[var(--accent)]" strokeWidth={1.6} aria-hidden />
-        <p className="text-[13.5px] font-semibold text-ink">{role}</p>
+        <p className="text-[13.5px] font-medium text-ink">{role}</p>
         <span className="num text-[12.5px] text-ink-3">{count}</span>
         {you ? <span className="ml-auto rounded-[4px] bg-accent-soft px-1.5 text-[11px] font-medium leading-5 text-accent-ink">Your role</span> : null}
       </div>
@@ -325,7 +325,7 @@ function OperatorDrawer({
 
         {manageable && assignable.length > 1 ? (
           <section className="flex flex-col gap-2">
-            <h3 className="text-[13.5px] font-semibold text-ink">Role</h3>
+            <h3 className="text-[13.5px] font-medium text-ink">Role</h3>
             <div className="flex items-center gap-3">
               <Segmented label="Role" value={role as "superadmin" | "admin"} onChange={(v) => setRole(v)} options={assignable.map((r) => ({ value: r as "superadmin" | "admin", label: ROLE_LABEL[r] }))} />
               {role !== o.role ? (
@@ -339,7 +339,7 @@ function OperatorDrawer({
         ) : null}
 
         <section className="flex flex-col gap-2">
-          <h3 className="text-[13.5px] font-semibold text-ink">Module access</h3>
+          <h3 className="text-[13.5px] font-medium text-ink">Module access</h3>
           {o.role === "admin" ? (
             <PermissionPicker grantable={grantable} value={perms} onChange={setPerms} disabled={!manageable} />
           ) : (

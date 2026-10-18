@@ -68,7 +68,7 @@ export function Drawer({
               </span>
             ) : null}
             <div className="min-w-0 flex-1">
-              <Dialog.Title className="font-display text-base font-semibold tracking-tight text-ink">{title}</Dialog.Title>
+              <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
               {description ? (
                 <Dialog.Description className="mt-0.5 text-[13px] text-ink-2">{description}</Dialog.Description>
               ) : (
@@ -162,7 +162,7 @@ export function ConfirmDialog({
               </span>
             ) : null}
             <div className="min-w-0 flex-1">
-              <Dialog.Title className="font-display text-[15px] font-semibold tracking-tight text-ink">{title}</Dialog.Title>
+              <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
               <Dialog.Description asChild>
                 <div className="mt-1.5 text-[13.5px] leading-relaxed text-ink-2">{body}</div>
               </Dialog.Description>

@@ -99,8 +99,8 @@
   --color-on-info-soft: var(--on-info-soft);
   --color-on-accent-soft: var(--on-accent-soft);
 
-  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
   --radius-control: 6px;
@@ -168,8 +168,9 @@
   /* `@theme inline` tokens are substituted into utilities, not emitted as
      custom properties, so base rules name the next/font variables directly. */
   body {
-    font-family: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     font-size: 14px;
+    font-weight: 400;
     line-height: 1.5;
     background: var(--paper);
   }
@@ -184,6 +185,8 @@
   }
   button, [role="button"], a, summary, label[for], select { cursor: pointer; }
   button:disabled { cursor: not-allowed; }
+  /* Body text is never bold: emphasis tops out at Inter 500. */
+  b, strong, th { font-weight: 500; }
   .num { font-family: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace; font-variant-numeric: tabular-nums; }
 }
 

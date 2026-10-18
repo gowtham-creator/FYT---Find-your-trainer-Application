@@ -25,11 +25,11 @@ Tinted warm neutrals (paper and ink) plus one accent, **Marigold**, kept to 10% 
 A status is never shown by color alone. Every status pill pairs its color with an icon and a label.
 
 ## Typography
-- **Satoshi** (`--font-sans`, self-hosted variable woff2 from Fontshare, ITF Free Font Licence) for all UI and body text.
-- **Outfit** (`--font-display`, `font-display` class) for headings only: page titles (`PageHeader`), panel titles (`PanelHeader`), drawer and dialog titles, the calendar range heading.
-- **Geist Mono** (`--font-mono`, `.num`) for numbers, IDs, times and codes (`tabular-nums`), including KPI values.
+- **Inter** (`--font-sans`, `next/font/google`, SIL OFL 1.1) for all UI and body text. Body is 400; labels, buttons, nav items, pills, table emphasis and small headings top out at 500. Never 600 or bold. Hierarchy comes from size, colour (`text-ink` / `text-ink-2` / `text-ink-3`) and spacing, not weight.
+- **Playfair Display** (`--font-display`, `font-display` class, `next/font/google`, SIL OFL 1.1) for display headings at 18px and up only, weight 500, tracking normal to -0.015em: page titles (`PageHeader`, 28px), login / verify / invite headlines (30px; login intro 44-52px), drawer and dialog titles (20px), empty-state titles (19px). It is a high-contrast serif and reads fussy below ~18px, so panel titles (`PanelHeader`) and the calendar range heading stay in Inter 15px/500.
+- **Geist Mono** (`--font-mono`, `.num`) for numbers, IDs, booking refs, times and codes (`tabular-nums`), including KPI values at 26px/500.
 - Fixed rem scale, ratio of about 1.2: 12 / 13 / 14 (body) / 16 / 20 / 24 / 30. Nothing below 12px to fix a layout.
-- Page titles are 24px/600 Outfit with `tracking-tight`. There are no display sizes in the console.
+- Page titles are 28px/500 Playfair Display with -0.01em tracking.
 
 ## Shape, depth, motion
 - Radii: 6px for controls, 10px for panels, 14px for overlays. No pill-shaped panels.

@@ -33,7 +33,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <AuthShell>
       <header>
         <StepIndicator current={1} />
-        <h1 className="font-display mt-4 text-[26px] font-semibold leading-[1.15] tracking-tight text-ink">Sign in to FYT Console</h1>
+        <h1 className="font-display mt-4 text-[30px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">Sign in to FYT Console</h1>
         <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">
           For the FYT operations team. Step 2 is a 6{"\u2011"}digit code we send you.
         </p>

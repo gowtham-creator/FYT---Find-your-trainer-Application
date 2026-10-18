@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Outfit } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-// Satoshi is not on Google Fonts; it is self-hosted from Fontshare (ITF FFL,
-// see ./fonts/LICENSE-Satoshi.txt). One variable file covers 300–900.
-const satoshi = localFont({
-  src: "./fonts/Satoshi-Variable.woff2",
-  variable: "--font-satoshi",
-  weight: "300 900",
-  style: "normal",
-  display: "swap",
-});
-const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
+// Inter for all UI and body text (400, never above 500). Playfair Display for
+// large display headings only; it is a high-contrast serif and reads fussy below
+// ~18px, so small headings stay in Inter 500. Both are variable fonts.
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"], display: "swap" });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${satoshi.variable} ${outfit.variable} ${geistMono.variable} min-h-[100dvh] antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} min-h-[100dvh] antialiased`}>
         {children}
         <Toaster
           position="bottom-right"

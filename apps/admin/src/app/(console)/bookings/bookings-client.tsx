@@ -115,7 +115,7 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
             {k === "calendar" ? <CalendarDays className="size-4" strokeWidth={1.6} /> : k === "all" ? <List className="size-4" strokeWidth={1.6} /> : null}
             {label}
             {count ? (
-              <span className={cn("num rounded-[4px] px-1.5 text-[11px] leading-5", k === "attention" ? "bg-accent text-accent-ink font-semibold" : "bg-sunken text-ink-2")}>
+              <span className={cn("num rounded-[4px] px-1.5 text-[11px] leading-5", k === "attention" ? "bg-accent text-accent-ink font-medium" : "bg-sunken text-ink-2")}>
                 {count}
               </span>
             ) : null}
@@ -326,7 +326,7 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
 
           {upcoming && ["requested", "confirmed", "meet_failed"].includes(b.status) ? (
             <section className="rounded-[var(--radius-panel)] border border-line p-4">
-              <h3 className="text-[13.5px] font-semibold text-ink">Reschedule</h3>
+              <h3 className="text-[13.5px] font-medium text-ink">Reschedule</h3>
               <p className="mt-0.5 text-[12.5px] text-ink-2">Both the learner and the provider get the new time by push and email.</p>
               <div className="mt-3 flex flex-wrap items-end gap-2">
                 <Field label="New time (IST)" htmlFor="resched" className="min-w-[12rem] flex-1">

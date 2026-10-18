@@ -82,7 +82,7 @@ export function BroadcastsClient({
                   <span className="truncate text-[10.5px] uppercase tracking-wide text-ink-2">{platformName}</span>
                   <span className="ml-auto text-[10.5px] text-ink-3">now</span>
                 </div>
-                <p className="truncate text-[12.5px] font-semibold text-ink">{title || "Title"}</p>
+                <p className="truncate text-[12.5px] font-medium text-ink">{title || "Title"}</p>
                 <p className="line-clamp-3 text-[12px] leading-snug text-ink-2">{body || "Your message appears here."}</p>
               </div>
             </div>

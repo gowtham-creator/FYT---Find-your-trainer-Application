@@ -121,7 +121,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
         <div className="mt-4 grid size-11 place-items-center rounded-[10px] bg-sunken text-ink ring-1 ring-inset ring-line">
           <Channel className="size-5" strokeWidth={1.75} aria-hidden />
         </div>
-        <h1 className="font-display mt-3 text-[26px] font-semibold leading-[1.15] tracking-tight text-ink">Enter verification code</h1>
+        <h1 className="font-display mt-3 text-[30px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">Enter verification code</h1>
         <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">
           {method === "phone" ? (
             <>
@@ -147,7 +147,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
             <div className="mt-2 flex items-center justify-between gap-3">
               <p className="text-[13px] text-ink-2">
                 Your code is{" "}
-                <span className="num text-[16px] font-semibold tracking-[0.18em] text-ink" data-testid="demo-code">
+                <span className="num text-[16px] font-medium tracking-[0.18em] text-ink" data-testid="demo-code">
                   {demoCode}
                 </span>
               </p>
