@@ -634,7 +634,7 @@ function DemoCards({
         </h2>
         <p className="text-[12px] text-ink-2">{hint}</p>
       </div>
-      <ul className="mt-2 grid grid-cols-3 gap-2">
+      <ul className="mt-2 grid grid-cols-3 gap-1.5">
         {DEMO_ROLES.map((role) => {
           const Icon = role.icon;
           const on = picked === role.key;
@@ -647,7 +647,7 @@ function DemoCards({
                 aria-pressed={on}
                 title={role.sees}
                 className={
-                  "flex w-full min-w-0 flex-col items-start gap-1 rounded-[var(--radius-panel)] border px-2.5 py-2 text-left " +
+                  "flex w-full min-w-0 flex-col items-start gap-1 rounded-[var(--radius-panel)] border px-2 py-2 text-left " +
                   "transition-[border-color,background-color,box-shadow] duration-150 ease-[var(--ease-out-quart)] disabled:opacity-60 " +
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
                   (on
@@ -660,7 +660,7 @@ function DemoCards({
                   <span className="truncate text-[12.5px] font-medium text-ink">{role.label}</span>
                   {on ? <Check className="ml-auto size-3.5 shrink-0 text-ink" strokeWidth={2.5} aria-hidden /> : null}
                 </span>
-                <span className="block w-full truncate text-[12px] tabular-nums text-ink-2">{detail(role)}</span>
+                <span className="block w-full truncate text-[12px] tracking-[-0.01em] tabular-nums text-ink-2">{detail(role)}</span>
                 <span className="sr-only">{role.sees}</span>
               </button>
             </li>
