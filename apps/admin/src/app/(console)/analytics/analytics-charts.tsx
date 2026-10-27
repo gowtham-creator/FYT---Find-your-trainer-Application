@@ -52,7 +52,7 @@ export function AnalyticsCharts({
             items={funnel.map((f) => ({ label: f.stage, value: f.count }))}
             secondary={(i, idx) => (idx === 0 || !funnel[0].count ? null : fmtPct(i.value / funnel[0].count, 0))}
           />
-          <p className="mt-4 text-[12.5px] text-ink-2">
+          <p className="mt-4 text-meta text-ink-2">
             {funnel[1] && funnel[2] && funnel[1].count
               ? `Biggest drop: ${
                   funnel[1].count - funnel[2].count >= funnel[0].count - funnel[1].count
@@ -88,12 +88,12 @@ export function AnalyticsCharts({
           <BarList items={mix} />
           {total ? (
             <div>
-              <p className="mb-1.5 text-[12.5px] text-ink-2">Who is booking</p>
+              <p className="mb-1.5 text-meta text-ink-2">Who is booking</p>
               <div className="flex h-2.5 w-full gap-[2px] overflow-hidden rounded-[3px]" role="img" aria-label={`Students ${segments.student}, corporate ${segments.corporate}`}>
                 <div style={{ width: `${(segments.student / total) * 100}%`, background: "var(--viz-1)" }} />
                 <div style={{ width: `${(segments.corporate / total) * 100}%`, background: "var(--viz-2)" }} />
               </div>
-              <div className="mt-1.5 flex justify-between text-[12px] text-ink-2">
+              <div className="mt-1.5 flex justify-between text-caption text-ink-2">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="size-2 rounded-[2px] bg-[var(--viz-1)]" /> Students <span className="num text-ink">{fmtPct(segments.student / total, 0)}</span>
                 </span>

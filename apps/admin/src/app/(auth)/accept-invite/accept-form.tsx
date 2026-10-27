@@ -12,7 +12,7 @@ export function AcceptForm({ token, email }: { token: string; email: string }) {
       <input type="hidden" name="token" value={token} />
       <input type="text" name="username" autoComplete="username" value={email} readOnly hidden />
       {state.error ? (
-        <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-control)] bg-bad-soft px-3 py-2.5 text-[13px] text-bad">
+        <div role="alert" className="flex items-start gap-2 rounded-[var(--radius-control)] bg-bad-soft px-3 py-2.5 text-meta text-bad">
           <AlertCircle className="mt-px size-4 shrink-0" strokeWidth={2} aria-hidden />
           {state.error}
         </div>

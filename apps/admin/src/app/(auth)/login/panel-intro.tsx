@@ -48,7 +48,7 @@ export function PanelIntro() {
 
       <ul className="mt-9 space-y-3.5">
         {POINTS.map(({ icon: Icon, text }, i) => (
-          <motion.li key={text} className="flex items-center gap-3.5 text-[15px] text-ink" {...rise(AFTER_HEADLINE + 0.15 + i * 0.1)}>
+          <motion.li key={text} className="flex items-center gap-3.5 text-body-lg text-ink" {...rise(AFTER_HEADLINE + 0.15 + i * 0.1)}>
             <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-surface text-ink ring-1 ring-inset ring-line">
               <Icon className="size-[18px]" strokeWidth={1.75} aria-hidden />
             </span>

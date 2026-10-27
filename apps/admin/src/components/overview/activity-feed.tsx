@@ -91,12 +91,12 @@ export function ActivityFeed({ entries, now, showAllHref }: { entries: AuditEntr
             >
               <Icon className="size-3.5" strokeWidth={1.75} aria-hidden />
             </span>
-            <div className="min-w-0 text-[13px] leading-snug">
+            <div className="min-w-0 text-meta leading-snug">
               <p className="text-ink-2">
                 <span className="font-medium text-ink">{e.actorName}</span> {ACTION_LABEL[e.action] ?? e.action}{" "}
                 {e.target ? <span className="font-medium text-ink">{e.target}</span> : null}
               </p>
-              <p className="mt-0.5 text-[12px] text-ink-3" title={new Date(e.at).toISOString()}>
+              <p className="mt-0.5 text-caption text-ink-3" title={new Date(e.at).toISOString()}>
                 {relTime(e.at, now)} · {ROLE_LABEL[e.actorRole]}
               </p>
             </div>
@@ -105,7 +105,7 @@ export function ActivityFeed({ entries, now, showAllHref }: { entries: AuditEntr
       })}
       {showAllHref ? (
         <li className="px-5 pb-3 pt-1">
-          <Link href={showAllHref} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
+          <Link href={showAllHref} className="inline-flex items-center gap-1.5 text-meta font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
             <UiIcon name="audit" className="size-[18px] shrink-0 text-ink-2" />
             Full audit log
           </Link>

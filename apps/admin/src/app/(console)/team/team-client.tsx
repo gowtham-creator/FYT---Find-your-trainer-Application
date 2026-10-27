@@ -61,9 +61,9 @@ export function TeamClient({
           <div className="min-w-0">
             <p className="truncate font-medium">
               {r.name}
-              {r.id === viewer.id ? <span className="ml-1.5 text-[12px] font-normal text-ink-3">(you)</span> : null}
+              {r.id === viewer.id ? <span className="ml-1.5 text-caption font-normal text-ink-3">(you)</span> : null}
             </p>
-            <p className="num truncate text-[12px] text-ink-3">{r.email}</p>
+            <p className="num truncate text-caption text-ink-3">{r.email}</p>
           </div>
         </div>
       ),
@@ -88,9 +88,9 @@ export function TeamClient({
       header: "Last sign-in",
       hideBelow: "lg",
       sortValue: (r) => r.lastLoginAt ?? 0,
-      cell: (r) => <span className="text-[12.5px] text-ink-2">{r.lastLoginAt ? relTime(r.lastLoginAt, now) : "Never"}</span>,
+      cell: (r) => <span className="text-meta text-ink-2">{r.lastLoginAt ? relTime(r.lastLoginAt, now) : "Never"}</span>,
     },
-    { key: "by", header: "Invited by", hideBelow: "xl", cell: (r) => <span className="text-[12.5px] text-ink-3">{r.invitedByName ?? "Platform setup"}</span> },
+    { key: "by", header: "Invited by", hideBelow: "xl", cell: (r) => <span className="text-meta text-ink-3">{r.invitedByName ?? "Platform setup"}</span> },
   ];
 
   return (
@@ -156,11 +156,11 @@ function RoleCell({ icon: Icon, role, count, body, you, className }: { icon: Rea
     <div className={cn("flex flex-col gap-2 px-5 py-4", className)}>
       <div className="flex items-center gap-2">
         <Icon className="size-5 text-[var(--accent)]" strokeWidth={1.6} aria-hidden />
-        <p className="text-[13.5px] font-medium text-ink">{role}</p>
-        <span className="num text-[12.5px] text-ink-3">{count}</span>
-        {you ? <span className="ml-auto rounded-[4px] bg-accent-soft px-1.5 text-[11px] font-medium leading-5 text-accent-ink">Your role</span> : null}
+        <p className="text-body font-medium text-ink">{role}</p>
+        <span className="num text-meta text-ink-3">{count}</span>
+        {you ? <span className="ml-auto rounded-[4px] bg-accent-soft px-1.5 text-caption font-medium leading-5 text-accent-ink">Your role</span> : null}
       </div>
-      <p className="text-[12.5px] leading-relaxed text-ink-2">{body}</p>
+      <p className="text-meta leading-relaxed text-ink-2">{body}</p>
     </div>
   );
 }
@@ -171,15 +171,15 @@ function PermissionMatrix({ defs }: { defs: PermDef[] }) {
     if (role === "superadmin") return d.minRole === "owner" ? <No /> : <Yes />;
     if (d.key === ALWAYS_GRANTED) return <Yes />;
     if (d.minRole !== "admin") return <No />;
-    return <span className="text-[12px] text-ink-2">{d.sensitive ? "If granted" : "Default on"}</span>;
+    return <span className="text-caption text-ink-2">{d.sensitive ? "If granted" : "Default on"}</span>;
   };
   return (
     <Panel className="mt-6">
       <PanelHeader icon={solarIcon("shield-check-bold-duotone")} title="What each role can do" description="Enforced on the server for every page and action, not just hidden in the menu." />
       <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
+        <table className="w-full text-meta">
           <caption className="sr-only">Permission matrix</caption>
-          <thead className="bg-sunken/70 text-left text-[12px] text-ink-2">
+          <thead className="bg-sunken/70 text-left text-caption text-ink-2">
             <tr>
               <th scope="col" className="px-5 py-2.5 font-medium">Module</th>
               <th scope="col" className="w-28 px-3 py-2.5 text-center font-medium">Owner</th>
@@ -192,7 +192,7 @@ function PermissionMatrix({ defs }: { defs: PermDef[] }) {
               <tr key={d.key} className="border-t border-line">
                 <th scope="row" className="px-5 py-2.5 text-left font-normal">
                   <p className="font-medium text-ink">{d.label}</p>
-                  <p className="text-[12px] text-ink-3">{d.description}</p>
+                  <p className="text-caption text-ink-3">{d.description}</p>
                 </th>
                 <td className="px-3 text-center">{cell(d, "owner")}</td>
                 <td className="px-3 text-center">{cell(d, "superadmin")}</td>
@@ -225,12 +225,12 @@ function PermissionPicker({ grantable, value, onChange, disabled }: { grantable:
                 onChange={() => onChange(on ? value.filter((x) => x !== p.key) : [...value, p.key])}
               />
               <span className="min-w-0">
-                <span className="flex items-center gap-2 text-[13.5px] font-medium text-ink">
+                <span className="flex items-center gap-2 text-body font-medium text-ink">
                   {p.label}
-                  {fixed ? <span className="text-[11.5px] font-normal text-ink-3">Always on</span> : null}
-                  {p.sensitive ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-[11px] font-medium leading-[18px] text-warn">Sensitive</span> : null}
+                  {fixed ? <span className="text-caption font-normal text-ink-3">Always on</span> : null}
+                  {p.sensitive ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-[18px] text-warn">Sensitive</span> : null}
                 </span>
-                <span className="block text-[12.5px] text-ink-2">{p.description}</span>
+                <span className="block text-meta text-ink-2">{p.description}</span>
               </span>
             </label>
           </li>
@@ -311,13 +311,13 @@ function OperatorDrawer({
         <div className="flex flex-wrap items-center gap-2">
           <RoleBadge role={o.role} />
           <AdminStatusPill status={o.status} />
-          <span className="text-[12.5px] text-ink-3">
+          <span className="text-meta text-ink-3">
             {o.lastLoginAt ? `Last signed in ${relTime(o.lastLoginAt)}` : "Hasn't signed in yet"}
           </span>
         </div>
 
         {why ? (
-          <div className="flex items-start gap-2.5 rounded-[var(--radius-control)] bg-sunken px-3.5 py-3 text-[13px] text-ink-2">
+          <div className="flex items-start gap-2.5 rounded-[var(--radius-control)] bg-sunken px-3.5 py-3 text-meta text-ink-2">
             <Info className="mt-0.5 size-4 shrink-0" strokeWidth={1.75} aria-hidden />
             <p>{why}</p>
           </div>
@@ -325,7 +325,7 @@ function OperatorDrawer({
 
         {manageable && assignable.length > 1 ? (
           <section className="flex flex-col gap-2">
-            <h3 className="text-[13.5px] font-medium text-ink">Role</h3>
+            <h3 className="text-body font-medium text-ink">Role</h3>
             <div className="flex items-center gap-3">
               <Segmented label="Role" value={role as "superadmin" | "admin"} onChange={(v) => setRole(v)} options={assignable.map((r) => ({ value: r as "superadmin" | "admin", label: ROLE_LABEL[r] }))} />
               {role !== o.role ? (
@@ -334,16 +334,16 @@ function OperatorDrawer({
                 </Button>
               ) : null}
             </div>
-            <p className="text-[12.5px] text-ink-3">Changing a role signs them out so the new access applies immediately.</p>
+            <p className="text-meta text-ink-3">Changing a role signs them out so the new access applies immediately.</p>
           </section>
         ) : null}
 
         <section className="flex flex-col gap-2">
-          <h3 className="text-[13.5px] font-medium text-ink">Module access</h3>
+          <h3 className="text-body font-medium text-ink">Module access</h3>
           {o.role === "admin" ? (
             <PermissionPicker grantable={grantable} value={perms} onChange={setPerms} disabled={!manageable} />
           ) : (
-            <p className="text-[13px] text-ink-2">
+            <p className="text-meta text-ink-2">
               {o.role === "owner" ? "The owner holds every permission, including ownership controls." : "Super admins hold every operational module plus team, settings and the audit log."}
             </p>
           )}
@@ -352,8 +352,8 @@ function OperatorDrawer({
         {manageable && o.status === "active" ? (
           <section className="flex items-center justify-between gap-4 rounded-[var(--radius-panel)] border border-line px-4 py-3">
             <div>
-              <p className="text-[13.5px] font-medium text-ink">Sign out everywhere</p>
-              <p className="text-[12.5px] text-ink-2">Ends every open session. Use this if a laptop was lost or shared.</p>
+              <p className="text-body font-medium text-ink">Sign out everywhere</p>
+              <p className="text-meta text-ink-2">Ends every open session. Use this if a laptop was lost or shared.</p>
             </div>
             <Button size="sm" loading={pending === "revoke"} onClick={() => run("revoke", () => revokeSessions(o.id))}>
               <LogOut className="size-3.5" strokeWidth={1.75} /> Sign out
@@ -463,13 +463,13 @@ function InviteDrawer({ open, onOpenChange, assignable, grantable }: { open: boo
       {link ? (
         <div className="flex flex-col gap-4">
           <div className="rounded-[var(--radius-panel)] border border-line bg-ok-soft/50 px-4 py-3">
-            <p className="text-[13.5px] font-medium text-ink">Invite created for {email}</p>
-            <p className="mt-1 text-[12.5px] text-ink-2">
+            <p className="text-body font-medium text-ink">Invite created for {email}</p>
+            <p className="mt-1 text-meta text-ink-2">
               Email delivery switches on with Firebase. For now, send this link yourself. It is shown once.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Input readOnly value={link} className="num text-[12.5px]" onFocus={(e) => e.currentTarget.select()} />
+            <Input readOnly value={link} className="num text-meta" onFocus={(e) => e.currentTarget.select()} />
             <Button onClick={() => { void navigator.clipboard.writeText(link); toast.success("Invite link copied"); }}>
               <Copy className="size-4" strokeWidth={1.75} /> Copy
             </Button>
@@ -495,7 +495,7 @@ function InviteDrawer({ open, onOpenChange, assignable, grantable }: { open: boo
               <PermissionPicker grantable={grantable} value={perms} onChange={setPerms} />
             </Field>
           ) : (
-            <p className="rounded-[var(--radius-control)] bg-sunken px-3.5 py-3 text-[13px] text-ink-2">
+            <p className="rounded-[var(--radius-control)] bg-sunken px-3.5 py-3 text-meta text-ink-2">
               Super admins get every operational module, team management, settings and the audit log.
             </p>
           )}

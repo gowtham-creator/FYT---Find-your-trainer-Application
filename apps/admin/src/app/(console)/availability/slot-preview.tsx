@@ -67,17 +67,17 @@ export function SlotPreview({
           return (
             <li key={d.date} className="grid grid-cols-1 gap-2 px-5 py-3 sm:grid-cols-[112px_minmax(0,1fr)]">
               <div>
-                <p className="text-[13px] font-medium text-ink">{fmtDate(noon, { weekday: "short", day: "numeric", month: "short" })}</p>
-                {d.date === today ? <p className="text-[11.5px] text-ink-3">Today</p> : null}
+                <p className="text-meta font-medium text-ink">{fmtDate(noon, { weekday: "short", day: "numeric", month: "short" })}</p>
+                {d.date === today ? <p className="text-caption text-ink-3">Today</p> : null}
               </div>
               <div className="flex min-w-0 flex-col gap-1.5">
                 {d.blocked ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <Pill tone="bad" icon={Ban}>Blocked all day</Pill>
-                    <span className="text-[12.5px] text-ink-2">{d.blocked.reason ?? "No reason given"}</span>
+                    <span className="text-meta text-ink-2">{d.blocked.reason ?? "No reason given"}</span>
                   </div>
                 ) : d.slots.length === 0 ? (
-                  <p className="py-0.5 text-[12.5px] text-ink-3">No windows</p>
+                  <p className="py-0.5 text-meta text-ink-3">No windows</p>
                 ) : (
                   <>
                     {offered.length ? (
@@ -86,7 +86,7 @@ export function SlotPreview({
                           <li
                             key={`${s.start}-${s.mode}`}
                             className={cn(
-                              "inline-flex h-7 items-center gap-1.5 rounded-[6px] border bg-surface px-2 text-[12px] text-ink",
+                              "inline-flex h-7 items-center gap-1.5 rounded-[6px] border bg-surface px-2 text-caption text-ink",
                               s.source === "extra" ? "border-dashed border-line-strong" : "border-line",
                             )}
                             title={`${minutesToLabel(s.startMinute)}–${minutesToLabel(s.endMinute)} · ${s.mode === "online" ? "Online" : "In person"}${
@@ -109,10 +109,10 @@ export function SlotPreview({
                         ))}
                       </ul>
                     ) : (
-                      <p className="py-0.5 text-[12.5px] text-ink-2">Nothing bookable</p>
+                      <p className="py-0.5 text-meta text-ink-2">Nothing bookable</p>
                     )}
                     {full || soon || started || d.partialBlocks.length ? (
-                      <p className="text-[12px] text-ink-3">
+                      <p className="text-caption text-ink-3">
                         {[
                           ...d.partialBlocks.map(
                             (p) => `Blocked ${minutesToLabel(p.startMinute)}–${minutesToLabel(p.endMinute)}${p.reason ? `: ${p.reason}` : ""}`,

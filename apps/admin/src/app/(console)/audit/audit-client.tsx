@@ -39,8 +39,8 @@ export function AuditClient({ entries, actors, now }: { entries: AuditEntry[]; a
       sortValue: (r) => r.at,
       cell: (r) => (
         <div className="whitespace-nowrap" title={new Date(r.at).toISOString()}>
-          <p className="num text-[12.5px] text-ink">{fmtDateTime(r.at)}</p>
-          <p className="text-[12px] text-ink-3">{relTime(r.at, now)}</p>
+          <p className="num whitespace-nowrap text-meta text-ink">{fmtDateTime(r.at)}</p>
+          <p className="text-caption text-ink-3">{relTime(r.at, now)}</p>
         </div>
       ),
     },
@@ -52,7 +52,7 @@ export function AuditClient({ entries, actors, now }: { entries: AuditEntry[]; a
       cell: (r) => (
         <div className="min-w-[7.5rem]">
           <p className="font-medium">{r.actorName}</p>
-          <p className="text-[12px] text-ink-3">{ROLE_LABEL[r.actorRole]}</p>
+          <p className="text-caption text-ink-3">{ROLE_LABEL[r.actorRole]}</p>
         </div>
       ),
     },
@@ -71,12 +71,12 @@ export function AuditClient({ entries, actors, now }: { entries: AuditEntry[]; a
               <p className="text-ink">
                 {ACTION_LABEL[r.action] ?? r.action} {r.target ? <span className="font-medium">{r.target}</span> : null}
               </p>
-              {r.detail ? <p className="text-[12px] text-ink-2">{r.detail}</p> : null}
-              <p className="text-[12px] text-ink-3 sm:hidden">
+              {r.detail ? <p className="text-caption text-ink-2">{r.detail}</p> : null}
+              <p className="text-caption text-ink-3 sm:hidden">
                 by {r.actorName} · {ROLE_LABEL[r.actorRole]}
               </p>
-              <p className="text-[12px] text-ink-3 sm:hidden" title={new Date(r.at).toISOString()}>
-                <span className="num">{fmtDateTime(r.at)}</span> · {relTime(r.at, now)}
+              <p className="text-caption text-ink-3 sm:hidden" title={new Date(r.at).toISOString()}>
+                <span className="num whitespace-nowrap">{fmtDateTime(r.at)}</span> · {relTime(r.at, now)}
               </p>
             </div>
           </div>
@@ -90,7 +90,7 @@ export function AuditClient({ entries, actors, now }: { entries: AuditEntry[]; a
       cell: (r) =>
         r.severity === "critical" ? <Pill tone="bad">Critical</Pill> : r.severity === "notice" ? <Pill tone="warn">Notice</Pill> : <Pill>Info</Pill>,
     },
-    { key: "code", header: "Event", hideBelow: "xl", cell: (r) => <span className="num text-[12px] text-ink-3">{r.action}</span> },
+    { key: "code", header: "Event", hideBelow: "xl", cell: (r) => <span className="num text-caption text-ink-3">{r.action}</span> },
   ];
 
   const exportCsv = () => {

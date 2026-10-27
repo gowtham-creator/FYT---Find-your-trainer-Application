@@ -87,7 +87,7 @@ export type GoogleStatus = ProviderStatus;
 
 type Provider = "google" | "sso";
 const PROVIDER_BUTTON =
-  "flex h-11 w-full items-center justify-center gap-2.5 rounded-[8px] border border-line bg-surface text-[14px] font-medium text-ink transition-colors duration-150 hover:bg-sunken focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper";
+  "flex h-11 w-full items-center justify-center gap-2.5 rounded-[8px] border border-line bg-surface text-body font-medium text-ink transition-colors duration-150 hover:bg-sunken focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper";
 
 export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: boolean; google: ProviderStatus; sso: ProviderStatus }) {
   const [method, setMethod] = useState<Method>("email");
@@ -142,7 +142,7 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
               transition={{ duration: reduce ? 0 : 0.22, ease: [0.25, 1, 0.5, 1] }}
               className="overflow-hidden"
             >
-              <p className="mt-2.5 flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-sunken px-3.5 py-3 text-[13px] leading-snug text-ink-2 ring-1 ring-inset ring-line">
+              <p className="mt-2.5 flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-sunken px-3.5 py-3 text-meta leading-snug text-ink-2 ring-1 ring-inset ring-line">
                 <AlertCircle className="mt-px size-4 shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
                 <span>
                   <span className="font-medium text-ink">
@@ -158,7 +158,7 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
 
       <div className="my-5 flex items-center gap-3" role="separator" aria-label="or">
         <span className="h-px flex-1 bg-line" />
-        <span className="text-[12px] font-medium uppercase tracking-[0.14em] text-ink-3">or</span>
+        <span className="text-micro font-medium uppercase tracking-[0.14em] text-ink-3">or</span>
         <span className="h-px flex-1 bg-line" />
       </div>
 
@@ -186,7 +186,7 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
               onClick={() => setMethod(key)}
               onKeyDown={onTabKey}
               className={
-                "relative flex h-9 items-center justify-center gap-2 rounded-[7px] text-[13.5px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
+                "relative flex h-9 items-center justify-center gap-2 rounded-[7px] text-body font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
                 (on ? "text-ink" : "text-ink-2 hover:text-ink")
               }
             >
@@ -240,7 +240,7 @@ function ErrorBanner({ message }: { message?: string }) {
           transition={{ duration: reduce ? 0 : 0.24, ease: [0.25, 1, 0.5, 1] }}
           className="overflow-hidden"
         >
-          <div className="flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-bad-soft px-3.5 py-3 text-[13px] leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
+          <div className="flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-bad-soft px-3.5 py-3 text-meta leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
             <AlertCircle className="mt-px size-4 shrink-0" strokeWidth={2} aria-hidden />
             <span>{message}</span>
           </div>
@@ -277,7 +277,7 @@ function SubmitButton({
         aria-busy={pending || undefined}
         className={
           "group relative isolate flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-[8px] border border-ink bg-ink px-5 " +
-          "text-[14.5px] font-medium text-paper shadow-[inset_0_1px_0_oklch(1_0_0/0.14),0_1px_2px_oklch(var(--shadow-ink)/0.1),0_8px_20px_-8px_oklch(var(--shadow-ink)/0.45)] " +
+          "text-body-lg font-medium text-paper shadow-[inset_0_1px_0_oklch(1_0_0/0.14),0_1px_2px_oklch(var(--shadow-ink)/0.1),0_8px_20px_-8px_oklch(var(--shadow-ink)/0.45)] " +
           "transition-[transform,box-shadow] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.985] disabled:cursor-default disabled:active:scale-100 " +
           "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
         }
@@ -422,7 +422,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownEmailErr}
               aria-describedby={shownEmailErr ? "email-error" : undefined}
-              className="h-11 rounded-[8px] pl-10 pr-10 text-[15px] focus-visible:ring-4 focus-visible:ring-accent/20"
+              className="h-11 rounded-[8px] pl-10 pr-10 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
             />
             <AnimatePresence>
               {emailOk && !shownEmailErr ? (
@@ -464,7 +464,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownPasswordErr}
               aria-describedby={[shownPasswordErr ? "password-error" : "", caps ? "caps-warning" : ""].filter(Boolean).join(" ") || undefined}
-              className="h-11 rounded-[8px] pl-10 pr-12 text-[15px] focus-visible:ring-4 focus-visible:ring-accent/20"
+              className="h-11 rounded-[8px] pl-10 pr-12 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
             />
             <button
               type="button"
@@ -488,7 +488,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
                 transition={{ duration: reduce ? 0 : 0.18 }}
                 className="overflow-hidden"
               >
-                <span className="mt-0.5 inline-flex items-center gap-1.5 rounded-full bg-warn-soft px-2.5 py-1 text-[12px] font-medium text-on-warn-soft">
+                <span className="mt-0.5 inline-flex items-center gap-1.5 rounded-full bg-warn-soft px-2.5 py-1 text-caption font-medium text-on-warn-soft">
                   <TriangleAlert className="size-3.5" strokeWidth={2} aria-hidden />
                   Caps Lock is on
                 </span>
@@ -593,7 +593,7 @@ function PhoneForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownErr}
               aria-describedby={shownErr ? "phone-error" : undefined}
-              className="num h-11 rounded-[8px] pl-10 text-[15px] focus-visible:ring-4 focus-visible:ring-accent/20"
+              className="num h-11 rounded-[8px] pl-10 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
             />
           </div>
         </Field>
@@ -629,10 +629,10 @@ function DemoCards({
   return (
     <section aria-labelledby={id} className="mt-5">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 id={id} className="text-[12.5px] font-medium text-ink">
+        <h2 id={id} className="text-meta font-medium text-ink">
           {title}
         </h2>
-        <p className="text-[12px] text-ink-2">{hint}</p>
+        <p className="text-caption text-ink-2">{hint}</p>
       </div>
       <ul className="mt-2 grid grid-cols-3 gap-1.5">
         {DEMO_ROLES.map((role) => {
@@ -657,10 +657,10 @@ function DemoCards({
               >
                 <span className="flex w-full items-center gap-1.5">
                   <Icon className={"size-3.5 shrink-0 " + (on ? "text-ink" : "text-ink-2")} strokeWidth={1.75} aria-hidden />
-                  <span className="truncate text-[12.5px] font-medium text-ink">{role.label}</span>
+                  <span className="truncate text-meta font-medium text-ink">{role.label}</span>
                   {on ? <Check className="ml-auto size-3.5 shrink-0 text-ink" strokeWidth={2.5} aria-hidden /> : null}
                 </span>
-                <span className="block w-full truncate text-[12px] tracking-[-0.01em] tabular-nums text-ink-2">{detail(role)}</span>
+                <span className="block w-full truncate text-caption tracking-[-0.01em] tabular-nums text-ink-2">{detail(role)}</span>
                 <span className="sr-only">{role.sees}</span>
               </button>
             </li>

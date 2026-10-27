@@ -70,7 +70,7 @@ export function Drawer({
             <div className="min-w-0 flex-1">
               <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
               {description ? (
-                <Dialog.Description className="mt-0.5 text-[13px] text-ink-2">{description}</Dialog.Description>
+                <Dialog.Description className="mt-0.5 text-meta text-ink-2">{description}</Dialog.Description>
               ) : (
                 <Dialog.Description className="sr-only">Details</Dialog.Description>
               )}
@@ -164,11 +164,11 @@ export function ConfirmDialog({
             <div className="min-w-0 flex-1">
               <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
               <Dialog.Description asChild>
-                <div className="mt-1.5 text-[13.5px] leading-relaxed text-ink-2">{body}</div>
+                <div className="mt-1.5 text-body leading-relaxed text-ink-2">{body}</div>
               </Dialog.Description>
               {requireText ? (
                 <div className="mt-4">
-                  <label htmlFor={confirmId} className="block text-[13px] text-ink-2">
+                  <label htmlFor={confirmId} className="block text-meta text-ink-2">
                     Type <span className="font-mono font-medium text-ink">{requireText}</span> to confirm
                   </label>
                   <input
@@ -179,7 +179,7 @@ export function ConfirmDialog({
                     value={typed}
                     onChange={(e) => setTyped(e.target.value)}
                     className={cn(
-                      "mt-1.5 h-9 w-full rounded-[var(--radius-control)] border bg-surface px-3 font-mono text-sm text-ink",
+                      "mt-1.5 h-9 w-full rounded-[var(--radius-control)] border bg-surface px-3 font-mono text-body text-ink",
                       "transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-quart)]",
                       "focus-visible:outline-none focus-visible:ring-3",
                       blocked

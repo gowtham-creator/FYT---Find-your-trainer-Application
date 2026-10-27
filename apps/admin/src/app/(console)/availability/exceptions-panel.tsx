@@ -104,19 +104,19 @@ export function ExceptionsPanel({
             const whole = x.kind === "blocked" && x.startMinute === undefined;
             return (
               <li key={x.id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-5 py-3">
-                <span className="num w-[132px] shrink-0 text-[13px] font-medium text-ink">{dayLabel(x.date)}</span>
+                <span className="num w-[132px] shrink-0 text-meta font-medium text-ink">{dayLabel(x.date)}</span>
                 {x.kind === "blocked" ? (
                   <Pill tone="bad" icon={Ban}>{whole ? "Blocked all day" : "Blocked"}</Pill>
                 ) : (
                   <Pill tone="info" icon={Plus}>Extra window</Pill>
                 )}
                 {!whole ? (
-                  <span className="num text-[12.5px] text-ink-2">
+                  <span className="num text-meta text-ink-2">
                     {minutesToLabel(x.startMinute!)}–{minutesToLabel(x.endMinute!)}
                   </span>
                 ) : null}
                 {x.kind === "extra" ? (
-                  <span className="inline-flex items-center gap-1 text-[12.5px] text-ink-3">
+                  <span className="inline-flex items-center gap-1 text-meta text-ink-3">
                     {x.mode === "offline" ? <MapPin className="size-3" strokeWidth={1.75} aria-hidden /> : <Video className="size-3" strokeWidth={1.75} aria-hidden />}
                     <span className="num">{x.slotMinutes} min</span>
                     {isCourse ? <span className="num">· {x.capacity} seats</span> : null}
@@ -124,7 +124,7 @@ export function ExceptionsPanel({
                 ) : null}
                 {/* Wraps onto its own line rather than cutting the reason off. */}
                 {x.reason ? (
-                  <span className="min-w-[10rem] flex-1 text-[12.5px] leading-snug text-ink-2 [overflow-wrap:anywhere]">{x.reason}</span>
+                  <span className="min-w-[10rem] flex-1 text-meta leading-snug text-ink-2 [overflow-wrap:anywhere]">{x.reason}</span>
                 ) : null}
                 <Button variant="ghost" size="icon" className="ml-auto size-8 shrink-0" aria-label={`Remove exception on ${x.date}`} onClick={() => setRemoving(x)}>
                   <Trash2 className="size-4" strokeWidth={1.6} />
@@ -134,7 +134,7 @@ export function ExceptionsPanel({
           })}
         </ul>
       )}
-      {past ? <p className="border-t border-line px-5 py-2 text-[12px] text-ink-3">{past} past exception{past === 1 ? "" : "s"} kept for the audit trail.</p> : null}
+      {past ? <p className="border-t border-line px-5 py-2 text-caption text-ink-3">{past} past exception{past === 1 ? "" : "s"} kept for the audit trail.</p> : null}
 
       <Drawer
         icon={solarIcon("calendar-add-bold-duotone")}
@@ -218,7 +218,7 @@ export function ExceptionsPanel({
               </div>
             ) : null}
             {draft.kind === "extra" || !draft.wholeDay ? (
-              <p className="-mt-2 text-[12.5px] text-ink-3">
+              <p className="-mt-2 text-meta text-ink-3">
                 {(() => {
                   const s = fromTime(draft.start);
                   const e = fromTime(draft.end);
@@ -232,7 +232,7 @@ export function ExceptionsPanel({
             <Field label="Reason" htmlFor="exc-reason" optional hint="Shown to operators here and in the audit log, not to learners.">
               <Input id="exc-reason" value={draft.reason} maxLength={120} onChange={(ev) => set("reason", ev.target.value)} placeholder={draft.kind === "blocked" ? "Dussehra holiday" : "Weekend walk-in demo"} />
             </Field>
-            <p className="text-[12.5px] text-ink-3">Blocking time never cancels existing bookings. If any fall inside, you&apos;ll be told how many so you can reschedule them.</p>
+            <p className="text-meta text-ink-3">Blocking time never cancels existing bookings. If any fall inside, you&apos;ll be told how many so you can reschedule them.</p>
           </form>
         ) : null}
       </Drawer>

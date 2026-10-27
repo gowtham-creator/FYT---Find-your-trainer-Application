@@ -71,7 +71,7 @@ export function BroadcastsClient({
           </form>
 
           <div aria-label="Notification preview" className="hidden md:block">
-            <p className="mb-2 text-[12px] font-medium uppercase tracking-[0.08em] text-ink-3">Lock screen preview</p>
+            <p className="mb-2 text-micro font-medium uppercase tracking-[0.08em] text-ink-3">Lock screen preview</p>
             <div className="rounded-[22px] bg-[oklch(0.3_0.02_70)] p-3">
               <p className="num mb-3 text-center text-[26px] font-light text-[oklch(0.96_0.01_85)]">9:41</p>
               <div className="rounded-[14px] bg-[oklch(0.96_0.008_85/0.92)] p-2.5 shadow-sm">
@@ -79,11 +79,11 @@ export function BroadcastsClient({
                   <span className="grid size-4 place-items-center rounded-[4px] bg-ink">
                     <span className="h-[3px] w-2 rounded bg-accent" />
                   </span>
-                  <span className="truncate text-[10.5px] uppercase tracking-wide text-ink-2">{platformName}</span>
-                  <span className="ml-auto text-[10.5px] text-ink-3">now</span>
+                  <span className="truncate text-micro uppercase tracking-wide text-ink-2">{platformName}</span>
+                  <span className="ml-auto text-caption text-ink-3">now</span>
                 </div>
-                <p className="truncate text-[12.5px] font-medium text-ink">{title || "Title"}</p>
-                <p className="line-clamp-3 text-[12px] leading-snug text-ink-2">{body || "Your message appears here."}</p>
+                <p className="truncate text-meta font-medium text-ink">{title || "Title"}</p>
+                <p className="line-clamp-3 text-caption leading-snug text-ink-2">{body || "Your message appears here."}</p>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@ export function BroadcastsClient({
             {history.map((b) => (
               <li key={b.id} className="flex flex-col gap-1.5 px-5 py-3.5">
                 <div className="flex items-center gap-2">
-                  <p className="min-w-0 flex-1 truncate text-[13.5px] font-medium text-ink">{b.title}</p>
+                  <p className="min-w-0 flex-1 truncate text-body font-medium text-ink">{b.title}</p>
                   {b.status === "sent" ? (
                     <Pill tone="ok">Sent</Pill>
                   ) : b.status === "scheduled" ? (
@@ -108,14 +108,14 @@ export function BroadcastsClient({
                     <Pill>Draft</Pill>
                   )}
                 </div>
-                <p className="line-clamp-2 text-[13px] text-ink-2">{b.body}</p>
-                <p className={cn("flex flex-wrap items-center gap-x-2 text-[12px] text-ink-3")}>
+                <p className="line-clamp-2 text-meta text-ink-2">{b.body}</p>
+                <p className={cn("flex flex-wrap items-center gap-x-2 text-caption text-ink-3")}>
                   <span className="capitalize">{b.audience === "all" ? "Everyone" : b.audience === "student" ? "Students" : "Corporate"}</span>
                   <span aria-hidden>·</span>
                   {b.status === "sent" && b.sentAt ? (
                     <span title={fmtDateTime(b.sentAt)}>{relTime(b.sentAt, now)}, reached <span className="num">{b.reach}</span></span>
                   ) : b.scheduledFor ? (
-                    <span className="num">{fmtDateTime(b.scheduledFor)}</span>
+                    <span className="num whitespace-nowrap">{fmtDateTime(b.scheduledFor)}</span>
                   ) : (
                     <span>Not scheduled</span>
                   )}

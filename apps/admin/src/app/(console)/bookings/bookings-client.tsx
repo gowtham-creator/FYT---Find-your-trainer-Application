@@ -48,8 +48,8 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       sortValue: (r) => r.start,
       cell: (r) => (
         <div className="whitespace-nowrap">
-          <p className="num text-[13px] text-ink">{fmtDate(r.start, { weekday: "short", day: "numeric", month: "short" })}</p>
-          <p className="num text-[12px] text-ink-3">{fmtTime(r.start)}</p>
+          <p className="num text-meta text-ink">{fmtDate(r.start, { weekday: "short", day: "numeric", month: "short" })}</p>
+          <p className="num whitespace-nowrap text-caption text-ink-3">{fmtTime(r.start)}</p>
         </div>
       ),
     },
@@ -60,7 +60,7 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       cell: (r) => (
         <div className="min-w-0">
           <p className="truncate font-medium">{r.learnerName}</p>
-          <p className="text-[12px] text-ink-3">{r.learnerSegment === "corporate" ? "Corporate" : "Student"}</p>
+          <p className="text-caption text-ink-3">{r.learnerSegment === "corporate" ? "Corporate" : "Student"}</p>
         </div>
       ),
     },
@@ -71,7 +71,7 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       cell: (r) => (
         <div className="min-w-0 max-w-[280px]">
           <p className="truncate">{r.targetName}</p>
-          <p className="text-[12px] text-ink-3">{TARGET_LABEL[r.targetType]}</p>
+          <p className="text-caption text-ink-3">{TARGET_LABEL[r.targetType]}</p>
         </div>
       ),
     },
@@ -87,7 +87,7 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       ),
     },
     { key: "status", header: "Status", sortValue: (r) => r.status, cell: (r) => <BookingStatusPill status={r.status} /> },
-    { key: "ref", header: "Ref", hideBelow: "xl", cell: (r) => <span className="num whitespace-nowrap text-[12.5px] text-ink-2">{r.ref}</span> },
+    { key: "ref", header: "Ref", hideBelow: "xl", cell: (r) => <span className="num whitespace-nowrap text-meta text-ink-2">{r.ref}</span> },
   ];
 
   const tabs: Array<[View, string, number | null]> = [
@@ -108,14 +108,14 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
             aria-selected={view === k}
             onClick={() => setView(k)}
             className={cn(
-              "relative -mb-px inline-flex h-10 items-center gap-2 border-b-2 px-3 text-[13.5px] transition-colors",
+              "relative -mb-px inline-flex h-10 items-center gap-2 border-b-2 px-3 text-body transition-colors",
               view === k ? "border-ink font-medium text-ink" : "border-transparent text-ink-2 hover:text-ink",
             )}
           >
             {k === "calendar" ? <CalendarDays className="size-4" strokeWidth={1.6} /> : k === "all" ? <List className="size-4" strokeWidth={1.6} /> : null}
             {label}
             {count ? (
-              <span className={cn("num rounded-[4px] px-1.5 text-[11px] leading-5", k === "attention" ? "bg-accent text-accent-ink font-medium" : "bg-sunken text-ink-2")}>
+              <span className={cn("num rounded-[4px] px-1.5 text-caption leading-5", k === "attention" ? "bg-accent text-accent-ink font-medium" : "bg-sunken text-ink-2")}>
                 {count}
               </span>
             ) : null}
@@ -265,18 +265,18 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
             <BookingStatusPill status={b.status} />
-            {b.status === "meet_failed" ? <span className="text-[13px] text-bad">The learner has no link yet.</span> : null}
+            {b.status === "meet_failed" ? <span className="text-meta text-bad">The learner has no link yet.</span> : null}
           </div>
 
-          <dl className="grid grid-cols-[96px_minmax(0,1fr)] gap-x-4 sm:grid-cols-[120px_minmax(0,1fr)] gap-y-3 text-[13.5px]">
+          <dl className="grid grid-cols-[96px_minmax(0,1fr)] gap-x-4 sm:grid-cols-[120px_minmax(0,1fr)] gap-y-3 text-body">
             <dt className="text-ink-2">When</dt>
             <dd className="num text-ink">
-              {fmtDateTime(b.start)} <span className="text-ink-3">({relTime(b.start, now)})</span>
+              <span className="whitespace-nowrap">{fmtDateTime(b.start)}</span> <span className="whitespace-nowrap text-ink-3">({relTime(b.start, now)})</span>
             </dd>
             <dt className="text-ink-2">Learner</dt>
             <dd className="text-ink">
               {b.learnerName}
-              <span className="num block text-[12.5px] text-ink-3">{b.learnerPhone}</span>
+              <span className="num block text-meta text-ink-3">{b.learnerPhone}</span>
             </dd>
             <dt className="text-ink-2">Booked for</dt>
             <dd className="text-ink">{b.targetName}</dd>
@@ -289,7 +289,7 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
                   {b.meetLink ? (
                     <span className="flex min-w-0 items-center gap-2">
                       <MeetIcon className="size-4 shrink-0 text-ink-2" title="Google Meet" />
-                      <a href={b.meetLink} target="_blank" rel="noreferrer" title={b.meetLink} className="num min-w-0 truncate text-[13px] text-ink underline decoration-line-strong underline-offset-4">
+                      <a href={b.meetLink} target="_blank" rel="noreferrer" title={b.meetLink} className="num min-w-0 truncate text-meta text-ink underline decoration-line-strong underline-offset-4">
                         {b.meetLink.replace("https://", "")}
                       </a>
                       <Button
@@ -326,8 +326,8 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
 
           {upcoming && ["requested", "confirmed", "meet_failed"].includes(b.status) ? (
             <section className="rounded-[var(--radius-panel)] border border-line p-4">
-              <h3 className="text-[13.5px] font-medium text-ink">Reschedule</h3>
-              <p className="mt-0.5 text-[12.5px] text-ink-2">Both the learner and the provider get the new time by push and email.</p>
+              <h3 className="text-body font-medium text-ink">Reschedule</h3>
+              <p className="mt-0.5 text-meta text-ink-2">Both the learner and the provider get the new time by push and email.</p>
               <div className="mt-3 flex flex-wrap items-end gap-2">
                 <Field label="New time (IST)" htmlFor="resched" className="min-w-[12rem] flex-1">
                   <Input id="resched" type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} />
@@ -344,11 +344,11 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
           ) : null}
 
           <section>
-            <h3 className="text-[12px] font-medium uppercase tracking-[0.08em] text-ink-3">Timeline</h3>
-            <ol className="mt-2 space-y-2 text-[13px] text-ink-2">
-              <li className="flex gap-2"><span className="num w-36 shrink-0 text-ink-3">{fmtDateTime(b.createdAt)}</span> Requested in the app</li>
+            <h3 className="text-micro font-medium uppercase tracking-[0.08em] text-ink-3">Timeline</h3>
+            <ol className="mt-2 space-y-2 text-meta text-ink-2">
+              <li className="flex flex-wrap gap-x-3 gap-y-0.5"><span className="num shrink-0 whitespace-nowrap text-ink-3">{fmtDateTime(b.createdAt)}</span> Requested in the app</li>
               {b.updatedAt !== b.createdAt ? (
-                <li className="flex gap-2"><span className="num w-36 shrink-0 text-ink-3">{fmtDateTime(b.updatedAt)}</span> Last changed by an operator</li>
+                <li className="flex flex-wrap gap-x-3 gap-y-0.5"><span className="num shrink-0 whitespace-nowrap text-ink-3">{fmtDateTime(b.updatedAt)}</span> Last changed by an operator</li>
               ) : null}
             </ol>
           </section>
@@ -363,13 +363,13 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
         }}
         title={`Cancel ${b?.ref ?? ""}?`}
         body={
-          <label className="flex flex-col gap-1.5 text-[13px] font-medium text-ink">
+          <label className="flex flex-col gap-1.5 text-meta font-medium text-ink">
             Reason shown to the learner
             <input
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Trainer unavailable at this time"
-              className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-sm font-normal focus-visible:border-accent focus-visible:outline-none"
+              className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-body font-normal focus-visible:border-accent focus-visible:outline-none"
             />
           </label>
         }

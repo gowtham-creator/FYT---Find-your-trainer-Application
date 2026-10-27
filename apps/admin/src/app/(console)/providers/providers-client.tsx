@@ -58,7 +58,7 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
               {r.featured ? <Star className="size-3.5 shrink-0 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
               {r.name}
             </p>
-            <p className="max-w-[340px] truncate text-[12px] text-ink-3">{r.headline}</p>
+            <p className="max-w-[340px] truncate text-caption text-ink-3">{r.headline}</p>
           </div>
         </div>
       ),
@@ -71,7 +71,7 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
       hideBelow: "md",
       sortValue: (r) => r.slotsPerWeek,
       cell: (r) =>
-        r.slotsPerWeek ? <span className="num">{r.slotsPerWeek}</span> : <span className="text-[12.5px] text-warn">No availability</span>,
+        r.slotsPerWeek ? <span className="num">{r.slotsPerWeek}</span> : <span className="text-meta text-warn">No availability</span>,
     },
     { key: "upcoming", header: "Upcoming", sortValue: (r) => r.upcoming, cell: (r) => <span className="num">{r.upcoming}</span>, className: "text-right", headerClassName: "text-right" },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },
@@ -145,7 +145,7 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
             <Field label={e.isOrganisation ? "Organisation name" : "Full name"} htmlFor="name">
               <Input id="name" value={e.name} onChange={(ev) => set("name", ev.target.value)} />
             </Field>
-            <label className="-mt-2 inline-flex items-center gap-2 text-[13px] text-ink-2">
+            <label className="-mt-2 inline-flex items-center gap-2 text-meta text-ink-2">
               <input type="checkbox" className="size-4 accent-[var(--ink)]" checked={e.isOrganisation} onChange={(ev) => set("isOrganisation", ev.target.checked)} />
               This is an organisation, not an individual
             </label>
@@ -166,7 +166,7 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
                 <Input id="rating" type="number" min={1} max={5} step={0.1} value={e.rating ?? ""} onChange={(ev) => set("rating", ev.target.value === "" ? "" : Number(ev.target.value))} className="num" />
               </Field>
             </div>
-            <p className="-mt-3 text-[12.5px] text-ink-3">Learner reviews arrive in Phase 2. Until then, the rating is set here by operators.</p>
+            <p className="-mt-3 text-meta text-ink-3">Learner reviews arrive in Phase 2. Until then, the rating is set here by operators.</p>
             <div className="flex flex-col divide-y divide-line rounded-[var(--radius-panel)] border border-line">
               <ToggleRow label="Show in app" body="Hidden profiles can't be found or booked." checked={e.published} onChange={(v) => set("published", v)} />
               <ToggleRow label="Feature on home" body="Appears in the featured row of the app home." checked={e.featured} onChange={(v) => set("featured", v)} />

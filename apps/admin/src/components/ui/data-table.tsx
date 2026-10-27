@@ -37,7 +37,7 @@ const BODY_MAX_H = "max-h-[min(70svh,860px)]";
 /** One applied search term or filter value, removable on its own. */
 function FilterChip({ label, value, onClear }: { label: string; value: string; onClear: () => void }) {
   return (
-    <span className="inline-flex h-7 items-center gap-1 rounded-[5px] bg-sunken pl-2 pr-1 text-[12.5px] ring-1 ring-inset ring-line-strong/60">
+    <span className="inline-flex h-7 items-center gap-1 rounded-[5px] bg-sunken pl-2 pr-1 text-meta ring-1 ring-inset ring-line-strong/60">
       <span className="text-ink-3">{label}</span>
       <span className="max-w-[18ch] truncate font-medium text-ink">{value}</span>
       <button
@@ -250,7 +250,7 @@ export function DataTable<T>({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
-          <span className="num whitespace-nowrap text-[12.5px] text-ink-3" aria-live="polite">
+          <span className="num whitespace-nowrap text-meta text-ink-3" aria-live="polite">
             {activeFilters ? (
               <>
                 <span className="font-medium text-ink-2">{fmtNumber(filtered.length)}</span> of {fmtNumber(rows.length)}
@@ -275,7 +275,7 @@ export function DataTable<T>({
               onClear={() => setF((prev) => ({ ...prev, [flt.key]: "all" }))}
             />
           ))}
-          <Button variant="ghost" size="sm" className="h-7 px-2 text-[12.5px]" onClick={clearAll}>
+          <Button variant="ghost" size="sm" className="h-7 px-2 text-meta" onClick={clearAll}>
             Clear all
           </Button>
         </div>
@@ -304,7 +304,7 @@ export function DataTable<T>({
             if (next !== scrolled) setScrolled(next);
           }}
         >
-          <table className="w-full border-collapse text-left text-[13.5px]">
+          <table className="w-full border-collapse text-left text-body">
             <caption className="sr-only">{caption}</caption>
             <thead className="sticky top-0 z-10">
               <tr>
@@ -332,7 +332,7 @@ export function DataTable<T>({
                       scope="col"
                       aria-sort={c.sortValue ? (active ? (sort!.dir === "asc" ? "ascending" : "descending") : "none") : undefined}
                       className={cn(
-                        "whitespace-nowrap border-b border-line bg-sunken px-4 py-2.5 text-[12px] font-medium text-ink-2",
+                        "whitespace-nowrap border-b border-line bg-sunken px-4 py-2.5 text-caption font-medium text-ink-2",
                         "transition-shadow duration-150",
                         scrolled && "shadow-[var(--shadow-pinned)]",
                         c.hideBelow && hideClass[c.hideBelow],
@@ -445,7 +445,7 @@ export function DataTable<T>({
       {pages > 1 && hasRows ? (
         <nav
           aria-label="Pagination"
-          className="flex items-center justify-between gap-3 border-t border-line px-4 py-2.5 text-[12.5px] text-ink-2"
+          className="flex items-center justify-between gap-3 border-t border-line px-4 py-2.5 text-meta text-ink-2"
         >
           <span className="num">
             <span className="font-medium text-ink">
@@ -504,7 +504,7 @@ export function DataTable<T>({
           )}
         >
           <div className="pointer-events-auto flex max-w-full items-center gap-2 rounded-full border border-line bg-raised py-1.5 pl-4 pr-1.5 shadow-[var(--shadow-float)] animate-pop-in">
-            <span className="whitespace-nowrap text-[13px] font-medium text-ink">
+            <span className="whitespace-nowrap text-meta font-medium text-ink">
               <span className="num">{selectedRows.length}</span> selected
             </span>
             <span className="h-4 w-px shrink-0 bg-line" aria-hidden />

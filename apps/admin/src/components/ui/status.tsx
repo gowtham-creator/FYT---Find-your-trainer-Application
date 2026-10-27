@@ -49,7 +49,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        "inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2 text-[12px] font-medium",
+        "inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2 text-caption font-medium",
         "ring-1 ring-inset",
         toneClass[tone],
         className,

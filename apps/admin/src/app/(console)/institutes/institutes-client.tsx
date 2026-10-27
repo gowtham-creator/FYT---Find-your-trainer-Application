@@ -46,7 +46,7 @@ export function InstitutesClient({ rows, areas, categories, stacks, openNew, now
               {r.featured ? <Star className="size-3.5 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
               {r.name}
             </p>
-            <p className="flex items-center gap-1 text-[12px] text-ink-3"><MapPin className="size-3" strokeWidth={1.75} /> {r.area}</p>
+            <p className="flex items-center gap-1 text-caption text-ink-3"><MapPin className="size-3" strokeWidth={1.75} /> {r.area}</p>
           </div>
         </div>
       ),
@@ -62,11 +62,11 @@ export function InstitutesClient({ rows, areas, categories, stacks, openNew, now
         r.gallery.length ? (
           <span className="num inline-flex items-center gap-1 text-ink-2"><ImageIcon className="size-3.5" strokeWidth={1.75} /> {r.gallery.length}</span>
         ) : (
-          <span className="text-[12.5px] text-warn">No photos</span>
+          <span className="text-meta text-warn">No photos</span>
         ),
     },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },
-    { key: "updated", header: "Updated", hideBelow: "xl", sortValue: (r) => r.updatedAt, cell: (r) => <span className="text-[12.5px] text-ink-3">{relTime(r.updatedAt, now)}</span> },
+    { key: "updated", header: "Updated", hideBelow: "xl", sortValue: (r) => r.updatedAt, cell: (r) => <span className="text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
   ];
 
   return (

@@ -99,7 +99,7 @@ export function ProfileClient({
             <span className="grid size-9 shrink-0 place-items-center rounded-[8px] bg-sunken text-ink-2">
               <Smartphone className="size-4" strokeWidth={1.6} aria-hidden />
             </span>
-            <div className="text-[13px]">
+            <div className="text-meta">
               <p className="font-medium text-ink">Authenticator app and Google sign-in are coming next</p>
               <p className="mt-0.5 text-ink-2">
                 They switch on with Firebase Auth. Owners and super admins will be required to enrol; admins will be prompted.
@@ -116,18 +116,18 @@ export function ProfileClient({
             <RoleBadge role={role} className="self-start" />
             <ul className="flex flex-wrap gap-1.5">
               {modules.map((m) => (
-                <li key={m} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-[12px] text-ink-2">{m}</li>
+                <li key={m} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-caption text-ink-2">{m}</li>
               ))}
             </ul>
-            {role === "admin" ? <p className="text-[12.5px] text-ink-3">Need another module? Ask a super admin.</p> : null}
+            {role === "admin" ? <p className="text-meta text-ink-3">Need another module? Ask a super admin.</p> : null}
           </div>
         </Panel>
         <Panel>
           <PanelHeader icon={solarIcon("devices-bold-duotone")} title="Sessions" />
-          <div className="flex flex-col gap-3 px-5 py-4 text-[13px]">
+          <div className="flex flex-col gap-3 px-5 py-4 text-meta">
             <p className="flex items-center gap-2 text-ink-2">
               <ShieldCheck className="size-4 text-ok" strokeWidth={1.75} aria-hidden />
-              {lastLoginAt ? <>This session started <span className="num text-ink">{fmtDateTime(lastLoginAt)}</span></> : "Signed in"}
+              {lastLoginAt ? <>This session started <span className="num whitespace-nowrap text-ink">{fmtDateTime(lastLoginAt)}</span></> : "Signed in"}
             </p>
             <p className="text-ink-3">Sessions end after 35 minutes without activity.</p>
             <Button size="sm" className="self-start" loading={pending === "others"} onClick={() => run("others", signOutOtherDevices)}>

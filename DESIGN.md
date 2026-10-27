@@ -26,9 +26,19 @@ A status is never shown by color alone. Every status pill pairs its color with a
 
 ## Typography
 - **Inter** (`--font-sans`, `next/font/google`, SIL OFL 1.1) for all UI and body text. Body is 400; labels, buttons, nav items, pills, table emphasis and small headings top out at 500. Never 600 or bold. Hierarchy comes from size, colour (`text-ink` / `text-ink-2` / `text-ink-3`) and spacing, not weight.
-- **Playfair Display** (`--font-display`, `font-display` class, `next/font/google`, SIL OFL 1.1) for display headings at 18px and up only, weight 500, tracking normal to -0.015em: page titles (`PageHeader`, 28px), login / verify / invite headlines (30px; login intro 44-52px), drawer and dialog titles (20px), empty-state titles (19px). It is a high-contrast serif and reads fussy below ~18px, so panel titles (`PanelHeader`) and the calendar range heading stay in Inter 15px/500.
-- **Geist Mono** (`--font-mono`, `.num`) for numbers, IDs, booking refs, times and codes (`tabular-nums`), including KPI values at 26px/500.
-- Fixed rem scale, ratio of about 1.2: 12 / 13 / 14 (body) / 16 / 20 / 24 / 30. Nothing below 12px to fix a layout.
+- **Playfair Display** (`--font-display`, `font-display` class, `next/font/google`, SIL OFL 1.1) for display headings at 18px and up only, weight 500, tracking normal to -0.015em: page titles (`PageHeader`, 28px), login / verify / invite headlines (30px; login intro 44-52px), drawer and dialog titles (20px), empty-state titles (19px). It is a high-contrast serif and reads fussy below ~18px, so panel titles (`PanelHeader`) and the calendar range heading stay in Inter, at 16px/500 (`text-body-lg`).
+- **Geist Mono** (`--font-mono`, `.num`) for numbers, IDs, booking refs, times and codes (`tabular-nums`), including KPI values at 26px/500. Mono values follow the size of the text around them (body in table cells, meta for secondary values). Times and timestamps are `whitespace-nowrap` so "11:00 am" never splits.
+- UI text sizes come from five tokens in `globals.css` (`@theme inline`). Use them; do not add arbitrary `text-[Npx]` below 16px.
+
+  | Token | Size / line-height | Use |
+  |---|---|---|
+  | `text-body-lg` | 16 / 24 | Panel titles, large buttons, login inputs |
+  | `text-body` | 15 / 22 | Body (the `body` default), table cells, form inputs, nav items, drawer facts |
+  | `text-meta` | 14 / 20 | Secondary text, descriptions, meta, small buttons, relative times |
+  | `text-caption` | 13 / 18 | The floor: pills and badges, table headers, chart ticks and legends, timestamps, helper text, kbd hints, avatar initials |
+  | `text-micro` | 12 / 16 | Uppercase tracked micro-labels only (eyebrows, nav group labels, weekday headers) |
+
+  Tailwind's `text-xs` and `text-sm` are remapped to 13 and 14 so they cannot drop under the floor. Nothing renders below 12px, and larger text that overflows is fixed with layout (wrapping, min-widths, truncation with a `title`), never by shrinking it.
 - Page titles are 28px/500 Playfair Display with -0.01em tracking.
 
 ## Shape, depth, motion

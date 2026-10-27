@@ -9,7 +9,7 @@ const STEPS = ["Sign in", "Verify"] as const;
 
 export function StepIndicator({ current }: { current: 1 | 2 }) {
   return (
-    <ol aria-label="Sign-in steps" className="flex items-center gap-2.5 text-[12.5px] font-medium">
+    <ol aria-label="Sign-in steps" className="flex items-center gap-2.5 text-meta font-medium">
       {STEPS.map((label, i) => {
         const n = i + 1;
         const done = n < current;
@@ -21,7 +21,7 @@ export function StepIndicator({ current }: { current: 1 | 2 }) {
               <span
                 aria-hidden
                 className={
-                  "num grid size-5 place-items-center rounded-full text-[11px] leading-none " +
+                  "num grid size-5 place-items-center rounded-full text-caption leading-none " +
                   (on ? "bg-ink text-paper" : done ? "bg-sunken text-ink ring-1 ring-inset ring-line-strong" : "text-ink-3 ring-1 ring-inset ring-line-strong")
                 }
               >

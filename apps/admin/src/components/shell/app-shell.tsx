@@ -139,7 +139,7 @@ export function AppShell({
             >
               <Menu className="size-5" strokeWidth={1.5} />
             </button>
-            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-[13px] text-ink-3">
+            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-meta text-ink-3">
               <span className="hidden truncate sm:inline">Console</span>
               <span className="hidden sm:inline" aria-hidden>
                 /
@@ -150,7 +150,7 @@ export function AppShell({
               {demo ? (
                 <span
                   title="Figures come from seeded demo records, not live Firebase data."
-                  className="hidden h-7 items-center gap-1.5 rounded-[5px] border border-dashed border-line-strong px-2 text-[12px] text-ink-2 md:inline-flex"
+                  className="hidden h-7 items-center gap-1.5 rounded-[5px] border border-dashed border-line-strong px-2 text-caption text-ink-2 md:inline-flex"
                 >
                   <Database className="size-3.5" strokeWidth={1.75} aria-hidden />
                   Demo data
@@ -158,7 +158,7 @@ export function AppShell({
               ) : null}
               <button
                 onClick={() => setPaletteOpen(true)}
-                className="group hidden h-9 w-60 items-center gap-2 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-[13px] text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
+                className="group hidden h-9 w-60 items-center gap-2 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-meta text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
               >
                 <UiIcon name="search" className="size-4 transition-colors duration-150 group-hover:text-ink-2" />
                 Jump to…
@@ -206,7 +206,7 @@ function Sidebar({
         {!collapsed ? (
           <div className="min-w-0 leading-tight">
             <FytWordmark className="h-[15px] w-auto" />
-            <p className="mt-1 text-[11px] text-ink-3">Operator console</p>
+            <p className="mt-1 text-caption text-ink-3">Operator console</p>
           </div>
         ) : null}
       </div>
@@ -215,7 +215,7 @@ function Sidebar({
         {collapsed ? null : (
           <button
             onClick={onSearch}
-            className="mb-3 flex h-8 w-full items-center gap-2 rounded-[var(--radius-control)] px-2.5 text-[13px] text-ink-2 transition-colors hover:bg-line/50 hover:text-ink md:hidden"
+            className="mb-3 flex h-8 w-full items-center gap-2 rounded-[var(--radius-control)] px-2.5 text-meta text-ink-2 transition-colors hover:bg-line/50 hover:text-ink md:hidden"
           >
             <UiIcon name="search" className="size-4" /> Search
           </button>
@@ -231,7 +231,7 @@ function Sidebar({
           return (
             <div key={gi} className={cn(gi > 0 && "mt-4")}>
               {group.heading && !collapsed ? (
-                <p className="mb-1 px-2.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-3">{group.heading}</p>
+                <p className="mb-1 px-2.5 text-micro font-medium uppercase tracking-[0.08em] text-ink-3">{group.heading}</p>
               ) : gi > 0 && collapsed ? (
                 <div className="mx-3 mb-2 border-t border-line" />
               ) : null}
@@ -258,8 +258,8 @@ function Sidebar({
           <div className="mb-2 flex items-center gap-2.5 rounded-[var(--radius-control)] px-1.5 py-1">
             <Avatar name={viewer.name} />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[13px] font-medium text-ink">{viewer.name}</p>
-              <RoleBadge role={viewer.role} className="mt-0.5 h-5 px-1.5 text-[11px]" />
+              <p className="truncate text-meta font-medium text-ink">{viewer.name}</p>
+              <RoleBadge role={viewer.role} className="mt-0.5 h-5 px-1.5 text-caption" />
             </div>
           </div>
         ) : null}
@@ -267,7 +267,7 @@ function Sidebar({
           <button
             onClick={onToggle}
             className={cn(
-              "flex h-8 items-center gap-2 rounded-[var(--radius-control)] text-[13px] text-ink-3 transition-colors hover:bg-line/50 hover:text-ink",
+              "flex h-8 items-center gap-2 rounded-[var(--radius-control)] text-meta text-ink-3 transition-colors hover:bg-line/50 hover:text-ink",
               collapsed ? "w-9 justify-center" : "w-full px-2.5",
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -316,12 +316,12 @@ function NavLink({
       {!collapsed ? <span className="truncate">{item.label}</span> : null}
       {!collapsed && locked ? <Lock className="ml-auto size-3.5 text-ink-3" strokeWidth={1.75} aria-label="Locked" /> : null}
       {!collapsed && !locked && badge ? (
-        <span className="num ml-auto rounded-[4px] bg-accent px-1.5 text-[11px] font-medium leading-5 text-accent-ink">{badge}</span>
+        <span className="num ml-auto rounded-[4px] bg-accent px-1.5 text-caption font-medium leading-5 text-accent-ink">{badge}</span>
       ) : null}
     </>
   );
   const cls = cn(
-    "group relative flex h-8 items-center gap-2.5 rounded-[var(--radius-control)] text-[13.5px]",
+    "group relative flex h-8 items-center gap-2.5 rounded-[var(--radius-control)] text-body",
     "transition-[background-color,color,box-shadow] duration-150 ease-[var(--ease-out-quart)]",
     collapsed ? "w-9 justify-center mx-auto" : "px-2.5",
     // The active item lifts onto --surface against the --sunken sidebar; depth
@@ -350,7 +350,7 @@ function NavLink({
         <Tooltip.Content
           side="right"
           sideOffset={8}
-          className="z-50 max-w-[240px] rounded-[var(--radius-control)] border border-line bg-raised px-2.5 py-1.5 text-[12.5px] text-ink shadow-[var(--shadow-overlay)] data-[state=delayed-open]:animate-fade-in"
+          className="z-50 max-w-[240px] rounded-[var(--radius-control)] border border-line bg-raised px-2.5 py-1.5 text-meta text-ink shadow-[var(--shadow-overlay)] data-[state=delayed-open]:animate-fade-in"
         >
           {locked ? (
             <>
@@ -369,7 +369,7 @@ function NavLink({
 const menuContent =
   "z-50 min-w-[200px] rounded-[var(--radius-panel)] border border-line bg-raised p-1 shadow-[var(--shadow-overlay)] data-[state=open]:animate-rise";
 const menuItem =
-  "flex h-8 cursor-pointer select-none items-center gap-2 rounded-[5px] px-2 text-[13px] text-ink outline-none data-[highlighted]:bg-sunken";
+  "flex h-8 cursor-pointer select-none items-center gap-2 rounded-[5px] px-2 text-meta text-ink outline-none data-[highlighted]:bg-sunken";
 
 function ThemeMenu() {
   const [theme, choose] = useLocalStorage("tp-theme", "light", ["light", "dark", "system"] as const);
@@ -423,8 +423,8 @@ function AccountMenu({ viewer }: { viewer: ShellViewer }) {
       <DropdownMenu.Portal>
         <DropdownMenu.Content align="end" sideOffset={6} className={cn(menuContent, "w-64")}>
           <div className="px-2 py-2">
-            <p className="truncate text-[13px] font-medium text-ink">{viewer.name}</p>
-            <p className="num truncate text-[12px] text-ink-3">{viewer.email}</p>
+            <p className="truncate text-meta font-medium text-ink">{viewer.name}</p>
+            <p className="num truncate text-caption text-ink-3">{viewer.email}</p>
             <RoleBadge role={viewer.role} className="mt-2" />
           </div>
           <DropdownMenu.Separator className="my-1 h-px bg-line" />
@@ -483,13 +483,13 @@ function CommandPalette({
         <UiIcon name="search" className="size-4 shrink-0 text-ink-3" />
         <Command.Input
           placeholder="Jump to a page or action"
-          className="h-12 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-ink-3"
+          className="h-12 flex-1 bg-transparent text-body text-ink outline-none placeholder:text-ink-3"
         />
       </div>
       <Command.List className="max-h-[min(52vh,400px)] overflow-y-auto overscroll-contain p-1.5 [scrollbar-width:thin]">
         <Command.Empty className="flex flex-col items-center gap-1 px-3 py-10 text-center">
-          <span className="text-[13px] font-medium text-ink">No match</span>
-          <span className="text-[12.5px] text-ink-2">No page or action matches that.</span>
+          <span className="text-meta font-medium text-ink">No match</span>
+          <span className="text-meta text-ink-2">No page or action matches that.</span>
         </Command.Empty>
         <Command.Group heading="Pages" className={paletteGroup}>
           {pages.map((p) => (
@@ -507,14 +507,14 @@ function CommandPalette({
               <Command.Item key={a.href} value={`action ${a.label}`} onSelect={() => go(a.href)} className={paletteItem}>
                 <a.icon className={paletteIcon} strokeWidth={1.5} aria-hidden />
                 <span className="truncate">{a.label}</span>
-                <span className="ml-auto shrink-0 text-[12px] text-ink-3 group-data-[selected=true]:hidden">{a.hint}</span>
+                <span className="ml-auto shrink-0 text-caption text-ink-3 group-data-[selected=true]:hidden">{a.hint}</span>
                 <CornerDownLeft className={paletteEnter} strokeWidth={1.75} aria-hidden />
               </Command.Item>
             ))}
         </Command.Group>
       </Command.List>
       {/* The keys that drive the palette, where an operator can see them. */}
-      <div className="flex items-center gap-4 border-t border-line bg-sunken/50 px-4 py-2 text-[11.5px] text-ink-3">
+      <div className="flex items-center gap-4 border-t border-line bg-sunken/50 px-4 py-2 text-caption text-ink-3">
         <span className="flex items-center gap-1.5">
           <Kbd>↑</Kbd>
           <Kbd>↓</Kbd> Move
@@ -531,9 +531,9 @@ function CommandPalette({
 }
 
 const paletteGroup =
-  "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-ink-3";
+  "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-micro [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-ink-3";
 const paletteItem =
-  "group flex h-9 cursor-pointer select-none items-center gap-2.5 rounded-[6px] px-2.5 text-[13.5px] text-ink " +
+  "group flex h-9 cursor-pointer select-none items-center gap-2.5 rounded-[6px] px-2.5 text-body text-ink " +
   "transition-colors duration-100 ease-[var(--ease-out-quart)] data-[selected=true]:bg-sunken";
 const paletteIcon =
   "size-4 shrink-0 text-ink-3 transition-colors duration-100 group-data-[selected=true]:text-[var(--accent)]";

@@ -33,7 +33,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
           <Avatar name={r.name} />
           <div className="min-w-0">
             <p className="truncate font-medium">{r.name}</p>
-            <p className="num truncate text-[12px] text-ink-3">{r.phone}</p>
+            <p className="num truncate text-caption text-ink-3">{r.phone}</p>
           </div>
         </div>
       ),
@@ -74,7 +74,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
       header: "Joined",
       sortValue: (r) => r.createdAt,
       hideBelow: "lg",
-      cell: (r) => <span className="text-[12.5px] text-ink-2">{relTime(r.createdAt, now)}</span>,
+      cell: (r) => <span className="text-meta text-ink-2">{relTime(r.createdAt, now)}</span>,
     },
     {
       key: "state",
@@ -154,7 +154,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
       >
         {o ? (
           <div className="flex flex-col gap-6">
-            <dl className="grid grid-cols-[130px_1fr] gap-x-4 gap-y-2.5 text-[13.5px]">
+            <dl className="grid grid-cols-[130px_1fr] gap-x-4 gap-y-2.5 text-body">
               <dt className="text-ink-2">Phone</dt>
               <dd className="num">{o.phone}</dd>
               <dt className="text-ink-2">Email</dt>
@@ -179,16 +179,16 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
               <dt className="text-ink-2">Wants to learn</dt>
               <dd className="flex flex-wrap gap-1">
                 {o.interests.map((i) => (
-                  <span key={i} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-[12px] text-ink-2">{i}</span>
+                  <span key={i} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-caption text-ink-2">{i}</span>
                 ))}
               </dd>
               <dt className="text-ink-2">Last active</dt>
               <dd>{relTime(o.lastActiveAt, now)}</dd>
             </dl>
             <section>
-              <h3 className="mb-2 text-[13.5px] font-medium text-ink">Bookings</h3>
+              <h3 className="mb-2 text-body font-medium text-ink">Bookings</h3>
               {(bookingsByLearner[o.id] ?? []).length === 0 ? (
-                <p className="text-[13px] text-ink-2">No bookings yet.</p>
+                <p className="text-meta text-ink-2">No bookings yet.</p>
               ) : (
                 <ul className="divide-y divide-line rounded-[var(--radius-panel)] border border-line">
                   {(bookingsByLearner[o.id] ?? [])
@@ -196,8 +196,8 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
                     .map((b) => (
                       <li key={b.id} className="flex items-center justify-between gap-3 px-3.5 py-2.5">
                         <div className="min-w-0">
-                          <p className="truncate text-[13px] text-ink">{b.targetName}</p>
-                          <p className="num text-[12px] text-ink-3">
+                          <p className="truncate text-meta text-ink">{b.targetName}</p>
+                          <p className="num text-caption text-ink-3">
                             {fmtDate(b.start)} · {fmtTime(b.start)} · {b.ref}
                           </p>
                         </div>
@@ -221,12 +221,12 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
         body={
           <div className="flex flex-col gap-3">
             <p>They can still open the app but can&apos;t book. Their upcoming bookings are cancelled and providers are notified.</p>
-            <label className="flex flex-col gap-1.5 text-[13px] font-medium text-ink">
+            <label className="flex flex-col gap-1.5 text-meta font-medium text-ink">
               Reason (kept in the audit log)
               <input
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-sm font-normal focus-visible:border-accent focus-visible:outline-none"
+                className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-body font-normal focus-visible:border-accent focus-visible:outline-none"
               />
             </label>
           </div>

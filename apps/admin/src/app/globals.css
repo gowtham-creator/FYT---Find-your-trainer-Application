@@ -103,6 +103,24 @@
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
+  /* Type scale. Nothing renders below 12px, and 12px (text-micro) is only for
+     uppercase tracked micro-labels. Use these instead of arbitrary text-[Npx]. */
+  --text-micro: 12px;
+  --text-micro--line-height: 16px;
+  --text-caption: 13px;
+  --text-caption--line-height: 18px;
+  --text-meta: 14px;
+  --text-meta--line-height: 20px;
+  --text-body: 15px;
+  --text-body--line-height: 22px;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  /* Tailwind defaults remapped so stray xs/sm never drop under the floor. */
+  --text-xs: 13px;
+  --text-xs--line-height: 18px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+
   --radius-control: 6px;
   --radius-panel: 10px;
   --radius-overlay: 14px;
@@ -169,7 +187,7 @@
      custom properties, so base rules name the next/font variables directly. */
   body {
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     line-height: 1.5;
     background: var(--paper);

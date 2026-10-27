@@ -67,7 +67,7 @@ export function CoursesClient({
               {r.featured ? <Star className="size-3.5 shrink-0 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
               <span className="truncate">{r.title}</span>
             </p>
-            <p className="truncate text-[12px] text-ink-3">{r.kind === "project" ? "Project" : r.instituteName ?? "No institute"}</p>
+            <p className="truncate text-caption text-ink-3">{r.kind === "project" ? "Project" : r.instituteName ?? "No institute"}</p>
           </div>
         </div>
       ),
@@ -80,9 +80,9 @@ export function CoursesClient({
       cell: (r) => (
         <div className="flex max-w-[240px] flex-wrap gap-1">
           {r.techStack.slice(0, 3).map((t) => (
-            <span key={t} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-[11.5px] text-ink-2">{t}</span>
+            <span key={t} className="rounded-[4px] bg-sunken px-1.5 py-0.5 text-caption text-ink-2">{t}</span>
           ))}
-          {r.techStack.length > 3 ? <span className="text-[11.5px] text-ink-3">+{r.techStack.length - 3}</span> : null}
+          {r.techStack.length > 3 ? <span className="text-caption text-ink-3">+{r.techStack.length - 3}</span> : null}
         </div>
       ),
     },
@@ -96,7 +96,7 @@ export function CoursesClient({
       headerClassName: "text-right",
     },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },
-    { key: "updated", header: "Updated", sortValue: (r) => r.updatedAt, hideBelow: "xl", cell: (r) => <span className="text-[12.5px] text-ink-3">{relTime(r.updatedAt, now)}</span> },
+    { key: "updated", header: "Updated", sortValue: (r) => r.updatedAt, hideBelow: "xl", cell: (r) => <span className="text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
   ];
 
   const e = editing;
@@ -213,7 +213,7 @@ export function CoursesClient({
               <TagInput id="stack" value={e.techStack} onChange={(v) => set("techStack", v)} suggestions={stacks} />
             </Field>
             <Field label="Demo modes" htmlFor="modes">
-              <div className="flex gap-4 text-sm">
+              <div className="flex gap-4 text-body">
                 {(["online", "offline"] as const).map((m) => (
                   <label key={m} className="inline-flex items-center gap-2">
                     <Checkbox checked={e.modes.includes(m)} onChange={() => set("modes", e.modes.includes(m) ? e.modes.filter((x) => x !== m) : [...e.modes, m])} />

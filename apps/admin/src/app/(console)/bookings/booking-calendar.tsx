@@ -81,7 +81,7 @@ type StatusFilter = (typeof STATUS_VALUES)[number];
 const listingKey = (r: Pick<BookingRow, "targetType" | "targetId">) => `${r.targetType}:${r.targetId}`;
 
 // Two to a row on a phone (listing takes a full row), natural width from sm up.
-const filterSelect = "h-8 min-w-0 grow basis-[calc(50%-4px)] text-[13px] sm:w-auto sm:min-w-[128px] sm:grow-0 sm:basis-auto";
+const filterSelect = "h-8 min-w-0 grow basis-[calc(50%-4px)] text-meta sm:w-auto sm:min-w-[128px] sm:grow-0 sm:basis-auto";
 const filterOn = "border-line-strong bg-sunken font-medium text-ink";
 
 function parts(ms: number) {
@@ -210,7 +210,7 @@ export function BookingCalendar({
             <ChevronRight className="size-4" strokeWidth={1.75} />
           </Button>
         </div>
-        <h2 className="min-w-0 text-[15px] font-medium text-ink" aria-live="polite">
+        <h2 className="min-w-0 text-body-lg font-medium text-ink" aria-live="polite">
           {title}
         </h2>
         <Button size="sm" className="ml-1" disabled={showingToday} onClick={() => setAnchor(todayStart)}>
@@ -271,16 +271,16 @@ export function BookingCalendar({
         </Select>
         {activeCount ? (
           <>
-            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-ink px-2 text-[12px] font-medium text-paper">
+            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-ink px-2 text-caption font-medium text-paper">
               <span className="num">{activeCount}</span> {activeCount === 1 ? "filter" : "filters"}
             </span>
-            <Button variant="ghost" size="sm" className="h-7 px-2 text-[12.5px]" onClick={clearFilters}>
+            <Button variant="ghost" size="sm" className="h-7 px-2 text-meta" onClick={clearFilters}>
               Clear
             </Button>
           </>
         ) : null}
         <div className="ml-auto flex items-center gap-3">
-          <span className="num whitespace-nowrap text-[12.5px] text-ink-3" aria-live="polite" title={`Bookings shown ${unitPhrase}`}>
+          <span className="num whitespace-nowrap text-meta text-ink-3" aria-live="polite" title={`Bookings shown ${unitPhrase}`}>
             {activeCount ? (
               <>
                 <span className="font-medium text-ink-2">{shownInPeriod.length}</span> of {liveInPeriod}
@@ -346,7 +346,7 @@ export function BookingCalendar({
         <DayView day={anchor} rows={shown} now={now} todayStart={todayStart} onOpen={onOpen} />
       )}
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line px-4 py-2.5 text-[12px] text-ink-2">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line px-4 py-2.5 text-caption text-ink-2">
         {MIX_ORDER.map((s) => (
           <Legend key={s} status={s} />
         ))}
@@ -470,10 +470,10 @@ function TimeGrid({
                   aria-label={`${fmtDate(d, { weekday: "long", day: "numeric", month: "long" })}, ${count} ${count === 1 ? "booking" : "bookings"}. Open day`}
                   className="group border-b border-l border-line px-2 py-2 text-center transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-sunken/60 focus-visible:outline-offset-[-2px]"
                 >
-                  <span className="block text-[11.5px] uppercase tracking-[0.06em] text-ink-3">{WEEKDAYS[parts(d).dow]}</span>
+                  <span className="block text-micro uppercase tracking-[0.06em] text-ink-3">{WEEKDAYS[parts(d).dow]}</span>
                   <span
                     className={cn(
-                      "num mx-auto mt-0.5 grid size-7 place-items-center rounded-full text-[13px]",
+                      "num mx-auto mt-0.5 grid size-7 place-items-center rounded-full text-meta",
                       isToday ? "bg-ink font-medium text-paper" : "text-ink group-hover:bg-surface",
                     )}
                   >
@@ -486,7 +486,7 @@ function TimeGrid({
         ) : null}
         <div className="relative" aria-hidden>
           {HOURS.map((h) => (
-            <div key={h} className="num pr-2 pt-1 text-right text-[11px] text-ink-3" style={{ height: rowH }}>
+            <div key={h} className="num pr-2 pt-1 text-right text-caption text-ink-3" style={{ height: rowH }}>
               {hourLabel(h)}
             </div>
           ))}
@@ -538,16 +538,16 @@ function TimeGrid({
                   >
                     <span className="flex items-center gap-1">
                       <StatusIcon status={r.status} />
-                      <span className="num truncate text-[10.5px] text-ink-2">
+                      <span className="num truncate text-caption text-ink-2">
                         {fmtTime(r.start)}
                         {detailed ? ` – ${fmtTime(r.end)}` : ""}
                       </span>
                     </span>
-                    <span className={cn("block truncate font-medium leading-tight text-ink", detailed ? "mt-0.5 text-[13px]" : "text-[11.5px]")}>
+                    <span className={cn("block truncate font-medium leading-tight text-ink", detailed ? "mt-0.5 text-meta" : "text-caption")}>
                       {r.targetName}
                     </span>
                     {detailed && h >= 62 ? (
-                      <span className="mt-0.5 flex items-center gap-1 truncate text-[12px] text-ink-2">
+                      <span className="mt-0.5 flex items-center gap-1 truncate text-caption text-ink-2">
                         {r.learnerName}
                         <span className="text-ink-3">·</span>
                         {r.mode === "online" ? (
@@ -579,11 +579,11 @@ function DayView({ day, rows, now, todayStart, onOpen }: { day: number; rows: Bo
       <aside className="relative border-t border-line lg:border-l lg:border-t-0" aria-label="Bookings this day">
         <div className="flex flex-col lg:absolute lg:inset-0">
           <div className="flex items-baseline justify-between gap-2 border-b border-line px-4 py-3">
-            <p className="text-[13.5px] font-medium text-ink">
+            <p className="text-body font-medium text-ink">
               <span className="num">{items.length}</span> {items.length === 1 ? "booking" : "bookings"}
             </p>
             {needs ? (
-              <p className="text-[12.5px] text-ink-2">
+              <p className="text-meta text-ink-2">
                 <span className="num font-medium text-ink">{needs}</span> need action
               </p>
             ) : null}
@@ -598,13 +598,13 @@ function DayView({ day, rows, now, todayStart, onOpen }: { day: number; rows: Bo
                     className="flex w-full flex-col gap-1.5 px-4 py-3 text-left transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-sunken/60 focus-visible:outline-offset-[-2px]"
                   >
                     <span className="flex items-center justify-between gap-2">
-                      <span className="num text-[12.5px] text-ink-2">
+                      <span className="num whitespace-nowrap text-meta text-ink-2">
                         {fmtTime(r.start)} – {fmtTime(r.end)}
                       </span>
                       <BookingStatusPill status={r.status} />
                     </span>
-                    <span className="truncate text-[13.5px] font-medium text-ink">{r.targetName}</span>
-                    <span className="truncate text-[12.5px] text-ink-2">
+                    <span className="truncate text-body font-medium text-ink">{r.targetName}</span>
+                    <span className="truncate text-meta text-ink-2">
                       {r.learnerName} · {r.mode === "online" ? "Online" : "In person"} · <span className="num">{r.ref}</span>
                     </span>
                   </button>
@@ -656,7 +656,7 @@ function MonthGrid({
       <div className="min-w-[760px]">
         <div className="grid grid-cols-7 border-b border-line">
           {[1, 2, 3, 4, 5, 6, 0].map((dow, i) => (
-            <p key={dow} className={cn("px-3 py-2 text-[11.5px] uppercase tracking-[0.06em] text-ink-3", i > 0 && "border-l border-line")}>
+            <p key={dow} className={cn("px-3 py-2 text-micro uppercase tracking-[0.06em] text-ink-3", i > 0 && "border-l border-line")}>
               {WEEKDAYS[dow]}
             </p>
           ))}
@@ -691,14 +691,14 @@ function MonthGrid({
                     onClick={() => onDay(d)}
                     aria-label={`${dayName}, ${items.length ? `${items.length} ${items.length === 1 ? "booking" : "bookings"}` : "no bookings"}. Open day`}
                     className={cn(
-                      "num grid size-7 place-items-center rounded-full text-[13px] transition-colors duration-150 ease-[var(--ease-out-quart)]",
+                      "num grid size-7 place-items-center rounded-full text-meta transition-colors duration-150 ease-[var(--ease-out-quart)]",
                       isToday ? "bg-ink font-medium text-paper" : inMonth ? "text-ink hover:bg-surface" : "text-ink-3 hover:bg-surface",
                     )}
                   >
                     {fmtDate(d, { day: "numeric" })}
                   </button>
                   {items.length ? (
-                    <span className={cn("num text-[12px]", inMonth ? "text-ink-2" : "text-ink-3")} aria-hidden>
+                    <span className={cn("num text-caption", inMonth ? "text-ink-2" : "text-ink-3")} aria-hidden>
                       <span className="font-medium text-ink">{items.length}</span> {items.length === 1 ? "booking" : "bookings"}
                     </span>
                   ) : null}
@@ -711,7 +711,7 @@ function MonthGrid({
                         key={s}
                         title={`${n} ${BOOKING_STATUS[s].label.toLowerCase()}`}
                         className={cn(
-                          "num inline-flex h-5 items-center gap-1 rounded-[4px] px-1.5 text-[11px] font-medium text-ink ring-1 ring-inset",
+                          "num inline-flex h-5 items-center gap-1 rounded-[4px] px-1.5 text-caption font-medium text-ink ring-1 ring-inset",
                           TONE[s],
                         )}
                       >
@@ -734,9 +734,9 @@ function MonthGrid({
                           title={`${fmtTime(r.start)} · ${r.targetName} with ${r.learnerName}`}
                           // Time over name: side by side, a day cell left the
                           // listing about 30px and cut it to two letters.
-                          className="flex w-full min-w-0 flex-col items-start rounded-[4px] px-1 py-0.5 text-left text-[11.5px] leading-tight transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-surface"
+                          className="flex w-full min-w-0 flex-col items-start rounded-[4px] px-1 py-0.5 text-left text-caption leading-tight transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-surface"
                         >
-                          <span className="num text-ink-3">{fmtTime(r.start)}</span>
+                          <span className="num whitespace-nowrap text-ink-3">{fmtTime(r.start)}</span>
                           <span className="w-full truncate text-ink-2">{r.targetName}</span>
                         </button>
                       </li>
@@ -746,7 +746,7 @@ function MonthGrid({
                         <button
                           type="button"
                           onClick={() => onDay(d)}
-                          className="rounded-[4px] px-1 py-0.5 text-[11.5px] font-medium text-ink-2 transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-surface hover:text-ink"
+                          className="rounded-[4px] px-1 py-0.5 text-caption font-medium text-ink-2 transition-colors duration-150 ease-[var(--ease-out-quart)] hover:bg-surface hover:text-ink"
                         >
                           +{items.length - 2} more
                         </button>

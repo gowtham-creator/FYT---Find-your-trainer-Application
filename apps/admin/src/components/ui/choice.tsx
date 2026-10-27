@@ -49,7 +49,7 @@ export function ChipSelect({
             aria-pressed={on}
             onClick={() => onChange(on ? value.filter((x) => x !== o) : [...value, o])}
             className={cn(
-              "inline-flex h-7 select-none items-center gap-1 rounded-[5px] px-2 text-[12.5px] ring-1 ring-inset",
+              "inline-flex h-7 select-none items-center gap-1 rounded-[5px] px-2 text-meta ring-1 ring-inset",
               "transition-[background-color,color,box-shadow,transform] active:scale-[0.97]",
               motion,
               focusRing,
@@ -102,7 +102,7 @@ export function TagInput({
         )}
       >
         {value.map((t) => (
-          <span key={t} className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-sunken pl-2 pr-1 text-[12.5px] text-ink ring-1 ring-inset ring-line-strong/50">
+          <span key={t} className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-sunken pl-2 pr-1 text-meta text-ink ring-1 ring-inset ring-line-strong/50">
             {t}
             <button
               type="button"
@@ -128,7 +128,7 @@ export function TagInput({
           onBlur={() => draft && add(draft)}
           placeholder={value.length ? "" : placeholder}
           // The wrapper draws the focus ring for the whole field.
-          className="h-6 min-w-[120px] flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
+          className="h-6 min-w-[120px] flex-1 bg-transparent text-body text-ink outline-none placeholder:text-ink-3 focus-visible:outline-none"
         />
       </div>
       {open.length ? (
@@ -139,7 +139,7 @@ export function TagInput({
               type="button"
               onClick={() => add(s)}
               className={cn(
-                "inline-flex h-6 items-center gap-1 rounded-[4px] border border-dashed border-line-strong px-1.5 text-[12px] text-ink-2",
+                "inline-flex h-6 items-center gap-1 rounded-[4px] border border-dashed border-line-strong px-1.5 text-caption text-ink-2",
                 "transition-[border-color,color,transform] hover:border-ink hover:text-ink active:scale-[0.97]",
                 motion,
                 focusRing,
@@ -214,7 +214,7 @@ export function Segmented<T extends string>({
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => onKeyDown(e, i)}
             className={cn(
-              "relative h-7 whitespace-nowrap rounded-[5px] px-3 text-[13px] transition-colors",
+              "relative h-7 whitespace-nowrap rounded-[5px] px-3 text-meta transition-colors",
               motion,
               "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
               on ? "font-medium text-ink" : "text-ink-2 hover:text-ink",
@@ -234,10 +234,10 @@ export function ToggleRow({ label, body, checked, onChange, disabled }: { label:
     <div className={cn("flex items-center justify-between gap-4 px-4 py-3", disabled && "opacity-70")}>
       <div className="min-w-0">
         {/* A label can target the switch button, so the text is a click target too. */}
-        <label htmlFor={id} className={cn("text-[13.5px] font-medium text-ink", disabled ? "cursor-not-allowed" : "cursor-pointer")}>
+        <label htmlFor={id} className={cn("text-body font-medium text-ink", disabled ? "cursor-not-allowed" : "cursor-pointer")}>
           {label}
         </label>
-        <p className="text-[12.5px] text-ink-2">{body}</p>
+        <p className="text-meta text-ink-2">{body}</p>
       </div>
       <Switch id={id} checked={checked} onCheckedChange={onChange} label={label} disabled={disabled} />
     </div>

@@ -25,7 +25,7 @@ function Lockup({ className }: { className?: string }) {
       <FytMark className="h-9 w-auto drop-shadow-[0_3px_4px_oklch(0.55_0.12_60/0.25)]" />
       <div className="leading-tight">
         <FytWordmark className="h-[17px] w-auto" />
-        <p className="mt-1 text-[12px] uppercase tracking-[0.16em] text-ink-2">Find your trainer</p>
+        <p className="mt-1 text-micro uppercase tracking-[0.16em] text-ink-2">Find your trainer</p>
       </div>
     </div>
   );

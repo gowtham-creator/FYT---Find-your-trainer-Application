@@ -166,15 +166,15 @@ function CreditList({ items }: { items: Credit[] }) {
       {items.map((c) => (
         <li key={c.name} className="grid grid-cols-1 gap-x-8 gap-y-2 px-5 py-4 md:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]">
           <div className="min-w-0">
-            <p className="flex items-center gap-2 text-[14px] font-medium text-ink">
+            <p className="flex items-center gap-2 text-body font-medium text-ink">
               {c.sample ? <span className="shrink-0 text-ink-2">{c.sample}</span> : null}
               <span className="min-w-0">{c.name}</span>
             </p>
-            <p className="mt-0.5 text-[12.5px] text-ink-3">{c.by}</p>
-            <p className="mt-1.5 max-w-[62ch] text-[13px] leading-relaxed text-ink-2">{c.use}</p>
-            {c.note ? <p className="mt-1 max-w-[62ch] text-[12.5px] leading-relaxed text-ink-3">{c.note}</p> : null}
+            <p className="mt-0.5 text-meta text-ink-3">{c.by}</p>
+            <p className="mt-1.5 max-w-[62ch] text-meta leading-relaxed text-ink-2">{c.use}</p>
+            {c.note ? <p className="mt-1 max-w-[62ch] text-meta leading-relaxed text-ink-3">{c.note}</p> : null}
           </div>
-          <dl className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] content-start gap-x-3 gap-y-1.5 text-[13px]">
+          <dl className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] content-start gap-x-3 gap-y-1.5 text-meta">
             <dt className="text-ink-3">Licence</dt>
             <dd className="min-w-0 break-words">
               <Ext href={c.licenceHref}>{c.licence}</Ext>
@@ -227,7 +227,7 @@ export default async function CreditsPage() {
           <CreditList items={PATTERNS} />
         </Panel>
 
-        <p className="flex items-start gap-2 text-[12.5px] leading-relaxed text-ink-3">
+        <p className="flex items-start gap-2 text-meta leading-relaxed text-ink-3">
           <UiIcon name="certificate" className="mt-0.5 size-4 shrink-0" />
           <span className="max-w-[80ch]">
             Product names and logos belong to their owners. The same list is kept in NOTICE.md at the root of the repository.

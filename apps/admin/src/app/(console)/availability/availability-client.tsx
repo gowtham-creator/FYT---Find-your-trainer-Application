@@ -111,16 +111,16 @@ export function AvailabilityClient({
                 )}
               >
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[13px] font-medium text-ink">{t.name}</span>
-                  <span className="text-[11.5px] text-ink-3">
+                  <span className="block truncate text-meta font-medium text-ink">{t.name}</span>
+                  <span className="text-caption text-ink-3">
                     {TYPE_LABEL[t.type]}
                     {!t.published ? " · hidden" : ""}
                   </span>
                 </span>
                 {counts.get(t.id) ? (
-                  <span className="num text-[11.5px] text-ink-3">{counts.get(t.id)}</span>
+                  <span className="num text-caption text-ink-3">{counts.get(t.id)}</span>
                 ) : (
-                  <span className="text-[11.5px] text-warn">none</span>
+                  <span className="text-caption text-warn">none</span>
                 )}
               </button>
             </li>
@@ -163,15 +163,15 @@ export function AvailabilityClient({
               return (
                 <li key={wd} className="grid grid-cols-1 gap-3 px-5 py-3.5 sm:grid-cols-[72px_minmax(0,1fr)]">
                   <div className="flex items-center justify-between sm:block">
-                    <p className="text-[13.5px] font-medium text-ink">{DAY_NAME[wd]}</p>
+                    <p className="text-body font-medium text-ink">{DAY_NAME[wd]}</p>
                     {list.length && [1, 2, 3, 4, 5].includes(wd) ? (
-                      <button onClick={() => copyToWeekdays(wd)} className="mt-1 inline-flex items-center gap-1 text-[11.5px] text-ink-3 hover:text-ink" title="Copy these windows to Mon–Fri">
+                      <button onClick={() => copyToWeekdays(wd)} className="mt-1 inline-flex items-center gap-1 text-caption text-ink-3 hover:text-ink" title="Copy these windows to Mon–Fri">
                         <Copy className="size-3" strokeWidth={1.75} /> Mon–Fri
                       </button>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-2">
-                    {list.length === 0 ? <p className="py-1.5 text-[13px] text-ink-3">Unavailable</p> : null}
+                    {list.length === 0 ? <p className="py-1.5 text-meta text-ink-3">Unavailable</p> : null}
                     {list.map(({ r, i }) => {
                       const slots = Math.floor((r.endMinute - r.startMinute) / r.slotMinutes);
                       return (
@@ -187,12 +187,12 @@ export function AvailabilityClient({
                             <option value="offline">In person</option>
                           </Select>
                           {target.type === "course" ? (
-                            <label className="inline-flex items-center gap-1.5 text-[12.5px] text-ink-2">
+                            <label className="inline-flex items-center gap-1.5 text-meta text-ink-2">
                               Seats
                               <Input type="number" min={1} max={50} value={r.capacity} onChange={(e) => update(i, { capacity: Number(e.target.value) })} className="num w-16" />
                             </label>
                           ) : null}
-                          <span className={cn("num text-[12px]", slots > 0 ? "text-ink-3" : "text-bad")}>
+                          <span className={cn("num text-caption", slots > 0 ? "text-ink-3" : "text-bad")}>
                             {slots > 0 ? `${slots} slot${slots === 1 ? "" : "s"}, ${minutesToLabel(r.startMinute)}–${minutesToLabel(r.endMinute)}` : "window too short"}
                           </span>
                           <Button variant="ghost" size="icon" className="ml-auto size-8" aria-label="Remove window" onClick={() => setDraft((d) => d.filter((_, j) => j !== i))}>
@@ -201,7 +201,7 @@ export function AvailabilityClient({
                         </div>
                       );
                     })}
-                    <button onClick={() => addFor(wd)} className="inline-flex w-fit items-center gap-1 text-[12.5px] font-medium text-ink-2 hover:text-ink">
+                    <button onClick={() => addFor(wd)} className="inline-flex w-fit items-center gap-1 text-meta font-medium text-ink-2 hover:text-ink">
                       <Plus className="size-3.5" strokeWidth={1.75} /> Add window
                     </button>
                   </div>

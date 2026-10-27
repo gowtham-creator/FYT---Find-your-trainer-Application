@@ -152,10 +152,10 @@ export function ImageDropzone({
             </span>
           )}
           <span className="min-w-0">
-            <span className="block text-[13px] font-medium text-ink">
+            <span className="block text-meta font-medium text-ink">
               {pending ? `Uploading ${pending.name}` : over ? "Drop to upload" : label}
             </span>
-            <span className="block text-[12px] leading-snug text-ink-3">
+            <span className="block text-caption leading-snug text-ink-3">
               {pending ? `${mb(pending.size)} · checking and saving…` : disabled ? hint : <>Drag a file here or <span className="text-ink-2 underline underline-offset-2">choose one</span>. {hint}</>}
             </span>
           </span>
@@ -171,7 +171,7 @@ export function ImageDropzone({
         />
       </div>
       {error ? (
-        <p id={errorId} role="alert" className="flex items-start gap-1.5 text-[13px] text-bad">
+        <p id={errorId} role="alert" className="flex items-start gap-1.5 text-meta text-bad">
           <AlertCircle className="mt-[2px] size-3.5 shrink-0" strokeWidth={2} aria-hidden />
           <span>{error}</span>
         </p>
@@ -206,7 +206,7 @@ export function SingleImageField({
 
   if (!ownerId) {
     return (
-      <p className="rounded-[var(--radius-panel)] border border-dashed border-line-strong px-4 py-3 text-[13px] text-ink-2">
+      <p className="rounded-[var(--radius-panel)] border border-dashed border-line-strong px-4 py-3 text-meta text-ink-2">
         {emptyHint ?? "Save first, then add an image."}
       </p>
     );
@@ -221,7 +221,7 @@ export function SingleImageField({
             className={cn("shrink-0 border border-line bg-sunken", shape === "square" ? "size-20 rounded-[10px]" : "aspect-[16/9] w-44 rounded-[8px]")}
           />
           <div className="min-w-0 flex-1">
-            <p className="num text-[12.5px] text-ink-2">
+            <p className="num text-meta text-ink-2">
               {image.width}×{image.height} · {image.contentType.replace("image/", "").toUpperCase()} · {mb(image.bytes)}
             </p>
             <Button variant="ghost" size="sm" className="-ml-2 mt-1 text-bad hover:text-bad" onClick={() => setConfirm(true)}>
@@ -265,7 +265,7 @@ export function GalleryField({ instituteId, images, name, max = 12, id }: { inst
 
   if (!instituteId) {
     return (
-      <p className="rounded-[var(--radius-panel)] border border-dashed border-line-strong px-4 py-3 text-[13px] text-ink-2">
+      <p className="rounded-[var(--radius-panel)] border border-dashed border-line-strong px-4 py-3 text-meta text-ink-2">
         Save the institute first, then add gallery photos.
       </p>
     );
@@ -320,7 +320,7 @@ export function GalleryField({ instituteId, images, name, max = 12, id }: { inst
               )}
             >
               <Thumb image={g} alt={`${name}, photo ${i + 1}`} className="aspect-[4/3] w-full" />
-              <span className="num absolute left-1.5 top-1.5 rounded-[4px] bg-surface/90 px-1.5 py-0.5 text-[11px] font-medium text-ink ring-1 ring-inset ring-line">
+              <span className="num absolute left-1.5 top-1.5 rounded-[4px] bg-surface/90 px-1.5 py-0.5 text-caption font-medium text-ink ring-1 ring-inset ring-line">
                 {i === 0 ? "1 · Cover" : i + 1}
               </span>
               <div className="flex items-center justify-between gap-1 border-t border-line bg-surface px-1 py-1">
@@ -340,7 +340,7 @@ export function GalleryField({ instituteId, images, name, max = 12, id }: { inst
           ))}
         </ol>
       ) : null}
-      <div className="flex items-center justify-between text-[12px] text-ink-3">
+      <div className="flex items-center justify-between text-caption text-ink-3">
         <span className="num">
           {order.length} of {max} photos{order.length > 1 ? " · drag or use the arrows to reorder" : ""}
         </span>
@@ -353,7 +353,7 @@ export function GalleryField({ instituteId, images, name, max = 12, id }: { inst
       {order.length < max ? (
         <ImageDropzone id={id} slot="institute-gallery" ownerId={instituteId} label={order.length ? "Add another photo" : "Add the first photo"} compact={order.length > 0} />
       ) : (
-        <p className="text-[12.5px] text-ink-2">The gallery is full. Remove a photo to add another.</p>
+        <p className="text-meta text-ink-2">The gallery is full. Remove a photo to add another.</p>
       )}
       <ConfirmDialog
         open={!!removing}

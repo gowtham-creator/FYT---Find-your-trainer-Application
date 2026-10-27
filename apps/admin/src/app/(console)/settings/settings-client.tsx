@@ -27,7 +27,7 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
   return (
     <div className="flex max-w-[860px] flex-col gap-6 pb-20">
       {maintenance ? (
-        <div role="status" className="flex items-start gap-3 rounded-[var(--radius-panel)] bg-warn-soft px-4 py-3 text-[13px] text-ink">
+        <div role="status" className="flex items-start gap-3 rounded-[var(--radius-panel)] bg-warn-soft px-4 py-3 text-meta text-ink">
           <AlertTriangle className="mt-0.5 size-4 shrink-0 text-warn" strokeWidth={1.75} aria-hidden />
           <p>
             Maintenance mode is on: the app is not taking new bookings.{" "}
@@ -68,9 +68,9 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
                     max={1440}
                     value={m}
                     onChange={(e) => set("reminderMinutes", s.reminderMinutes.map((x, j) => (j === i ? Number(e.target.value) : x)))}
-                    className="num w-16 bg-transparent text-sm outline-none"
+                    className="num w-16 bg-transparent text-body outline-none"
                   />
-                  <span className="text-[12.5px] text-ink-3">min</span>
+                  <span className="text-meta text-ink-3">min</span>
                   <button
                     type="button"
                     aria-label="Remove reminder"
@@ -110,8 +110,8 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
             >
               <input type="radio" name="meet" className="mt-1 accent-[var(--ink)]" checked={s.meetProvider === value} onChange={() => set("meetProvider", value)} />
               <span>
-                <span className="block text-[13.5px] font-medium text-ink">{label}</span>
-                <span className="block text-[12.5px] text-ink-2">{body}</span>
+                <span className="block text-body font-medium text-ink">{label}</span>
+                <span className="block text-meta text-ink-2">{body}</span>
               </span>
             </label>
           ))}
@@ -125,7 +125,7 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
         )}
         aria-hidden={!dirty}
       >
-        <span className="whitespace-nowrap text-[13px] text-ink-2">Unsaved changes</span>
+        <span className="whitespace-nowrap text-meta text-ink-2">Unsaved changes</span>
         <Button variant="ghost" size="sm" onClick={() => setS(initial)}>Discard</Button>
         <Button variant="primary" size="sm" loading={pending === "save"} onClick={() => run("save", () => saveSettings(s))}>Save settings</Button>
       </div>

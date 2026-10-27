@@ -68,7 +68,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
                 href={`/analytics?range=${r}`}
                 aria-current={r === days ? "page" : undefined}
                 className={cn(
-                  "num h-7 rounded-[5px] px-3 text-[13px] leading-7 transition-colors",
+                  "num h-7 rounded-[5px] px-3 text-meta leading-7 transition-colors",
                   r === days ? "bg-surface font-medium text-ink shadow-[0_0_0_1px_var(--line)]" : "text-ink-2 hover:text-ink",
                 )}
               >

@@ -28,7 +28,7 @@ export function ViewToggle({ table, onChange }: { table: boolean; onChange: (t: 
   return (
     <button
       onClick={() => onChange(!table)}
-      className="inline-flex h-7 items-center gap-1.5 rounded-[5px] px-2 text-[12px] text-ink-2 hover:bg-sunken hover:text-ink"
+      className="inline-flex h-7 items-center gap-1.5 rounded-[5px] px-2 text-caption text-ink-2 hover:bg-sunken hover:text-ink"
       aria-pressed={table}
     >
       {table ? <BarChart3 className="size-3.5" strokeWidth={1.75} /> : <Table2 className="size-3.5" strokeWidth={1.75} />}
@@ -39,7 +39,7 @@ export function ViewToggle({ table, onChange }: { table: boolean; onChange: (t: 
 
 export function Legend({ series }: { series: Series[] }) {
   return (
-    <ul className="flex flex-wrap items-center gap-4 text-[12px] text-ink-2">
+    <ul className="flex flex-wrap items-center gap-4 text-caption text-ink-2">
       {series.map((s) => (
         <li key={s.key} className="inline-flex items-center gap-1.5">
           <span className="size-2.5 rounded-[2px]" style={{ background: s.color }} aria-hidden />
@@ -74,7 +74,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
   if (table)
     return (
       <div className="max-h-[260px] overflow-y-auto">
-        <table className="w-full text-[12.5px]">
+        <table className="w-full text-meta">
           <caption className="sr-only">{label}</caption>
           <thead className="sticky top-0 bg-surface text-left text-ink-2">
             <tr>
@@ -101,7 +101,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
       <div className="relative ml-8" style={{ height }}>
         {ticks.map((t) => (
           <div key={t} className="absolute inset-x-0 border-t border-line/80" style={{ bottom: `${(t / max) * 100}%` }}>
-            <span className="num absolute -left-8 -top-2 w-6 text-right text-[10.5px] text-ink-3">{fmtNumber(t)}</span>
+            <span className="num absolute -left-8 -top-2 w-6 text-right text-caption text-ink-3">{fmtNumber(t)}</span>
           </div>
         ))}
         <div className="absolute inset-0 flex items-end" onMouseLeave={() => setHover(null)}>
@@ -136,7 +136,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
         </div>
         {hover !== null ? (
           <div
-            className="pointer-events-none absolute z-10 w-44 rounded-[8px] border border-line bg-raised px-3 py-2 text-[12px] shadow-[var(--shadow-overlay)]"
+            className="pointer-events-none absolute z-10 w-44 rounded-[8px] border border-line bg-raised px-3 py-2 text-caption shadow-[var(--shadow-overlay)]"
             style={{
               left: `clamp(0px, calc(${(hover + 0.5) * colW}% - 88px), calc(100% - 176px))`,
               bottom: `${Math.min(92, (totals[hover] / max) * 100 + 6)}%`,
@@ -158,7 +158,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
           </div>
         ) : null}
       </div>
-      <div className="ml-8 mt-2 flex justify-between text-[10.5px] text-ink-3">
+      <div className="ml-8 mt-2 flex justify-between text-caption text-ink-3">
         <span className="num">{fmtDate(data[0].day)}</span>
         <span className="num">{fmtDate(data[Math.floor(data.length / 2)].day)}</span>
         <span className="num">{fmtDate(data[data.length - 1].day)}</span>
@@ -184,14 +184,14 @@ export function BarList({
     <ul className="flex flex-col gap-2.5">
       {items.map((i, idx) => (
         <li key={i.label} className="group">
-          <div className="mb-1 flex items-baseline justify-between gap-3 text-[13px]">
+          <div className="mb-1 flex items-baseline justify-between gap-3 text-meta">
             <span className="min-w-0 truncate text-ink" title={i.sub ? `${i.label} · ${i.sub}` : i.label}>
               {i.label}
-              {i.sub ? <span className="ml-1.5 text-[12px] text-ink-3">{i.sub}</span> : null}
+              {i.sub ? <span className="ml-1.5 text-caption text-ink-3">{i.sub}</span> : null}
             </span>
             <span className="num shrink-0 text-ink">
               {format(i.value)}
-              {secondary ? <span className="ml-2 text-[12px] text-ink-3">{secondary(i, idx)}</span> : null}
+              {secondary ? <span className="ml-2 text-caption text-ink-3">{secondary(i, idx)}</span> : null}
             </span>
           </div>
           <div className="h-2 w-full rounded-[2px] bg-sunken" title={`${i.label}: ${format(i.value)}`}>

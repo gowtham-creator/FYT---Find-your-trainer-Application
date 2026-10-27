@@ -56,7 +56,7 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
       {deniedDef ? (
         <div role="status" className="mb-6 flex items-start gap-3 rounded-[var(--radius-panel)] border border-line bg-surface px-4 py-3">
           <LockIcon className="mt-0.5 size-[18px] shrink-0 text-[var(--accent)]" />
-          <p className="text-[13px] text-ink-2">
+          <p className="text-meta text-ink-2">
             <span className="font-medium text-ink">{deniedDef.label} is locked for your account.</span>{" "}
             {deniedDef.minRole === "admin"
               ? "A super admin can grant it from Team & roles."
@@ -121,19 +121,19 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
                     return (
                       <li
                         key={b.id}
-                        className={`grid grid-cols-[64px_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5 px-5 py-3 sm:grid-cols-[72px_minmax(0,1fr)_auto] ${past ? "opacity-60" : ""}`}
+                        className={`grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5 px-5 py-3 sm:grid-cols-[84px_minmax(0,1fr)_auto] ${past ? "opacity-60" : ""}`}
                       >
-                        <div className="num text-[13px] text-ink">
+                        <div className="num whitespace-nowrap text-meta text-ink">
                           {fmtTime(b.start)}
                           {live ? (
-                            <span className="mt-1 flex items-center gap-1 font-sans text-[11px] font-medium text-ok">
+                            <span className="mt-1 flex items-center gap-1 font-sans text-caption font-medium text-ok">
                               <span className="size-1.5 animate-pulse rounded-full bg-ok" /> Live
                             </span>
                           ) : null}
                         </div>
                         <div className="min-w-0">
-                          <p className="truncate text-[13.5px] font-medium text-ink" title={b.targetName}>{b.targetName}</p>
-                          <p className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[12.5px] text-ink-2">
+                          <p className="truncate text-body font-medium text-ink" title={b.targetName}>{b.targetName}</p>
+                          <p className="mt-0.5 flex min-w-0 items-center gap-1.5 text-meta text-ink-2">
                             {b.mode === "online" ? <MeetIcon className="size-3.5 shrink-0" title="Google Meet" /> : <MapPin className="size-3.5 shrink-0" strokeWidth={1.75} />}
                             <span className="truncate">
                               {b.learnerName} · {b.learnerSegment === "corporate" ? "Corporate" : "Student"}

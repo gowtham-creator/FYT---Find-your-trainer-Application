@@ -90,15 +90,15 @@ export function AttentionQueue({ rows, now }: { rows: QueueRow[]; now: number })
                     )}
                   </span>
                   <div className="min-w-0">
-                    <p className="line-clamp-2 text-[13.5px] text-ink" title={`${r.learnerName} with ${r.targetName}`}>
+                    <p className="line-clamp-2 text-body text-ink" title={`${r.learnerName} with ${r.targetName}`}>
                       <span className="font-medium">{r.learnerName}</span>
                       <span className="text-ink-3"> with </span>
                       <span className="font-medium">{r.targetName}</span>
                     </p>
-                    <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] text-ink-2">
+                    <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-meta text-ink-2">
                       <span className="num">{r.ref}</span>
                       <span aria-hidden>·</span>
-                      <span>
+                      <span className="whitespace-nowrap">
                         {fmtDate(r.start, { weekday: "short", day: "numeric", month: "short" })}, {fmtTime(r.start)}
                       </span>
                       <span className="text-ink-3">({relTime(r.start, now)})</span>
@@ -109,7 +109,7 @@ export function AttentionQueue({ rows, now }: { rows: QueueRow[]; now: number })
                       </span>
                     </p>
                     {r.status === "meet_failed" ? (
-                      <p className="mt-1 text-[12.5px] text-bad">Google Meet link wasn&apos;t created. The learner has no link yet.</p>
+                      <p className="mt-1 text-meta text-bad">Google Meet link wasn&apos;t created. The learner has no link yet.</p>
                     ) : null}
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export function AttentionQueue({ rows, now }: { rows: QueueRow[]; now: number })
         </ul>
       )}
       {rows.length > 8 ? (
-        <div className="border-t border-line px-5 py-2.5 text-[13px] text-ink-2">
+        <div className="border-t border-line px-5 py-2.5 text-meta text-ink-2">
           {rows.length - 8} more in the{" "}
           <Link href="/bookings?view=attention" className="font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
             bookings queue
@@ -157,13 +157,13 @@ export function AttentionQueue({ rows, now }: { rows: QueueRow[]; now: number })
             <p>
               {cancelFor?.learnerName} will get a push notification with your reason. The slot opens up for others.
             </p>
-            <label className="flex flex-col gap-1.5 text-[13px] font-medium text-ink">
+            <label className="flex flex-col gap-1.5 text-meta font-medium text-ink">
               Reason shown to the learner
               <input
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 placeholder="Trainer unavailable at this time"
-                className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-sm font-normal focus-visible:border-accent focus-visible:outline-none"
+                className="h-9 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-body font-normal focus-visible:border-accent focus-visible:outline-none"
               />
             </label>
           </div>

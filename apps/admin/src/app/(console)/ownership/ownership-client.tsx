@@ -38,8 +38,8 @@ export function OwnershipClient({
             <Crown className="size-4" strokeWidth={1.75} aria-hidden />
           </span>
           <div>
-            <p className="text-[14px] font-medium text-ink">{ownerName}</p>
-            <p className="text-[12.5px] text-ink-2">There is exactly one owner. Nobody else can change this account&apos;s role, permissions or status.</p>
+            <p className="text-body font-medium text-ink">{ownerName}</p>
+            <p className="text-meta text-ink-2">There is exactly one owner. Nobody else can change this account&apos;s role, permissions or status.</p>
           </div>
         </div>
       </Panel>
@@ -48,10 +48,10 @@ export function OwnershipClient({
         <PanelHeader icon={solarIcon("transfer-horizontal-bold-duotone")} title="Transfer ownership" description="Hand the platform to another person, for example when the business changes hands." />
         <div className="flex flex-col gap-4 px-5 py-5">
           {candidates.length === 0 ? (
-            <p className="text-[13px] text-ink-2">Ownership can only go to an active super admin. Promote someone to super admin in Team & roles first.</p>
+            <p className="text-meta text-ink-2">Ownership can only go to an active super admin. Promote someone to super admin in Team & roles first.</p>
           ) : (
             <>
-              <ol className="list-decimal space-y-1 pl-5 text-[13px] text-ink-2">
+              <ol className="list-decimal space-y-1 pl-5 text-meta text-ink-2">
                 <li>The person you choose becomes the owner.</li>
                 <li>You become a super admin.</li>
                 <li>You are both signed out so the change applies immediately.</li>
@@ -102,8 +102,8 @@ export function OwnershipClient({
         <div className="divide-y divide-line">
           <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-[13.5px] font-medium text-ink">Sign out every operator</p>
-              <p className="text-[12.5px] text-ink-2">Signs out {activeOperators} other active operator{activeOperators === 1 ? "" : "s"} on every device. Use after a suspected password leak.</p>
+              <p className="text-body font-medium text-ink">Sign out every operator</p>
+              <p className="text-meta text-ink-2">Signs out {activeOperators} other active operator{activeOperators === 1 ? "" : "s"} on every device. Use after a suspected password leak.</p>
             </div>
             <Button variant="secondary" className="text-bad" onClick={() => setDialog("signout")}>
               <LogOut className="size-4" strokeWidth={1.75} /> Sign everyone out
@@ -111,11 +111,11 @@ export function OwnershipClient({
           </div>
           <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="flex items-center gap-2 text-[13.5px] font-medium text-ink">
+              <p className="flex items-center gap-2 text-body font-medium text-ink">
                 Maintenance mode
-                {maintenance ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-[11px] font-medium leading-5 text-warn">On</span> : null}
+                {maintenance ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-5 text-warn">On</span> : null}
               </p>
-              <p className="text-[12.5px] text-ink-2">The app shows a maintenance notice and stops taking new bookings. Existing bookings are kept.</p>
+              <p className="text-meta text-ink-2">The app shows a maintenance notice and stops taking new bookings. Existing bookings are kept.</p>
             </div>
             <Button variant="secondary" className={maintenance ? "" : "text-bad"} onClick={() => setDialog("maintenance")}>
               <Wrench className="size-4" strokeWidth={1.75} /> {maintenance ? "Turn off" : "Turn on"}
