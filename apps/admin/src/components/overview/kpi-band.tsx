@@ -30,9 +30,9 @@ export function KpiBand({ items }: { items: Kpi[] }) {
             i === 2 && "lg:border-l",
           )}
         >
-          <p className="flex min-w-0 items-center gap-1.5 text-meta text-ink-2">
-            {Icon ? <Icon className="size-4 shrink-0 text-ink-3" aria-hidden /> : null}
-            <span className="truncate">{k.label}</span>
+          <p className="flex min-w-0 items-start gap-1.5 text-meta text-ink-2">
+            {Icon ? <Icon className="mt-0.5 size-4 shrink-0 text-ink-3" aria-hidden /> : null}
+            <span className="min-w-0">{k.label}</span>
           </p>
           <p className="num truncate text-[26px] font-medium leading-tight tracking-tight text-ink" title={k.value}>{k.value}</p>
           {/* Wraps as a unit: the delta never splits across lines, the hint

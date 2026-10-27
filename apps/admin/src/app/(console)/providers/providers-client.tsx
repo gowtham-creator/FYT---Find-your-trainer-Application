@@ -58,7 +58,7 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
               {r.featured ? <Star className="size-3.5 shrink-0 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
               {r.name}
             </p>
-            <p className="max-w-[340px] truncate text-caption text-ink-3">{r.headline}</p>
+            <p className="max-w-[260px] truncate text-caption text-ink-3" title={r.headline}>{r.headline}</p>
           </div>
         </div>
       ),

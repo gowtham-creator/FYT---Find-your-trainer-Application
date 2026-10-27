@@ -431,7 +431,7 @@ function TimeGrid({
   todayStart,
   onOpen,
   onDay,
-  rowH = 52,
+  rowH = 56,
   detailed = false,
 }: {
   days: number[];
@@ -494,7 +494,8 @@ function TimeGrid({
         {days.map((d) => {
           const items = inRange.filter((r) => r.start >= d && r.start < d + DAY);
           const nowTop = ((now - d) / HOUR - first) * rowH;
-          const minH = detailed ? 44 : 30;
+          // Room for the time line plus one title line at the 13px caption floor.
+          const minH = detailed ? 48 : 40;
           const lanes = layoutLanes(items, ((minH + 4) / rowH) * HOUR);
           return (
             <div key={d} className="relative border-l border-line" style={{ height }}>
@@ -538,7 +539,7 @@ function TimeGrid({
                   >
                     <span className="flex items-center gap-1">
                       <StatusIcon status={r.status} />
-                      <span className="num truncate text-caption text-ink-2">
+                      <span className="num truncate text-caption leading-4 text-ink-2">
                         {fmtTime(r.start)}
                         {detailed ? ` – ${fmtTime(r.end)}` : ""}
                       </span>

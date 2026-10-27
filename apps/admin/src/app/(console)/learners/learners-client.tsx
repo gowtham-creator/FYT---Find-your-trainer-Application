@@ -63,7 +63,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
       className: "text-right",
       headerClassName: "text-right",
       cell: (r) => (
-        <span className="num">
+        <span className="num whitespace-nowrap">
           {r.bookings}
           {r.bookings ? <span className="text-ink-3"> · {r.attended} attended</span> : null}
         </span>
@@ -74,7 +74,7 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
       header: "Joined",
       sortValue: (r) => r.createdAt,
       hideBelow: "lg",
-      cell: (r) => <span className="text-meta text-ink-2">{relTime(r.createdAt, now)}</span>,
+      cell: (r) => <span className="whitespace-nowrap text-meta text-ink-2">{relTime(r.createdAt, now)}</span>,
     },
     {
       key: "state",

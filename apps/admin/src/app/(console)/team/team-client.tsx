@@ -88,7 +88,7 @@ export function TeamClient({
       header: "Last sign-in",
       hideBelow: "lg",
       sortValue: (r) => r.lastLoginAt ?? 0,
-      cell: (r) => <span className="text-meta text-ink-2">{r.lastLoginAt ? relTime(r.lastLoginAt, now) : "Never"}</span>,
+      cell: (r) => <span className="whitespace-nowrap text-meta text-ink-2">{r.lastLoginAt ? relTime(r.lastLoginAt, now) : "Never"}</span>,
     },
     { key: "by", header: "Invited by", hideBelow: "xl", cell: (r) => <span className="text-meta text-ink-3">{r.invitedByName ?? "Platform setup"}</span> },
   ];

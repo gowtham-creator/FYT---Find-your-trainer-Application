@@ -66,7 +66,7 @@ export function InstitutesClient({ rows, areas, categories, stacks, openNew, now
         ),
     },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },
-    { key: "updated", header: "Updated", hideBelow: "xl", sortValue: (r) => r.updatedAt, cell: (r) => <span className="text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
+    { key: "updated", header: "Updated", hideBelow: "xl", sortValue: (r) => r.updatedAt, cell: (r) => <span className="whitespace-nowrap text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
   ];
 
   return (
