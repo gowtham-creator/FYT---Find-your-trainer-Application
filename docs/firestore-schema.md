@@ -6,11 +6,11 @@ Inputs: signed agreement §2 and §5, `docs/DESIGN-v2.md`, `docs/INTEGRATION-PLA
 Precedence: contract > INTEGRATION-PLAN > this doc > DESIGN-v2. Where this doc settles one of the "divergences" in INTEGRATION-PLAN §4, it says so.
 
 The schema serves three clients through one contract:
-- **the Flutter app**: client SDK; reads only, every write goes through a callable;
+- **the mobile app** (React Native with Expo, React Native Firebase): client SDK; reads only, every write goes through a callable;
 - **Cloud Functions**: Admin SDK; callables, triggers, workers;
 - **the Next.js admin**: Admin SDK in server actions, through `packages/domain`.
 
-`packages/schema` (zod v4) is the single source of truth for the shapes below. The TypeScript blocks in this doc are the specification it must implement. The Dart models in `apps/mobile/lib/shared/models/` mirror them and are held to the same JSON fixtures (`packages/schema/fixtures/*.json`).
+`packages/domain` (`@fyt/domain`, zod v4) is the single source of truth for the shapes below. The TypeScript blocks in this doc are the specification it must implement. The app, the admin and Functions import the same schemas and types, so there is no second model layer to keep in sync.
 
 ---
 
@@ -668,7 +668,7 @@ The admin still validates magic bytes, size (≤5 MB) and dimensions before stor
   - a `bookings` query without `userId == uid` is denied;
   - a notification update that also changes `title` is denied;
   - `readAt` set to a client timestamp is denied.
-- **CI:** the `backend` workflow (APP-ARCHITECTURE §10.4) runs this suite on every PR touching `firestore.rules`, `storage.rules`, `tests/rules/**` or `packages/schema/**`.
+- **CI:** the `backend` workflow (APP-ARCHITECTURE §10.4) runs this suite on every PR touching `firestore.rules`, `storage.rules`, `tests/rules/**` or `packages/domain/**`.
 
 ---
 
