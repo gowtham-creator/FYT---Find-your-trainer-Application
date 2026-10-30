@@ -346,6 +346,33 @@ export function PageHeader({
   );
 }
 
+/* The side cards of the empty-state fan: two blank "rows" of the thing that is
+   missing, so a single icon still reads as a stack. */
+function EmptyFanCard({ side }: { side: "left" | "right" }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "relative top-1.5 flex size-12 flex-col justify-center gap-1.5 rounded-[12px] bg-surface px-3 shadow-[var(--shadow-card)] ring-1 ring-line",
+        "transition duration-500 group-hover/empty:duration-200 motion-reduce:transition-none",
+        side === "left"
+          ? "left-2.5 -rotate-6 motion-safe:group-hover/empty:-translate-x-4 motion-safe:group-hover/empty:-rotate-12"
+          : "right-2.5 rotate-6 motion-safe:group-hover/empty:translate-x-4 motion-safe:group-hover/empty:rotate-12",
+      )}
+    >
+      <span className="h-1 rounded-full bg-line-strong" />
+      <span className="h-1 w-2/3 rounded-full bg-line" />
+      <span className="h-1 w-5/6 rounded-full bg-line" />
+    </span>
+  );
+}
+
+/**
+ * Three tilted cards that fan out on hover, after "Empty State" by
+ * serafimcloud on 21st.dev (https://21st.dev/@serafimcloud/components/empty-state).
+ * Adapted: console tokens, the same one-icon API with blank side cards, no
+ * dashed frame because these sit inside panels, and no motion when reduced.
+ */
 export function EmptyState({
   icon: Icon,
   title,
@@ -360,9 +387,13 @@ export function EmptyState({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col items-start gap-3.5 px-6 py-12 sm:items-center sm:text-center", className)}>
-      <div className="grid size-12 place-items-center rounded-[12px] bg-accent-soft text-on-accent-soft ring-1 ring-inset ring-accent/30">
-        <Icon className="size-6" strokeWidth={1.5} aria-hidden />
+    <div className={cn("group/empty flex flex-col items-center gap-4 px-6 py-12 text-center", className)}>
+      <div className="isolate flex justify-center">
+        <EmptyFanCard side="left" />
+        <div className="relative z-10 grid size-12 place-items-center rounded-[12px] bg-accent-soft text-on-accent-soft shadow-[var(--shadow-card)] ring-1 ring-accent/30 transition duration-500 group-hover/empty:duration-200 motion-safe:group-hover/empty:-translate-y-0.5 motion-reduce:transition-none">
+          <Icon className="size-6" strokeWidth={1.5} aria-hidden />
+        </div>
+        <EmptyFanCard side="right" />
       </div>
       <div>
         <p className="font-display text-[18px] font-semibold leading-snug text-ink">{title}</p>
