@@ -3,72 +3,98 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
-  --paper: oklch(0.985 0.006 85);
-  --surface: oklch(0.995 0.004 85);
-  --sunken: oklch(0.962 0.008 85);
-  --raised: oklch(1 0.003 85);
-  --line: oklch(0.905 0.01 85);
-  --line-strong: oklch(0.84 0.012 85);
-  --ink: oklch(0.22 0.015 70);
-  --ink-2: oklch(0.45 0.015 70);
-  --ink-3: oklch(0.6 0.012 70);
-  --accent: oklch(0.78 0.155 70);
-  --accent-soft: oklch(0.95 0.045 80);
-  --accent-ink: oklch(0.32 0.07 60);
-  --ok: oklch(0.56 0.12 155);
-  --ok-soft: oklch(0.95 0.035 155);
-  --warn: oklch(0.6 0.16 45);
-  --warn-soft: oklch(0.95 0.04 55);
-  --bad: oklch(0.55 0.19 25);
-  --bad-soft: oklch(0.95 0.035 25);
-  --info: oklch(0.52 0.1 240);
-  --info-soft: oklch(0.955 0.02 240);
-  --shadow-ink: 0.22 0.015 70;
-  /* Text sitting on a *-soft fill. The base hue tokens are tuned to read on
-     --surface; at 12px on their own soft fill several of them land under
-     4.5:1 in light, so pill labels use these instead. Verified both themes. */
-  --on-ok-soft: oklch(0.5 0.115 155);
-  --on-warn-soft: oklch(0.5 0.145 45);
-  --on-bad-soft: oklch(0.52 0.185 25);
-  --on-info-soft: oklch(0.5 0.1 240);
-  --on-accent-soft: oklch(0.32 0.07 60);
-  /* data viz: validated with dataviz/validate_palette.js (light, surface #fdfcf9) */
-  --viz-1: #2a78d6;
-  --viz-2: #c98500;
+  /* Cool slate ground + azure brand (NXT-style SaaS console). No warm hues:
+     no amber, gold, brown or marigold anywhere in the console. */
+  --paper: #F5F7FB;
+  --surface: #FFFFFF;
+  --sunken: #EEF1F7;
+  --raised: #FFFFFF;
+  --line: #E3E7EF;
+  --line-strong: #CDD3DF;
+  --ink: #0F1B3D;
+  --ink-2: #475472;
+  --ink-3: #636B88;
+  --accent: #1E4FB8;
+  --accent-hover: #1A45A0;
+  --accent-soft: #E8EFFC;
+  /* Text that sits ON --accent (white on azure). */
+  --accent-ink: #FFFFFF;
+  --ok: #059669;
+  --ok-soft: #E3F5EE;
+  /* Red-orange, status only, never decorative. */
+  --warn: #EA580C;
+  --warn-soft: #FDEEE4;
+  --bad: #E11D48;
+  --bad-soft: #FDE8EC;
+  --info: #0284C7;
+  --info-soft: #E3F2FB;
+  --shadow-ink: 0.25 0.06 262;
+  /* Text sitting on a *-soft fill, tuned to clear 4.5:1 on its own tint. */
+  --on-ok-soft: #047857;
+  --on-warn-soft: #B4410C;
+  --on-bad-soft: #BE123C;
+  --on-info-soft: #0369A1;
+  --on-accent-soft: #1A45A0;
+  /* Sidebar (blue gradient, white active pill). */
+  --nav-bg: #1E4FB8;
+  --nav-bg-2: #1A45A0;
+  --nav-ink: #D6E2FB;
+  --nav-ink-strong: #FFFFFF;
+  --nav-ink-muted: #A9BEEB;
+  --nav-hover: rgb(255 255 255 / 0.10);
+  --nav-line: rgb(255 255 255 / 0.14);
+  --nav-active-bg: #FFFFFF;
+  --nav-active-ink: #1E4FB8;
+  --brand-gradient: linear-gradient(90deg, #1E4FB8, #38BDF8);
+  /* data viz: validated with dataviz/validate_palette.js (light, surface #FFFFFF) */
+  --viz-1: #2F6BDE;
+  --viz-2: #0E9F8E;
+  --viz-3: #0284C7;
   color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --paper: oklch(0.185 0.008 70);
-  --surface: oklch(0.215 0.009 70);
-  --sunken: oklch(0.16 0.007 70);
-  --raised: oklch(0.25 0.01 70);
-  --line: oklch(0.3 0.01 70);
-  --line-strong: oklch(0.38 0.012 70);
-  --ink: oklch(0.94 0.01 85);
-  --ink-2: oklch(0.74 0.012 85);
-  --ink-3: oklch(0.58 0.012 85);
-  --accent: oklch(0.8 0.15 72);
-  --accent-soft: oklch(0.32 0.06 70);
-  --accent-ink: oklch(0.22 0.04 60);
-  --ok: oklch(0.74 0.13 155);
-  --ok-soft: oklch(0.3 0.05 155);
-  --warn: oklch(0.76 0.14 50);
-  --warn-soft: oklch(0.32 0.06 50);
-  --bad: oklch(0.7 0.16 25);
-  --bad-soft: oklch(0.31 0.07 25);
-  --info: oklch(0.74 0.09 240);
-  --info-soft: oklch(0.3 0.04 240);
-  --shadow-ink: 0.05 0.01 70;
-  --on-ok-soft: oklch(0.74 0.13 155);
-  --on-warn-soft: oklch(0.76 0.14 50);
-  --on-bad-soft: oklch(0.7 0.16 25);
-  --on-info-soft: oklch(0.74 0.09 240);
-  /* --accent-ink is near-black: unreadable on the dark --accent-soft fill. */
-  --on-accent-soft: oklch(0.88 0.11 80);
-  /* validated for dark surface #26231f */
-  --viz-1: #3987e5;
-  --viz-2: #c98500;
+  --paper: #0B0F19;
+  --surface: #141926;
+  --sunken: #0F1420;
+  --raised: #1C2233;
+  --line: #232A3B;
+  --line-strong: #2D364B;
+  --ink: #F1F3F8;
+  --ink-2: #C6CBDA;
+  --ink-3: #8B92A6;
+  --accent: #6FA0FF;
+  --accent-hover: #8AB3FF;
+  --accent-soft: #1A2747;
+  --accent-ink: #0B1530;
+  --ok: #34D399;
+  --ok-soft: #0F2E26;
+  --warn: #FB923C;
+  --warn-soft: #33200F;
+  --bad: #FB7185;
+  --bad-soft: #351822;
+  --info: #38BDF8;
+  --info-soft: #0E2A3A;
+  --shadow-ink: 0.05 0.02 265;
+  --on-ok-soft: #34D399;
+  --on-warn-soft: #FB923C;
+  --on-bad-soft: #FB7185;
+  --on-info-soft: #38BDF8;
+  --on-accent-soft: #A9C4FF;
+  --nav-bg: #0F1A36;
+  --nav-bg-2: #0B1328;
+  --nav-ink: #B8C6E6;
+  --nav-ink-strong: #FFFFFF;
+  --nav-ink-muted: #7F8DB0;
+  --nav-hover: rgb(255 255 255 / 0.06);
+  --nav-line: rgb(255 255 255 / 0.08);
+  --nav-active-bg: #6FA0FF;
+  --nav-active-ink: #0B1530;
+  --brand-gradient: linear-gradient(90deg, #6FA0FF, #38BDF8);
+  /* validated for dark surface #141926 */
+  --viz-1: #6FA0FF;
+  --viz-2: #2DD4BF;
+  --viz-3: #38BDF8;
   color-scheme: dark;
 }
 
@@ -98,10 +124,23 @@
   --color-on-bad-soft: var(--on-bad-soft);
   --color-on-info-soft: var(--on-info-soft);
   --color-on-accent-soft: var(--on-accent-soft);
+  --color-accent-hover: var(--accent-hover);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-bg-2: var(--nav-bg-2);
+  --color-nav-ink: var(--nav-ink);
+  --color-nav-ink-strong: var(--nav-ink-strong);
+  --color-nav-ink-muted: var(--nav-ink-muted);
+  --color-nav-hover: var(--nav-hover);
+  --color-nav-line: var(--nav-line);
+  --color-nav-active-bg: var(--nav-active-bg);
+  --color-nav-active-ink: var(--nav-active-ink);
+  --color-viz-1: var(--viz-1);
+  --color-viz-2: var(--viz-2);
+  --color-viz-3: var(--viz-3);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-sans: var(--font-open-sauce), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-open-sauce), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale. Nothing renders below 12px, and 12px (text-micro) is only for
      uppercase tracked micro-labels. Use these instead of arbitrary text-[Npx]. */
@@ -121,9 +160,12 @@
   --text-sm: 14px;
   --text-sm--line-height: 20px;
 
-  --radius-control: 6px;
-  --radius-panel: 10px;
-  --radius-overlay: 14px;
+  --radius-control: 8px;
+  --radius-panel: 14px;
+  --radius-overlay: 16px;
+
+  /* Soft long drop for Panels and KPI cards (NXT card). */
+  --shadow-card: 0 1px 2px oklch(var(--shadow-ink) / 0.04), 0 18px 40px -32px oklch(var(--shadow-ink) / 0.45);
 
   --shadow-overlay: 0 1px 2px oklch(var(--shadow-ink) / 0.06), 0 12px 32px -8px oklch(var(--shadow-ink) / 0.22);
   /* A bar that floats over the rows it acts on; lighter than a full overlay. */
@@ -140,6 +182,10 @@
   --animate-drawer-out: drawer-out 170ms var(--ease-out-quart);
   --animate-pop-in: pop-in 180ms var(--ease-out-quart);
   --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-page: page-in 300ms var(--ease-out-quart);
+  --animate-bg-shift: bg-shift 16s ease-in-out infinite;
+  --animate-glow-a: glow-float 14s ease-in-out infinite;
+  --animate-glow-b: glow-float 11s ease-in-out -4s infinite reverse;
 }
 
 @keyframes fade-in {
@@ -171,6 +217,20 @@
   from { opacity: 0; transform: translateY(10px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+/* Page enter (NXT dm-fade): 6px up over 300ms. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Login aside: slow gradient crossfade and floating cool glows. */
+@keyframes bg-shift {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+@keyframes glow-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(24px, -18px, 0) scale(1.08); }
+}
 @keyframes shimmer {
   from { background-position: -200% 0; }
   to { background-position: 200% 0; }
@@ -186,7 +246,7 @@
   /* `@theme inline` tokens are substituted into utilities, not emitted as
      custom properties, so base rules name the next/font variables directly. */
   body {
-    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-open-sauce), ui-sans-serif, system-ui, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.5;
@@ -203,9 +263,12 @@
   }
   button, [role="button"], a, summary, label[for], select { cursor: pointer; }
   button:disabled { cursor: not-allowed; }
-  /* Body text is never bold: emphasis tops out at Inter 500. */
+  /* Body emphasis tops out at 500; 600 is reserved for titles, KPI values
+     and the active nav item. */
   b, strong, th { font-weight: 500; }
-  .num { font-family: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace; font-variant-numeric: tabular-nums; }
+  .num { font-family: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace; font-variant-numeric: tabular-nums; }
+  /* Sidebar scrollbar on the blue ground. */
+  .nav-scroll { scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / 0.25) transparent; }
 }
 
 @media (prefers-reduced-motion: reduce) {

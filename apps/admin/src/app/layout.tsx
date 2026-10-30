@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-// Inter for all UI and body text (400, never above 500). Playfair Display for
-// large display headings only; it is a high-contrast serif and reads fussy below
-// ~18px, so small headings stay in Inter 500. Both are variable fonts.
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
-const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Open Sauce One (SIL OFL 1.1, self-hosted) for display and body: 400 body,
+// 500 labels and buttons, 600 for titles, KPI values and the active nav item.
+// JetBrains Mono (SIL OFL 1.1) for numbers, IDs and kickers (`.num`).
+const openSauceOne = localFont({
+  variable: "--font-open-sauce",
+  display: "swap",
+  src: [
+    { path: "./fonts/OpenSauceOne-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/OpenSauceOne-Medium.ttf", weight: "500", style: "normal" },
+    { path: "./fonts/OpenSauceOne-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "./fonts/OpenSauceOne-Bold.ttf", weight: "700", style: "normal" },
+  ],
+});
+const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], weight: ["400", "500"], display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: "FYT Console", template: "%s · FYT Console" },
@@ -25,13 +34,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} min-h-[100dvh] antialiased`}>
+      <body className={`${openSauceOne.variable} ${jetbrainsMono.variable} min-h-[100dvh] antialiased`}>
         {children}
         <Toaster
           position="bottom-right"
           toastOptions={{
             classNames: {
-              toast: "!bg-surface !text-ink !border !border-line !rounded-[10px] !shadow-[var(--shadow-overlay)] !font-sans",
+              toast: "!bg-surface !text-ink !border !border-line !rounded-[12px] !shadow-[var(--shadow-overlay)] !font-sans",
               description: "!text-ink-2",
             },
           }}
