@@ -37,7 +37,7 @@ const BODY_MAX_H = "max-h-[min(70svh,860px)]";
 /** One applied search term or filter value, removable on its own. */
 function FilterChip({ label, value, onClear }: { label: string; value: string; onClear: () => void }) {
   return (
-    <span className="inline-flex h-7 items-center gap-1 rounded-[5px] bg-sunken pl-2 pr-1 text-meta ring-1 ring-inset ring-line-strong/60">
+    <span className="inline-flex h-7 items-center gap-1 rounded-full bg-accent-soft pl-2.5 pr-1 text-meta ring-1 ring-inset ring-line-strong/60">
       <span className="text-ink-3">{label}</span>
       <span className="max-w-[18ch] truncate font-medium text-ink">{value}</span>
       <button
@@ -191,7 +191,7 @@ export function DataTable<T>({
   const hasRows = filtered.length > 0;
 
   return (
-    <div className="relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface">
+    <div className="relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface shadow-[var(--shadow-card)]">
       {/* One wrapping row: search, filters and count each keep their natural
           width and move to the next line as a group rather than being squeezed
           into a column beside each other. */}
@@ -234,7 +234,7 @@ export function DataTable<T>({
                   value={f[flt.key] ?? "all"}
                   onChange={(e) => setF((prev) => ({ ...prev, [flt.key]: e.target.value }))}
                   className={cn(
-                    "w-full min-w-0 truncate sm:w-auto sm:min-w-[140px] sm:max-w-[260px]",
+                    "w-full min-w-0 truncate sm:w-auto sm:min-w-[132px] sm:max-w-[168px]",
                     on && "border-line-strong bg-sunken font-medium text-ink",
                   )}
                 >
@@ -312,7 +312,7 @@ export function DataTable<T>({
                   <th
                     scope="col"
                     className={cn(
-                      "w-10 border-b border-line bg-sunken py-2.5 pl-4 transition-shadow duration-150",
+                      "w-10 border-b border-line bg-surface py-3 pl-4 transition-shadow duration-150",
                       scrolled && "shadow-[var(--shadow-pinned)]",
                     )}
                   >
@@ -332,7 +332,7 @@ export function DataTable<T>({
                       scope="col"
                       aria-sort={c.sortValue ? (active ? (sort!.dir === "asc" ? "ascending" : "descending") : "none") : undefined}
                       className={cn(
-                        "whitespace-nowrap border-b border-line bg-sunken px-4 py-2.5 text-caption font-medium text-ink-2",
+                        "whitespace-nowrap border-b border-line bg-surface px-4 py-3 text-micro font-medium uppercase tracking-[0.05em] text-ink-3",
                         "transition-shadow duration-150",
                         scrolled && "shadow-[var(--shadow-pinned)]",
                         c.hideBelow && hideClass[c.hideBelow],
@@ -344,9 +344,9 @@ export function DataTable<T>({
                           type="button"
                           onClick={() => toggleSort(c.key)}
                           className={cn(
-                            "group/sort -mx-1.5 inline-flex max-w-full items-center gap-1 rounded-[4px] px-1.5 py-0.5",
+                            "group/sort -mx-1.5 inline-flex max-w-full items-center gap-1 rounded-[4px] px-1.5 py-0.5 uppercase",
                             "transition-[color,transform] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.97]",
-                            active ? "font-medium text-ink" : "hover:text-ink",
+                            active ? "font-semibold text-ink" : "hover:text-ink",
                           )}
                         >
                           {c.header}
@@ -402,14 +402,14 @@ export function DataTable<T>({
                     className={cn(
                       "group/row border-b border-line last:border-b-0",
                       onRowClick && "cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2",
-                      isSel && "bg-accent-soft/45",
+                      isSel && "bg-accent-soft/60",
                     )}
                   >
                     {selectable ? (
                       <td
                         className={cn(
-                          "py-2.5 pl-4 transition-colors duration-100 ease-[var(--ease-out-quart)]",
-                          !isSel && "group-hover/row:bg-sunken/70",
+                          "py-[11px] pl-4 transition-colors duration-100 ease-[var(--ease-out-quart)]",
+                          !isSel && "group-hover/row:bg-accent/[0.04]",
                         )}
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -425,8 +425,8 @@ export function DataTable<T>({
                       <td
                         key={c.key}
                         className={cn(
-                          "px-4 py-2.5 align-middle text-ink transition-colors duration-100 ease-[var(--ease-out-quart)]",
-                          !isSel && "group-hover/row:bg-sunken/70",
+                          "px-4 py-[11px] align-middle text-ink transition-colors duration-100 ease-[var(--ease-out-quart)]",
+                          !isSel && "group-hover/row:bg-accent/[0.04]",
                           c.hideBelow && hideClass[c.hideBelow],
                           c.className,
                         )}
@@ -526,7 +526,7 @@ export function DataTable<T>({
 
 export function TableSkeleton({ rows = 8, cols = 5 }: { rows?: number; cols?: number }) {
   return (
-    <div className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface" aria-busy>
+    <div className="overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface shadow-[var(--shadow-card)]" aria-busy>
       <div className="flex gap-2 border-b border-line px-4 py-3">
         <div className="h-9 w-full max-w-[300px] rounded-[var(--radius-control)] bg-sunken" />
         <div className="h-9 w-[140px] rounded-[var(--radius-control)] bg-sunken" />

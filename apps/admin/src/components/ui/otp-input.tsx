@@ -5,7 +5,7 @@
  *
  * Interaction adapted from "OTPVerification" on 21st.dev (per-digit inputs
  * that auto-advance, Backspace steps back, paste fills the code). Restyled
- * for the FYT console: paper/ink boxes, marigold focus ring, red border only
+ * for the FYT console: slate boxes, azure focus ring, red border only
  * alongside a written error; no glass or gradients. Added: full-code paste
  * from any box, SMS/email autofill (`autocomplete="one-time-code"` on the
  * first box, which some browsers fill with all six digits at once), numeric
@@ -202,7 +202,7 @@ export const OtpInput = React.forwardRef<OtpInputHandle, OtpInputProps>(function
             className={cn(
               "num h-[52px] w-full min-w-0 flex-1 rounded-[8px] border bg-surface text-center text-[20px] font-medium text-ink caret-accent",
               "transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out-quart)]",
-              "focus:border-ink focus:outline-none focus:ring-4 focus:ring-accent/25 disabled:opacity-60",
+              "focus:border-accent focus:bg-surface focus:outline-none focus:ring-[3px] focus:ring-accent/15 disabled:opacity-60",
               invalid ? "border-bad" : d ? "border-line-strong" : "border-line",
             )}
           />

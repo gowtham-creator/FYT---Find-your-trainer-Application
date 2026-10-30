@@ -109,7 +109,7 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
             onClick={() => setView(k)}
             className={cn(
               "relative -mb-px inline-flex h-10 items-center gap-2 border-b-2 px-3 text-body transition-colors",
-              view === k ? "border-ink font-medium text-ink" : "border-transparent text-ink-2 hover:text-ink",
+              view === k ? "border-accent font-semibold text-ink" : "border-transparent text-ink-2 hover:text-ink",
             )}
           >
             {k === "calendar" ? <CalendarDays className="size-4" strokeWidth={1.6} /> : k === "all" ? <List className="size-4" strokeWidth={1.6} /> : null}

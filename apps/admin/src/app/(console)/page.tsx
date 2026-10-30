@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requestTime } from "@/lib/clock";
 import { MapPin } from "lucide-react";
 import { requireViewer } from "@/lib/auth";
-import { attentionBookings, overviewMetrics, todaysBookings } from "@/lib/data/queries";
+import { attentionBookings, dailySeries, overviewMetrics, todaysBookings } from "@/lib/data/queries";
 import { db } from "@/lib/data/store";
 import { PERMISSIONS } from "@/lib/rbac";
 import { fmtDate, fmtNumber, fmtPct, fmtTime } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { BookingStatusPill } from "@/components/ui/status";
 import { KpiBand, countDelta, rateDelta, type Kpi } from "@/components/overview/kpi-band";
 import { AttentionQueue } from "@/components/overview/attention-queue";
 import { ActivityFeed } from "@/components/overview/activity-feed";
+import { AreaTrend } from "@/components/charts/charts";
 import { solarIcon } from "@/components/icons/solar";
 import { MeetIcon } from "@/components/icons/brand-icon";
 
@@ -37,6 +38,8 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
     .audit.filter((e) => permissions.has("audit") || !/^(team|owner|auth|settings)\./.test(e.action))
     .slice(0, 7);
   const deniedDef = PERMISSIONS.find((p) => p.key === denied);
+  const trend = canBookings ? dailySeries(14, now).map((d) => ({ day: d.day, value: d.bookings })) : [];
+  const trendTotal = trend.reduce((s, d) => s + d.value, 0);
 
   const kpis: Kpi[] = [
     { label: "New learners", icon: solarIcon("user-plus-rounded-bold-duotone"), value: fmtNumber(m.regs.current), delta: countDelta(m.regs.current, m.regs.previous), hint: "vs previous 7 days" },
@@ -54,7 +57,7 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
   return (
     <>
       {deniedDef ? (
-        <div role="status" className="mb-6 flex items-start gap-3 rounded-[var(--radius-panel)] border border-line bg-surface px-4 py-3">
+        <div role="status" className="mb-6 flex items-start gap-3 rounded-[var(--radius-panel)] border border-line bg-surface px-4 py-3 shadow-[var(--shadow-card)]">
           <LockIcon className="mt-0.5 size-[18px] shrink-0 text-[var(--accent)]" />
           <p className="text-meta text-ink-2">
             <span className="font-medium text-ink">{deniedDef.label} is locked for your account.</span>{" "}
@@ -81,8 +84,8 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
 
       <KpiBand items={kpis} />
 
-      <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
-        <div className="flex min-w-0 flex-col gap-6">
+      <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
+        <div className="flex min-w-0 flex-col gap-4">
           {canBookings ? (
             <AttentionQueue
               now={now}
@@ -153,7 +156,19 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
           ) : null}
         </div>
 
-        <aside className="flex min-w-0 flex-col gap-6">
+        <aside className="flex min-w-0 flex-col gap-4">
+          {trend.length > 1 ? (
+            <Panel>
+              <PanelHeader
+                icon={solarIcon("round-graph-bold-duotone")}
+                title="Bookings, last 14 days"
+                description={`${fmtNumber(trendTotal)} booking${trendTotal === 1 ? "" : "s"} made`}
+              />
+              <div className="px-5 pb-4 pt-1">
+                <AreaTrend data={trend} height={120} label={`Bookings made per day over the last 14 days, ${trendTotal} in total`} />
+              </div>
+            </Panel>
+          ) : null}
           <Panel>
             <PanelHeader icon={solarIcon("history-bold-duotone")} title="Recent activity" description="What operators changed" />
             <div className="py-2">

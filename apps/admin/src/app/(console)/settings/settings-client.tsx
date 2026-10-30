@@ -105,7 +105,7 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
               key={value}
               className={cn(
                 "flex cursor-pointer items-start gap-3 rounded-[var(--radius-panel)] border px-4 py-3 transition-colors",
-                s.meetProvider === value ? "border-ink bg-sunken/60" : "border-line hover:border-line-strong",
+                s.meetProvider === value ? "border-accent bg-accent-soft/50" : "border-line hover:border-line-strong",
               )}
             >
               <input type="radio" name="meet" className="mt-1 accent-[var(--ink)]" checked={s.meetProvider === value} onChange={() => set("meetProvider", value)} />

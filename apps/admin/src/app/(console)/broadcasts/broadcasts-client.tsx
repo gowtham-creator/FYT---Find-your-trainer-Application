@@ -72,18 +72,18 @@ export function BroadcastsClient({
 
           <div aria-label="Notification preview" className="hidden md:block">
             <p className="mb-2 text-micro font-medium uppercase tracking-[0.08em] text-ink-3">Lock screen preview</p>
-            <div className="rounded-[22px] bg-[oklch(0.3_0.02_70)] p-3">
-              <p className="num mb-3 text-center text-[26px] font-light text-[oklch(0.96_0.01_85)]">9:41</p>
-              <div className="rounded-[14px] bg-[oklch(0.96_0.008_85/0.92)] p-2.5 shadow-sm">
+            <div className="rounded-[22px] bg-[#0F1A36] p-3">
+              <p className="num mb-3 text-center text-[26px] font-light text-[#F1F3F8]">9:41</p>
+              <div className="rounded-[14px] bg-[rgb(241_243_248/0.92)] p-2.5 shadow-sm">
                 <div className="mb-1 flex items-center gap-1.5">
-                  <span className="grid size-4 place-items-center rounded-[4px] bg-ink">
-                    <span className="h-[3px] w-2 rounded bg-accent" />
+                  <span className="grid size-4 place-items-center rounded-[4px] bg-[#1E4FB8]">
+                    <span className="h-[3px] w-2 rounded bg-white" />
                   </span>
-                  <span className="truncate text-micro uppercase tracking-wide text-ink-2">{platformName}</span>
-                  <span className="ml-auto text-caption text-ink-3">now</span>
+                  <span className="truncate text-micro uppercase tracking-wide text-[#475472]">{platformName}</span>
+                  <span className="ml-auto text-caption text-[#636B88]">now</span>
                 </div>
-                <p className="truncate text-meta font-medium text-ink">{title || "Title"}</p>
-                <p className="line-clamp-3 text-caption leading-snug text-ink-2">{body || "Your message appears here."}</p>
+                <p className="truncate text-meta font-medium text-[#0F1B3D]">{title || "Title"}</p>
+                <p className="line-clamp-3 text-caption leading-snug text-[#475472]">{body || "Your message appears here."}</p>
               </div>
             </div>
           </div>

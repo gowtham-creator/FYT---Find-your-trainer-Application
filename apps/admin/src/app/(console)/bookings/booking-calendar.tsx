@@ -271,7 +271,7 @@ export function BookingCalendar({
         </Select>
         {activeCount ? (
           <>
-            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-ink px-2 text-caption font-medium text-paper">
+            <span className="inline-flex h-6 items-center gap-1 rounded-full bg-accent px-2.5 text-caption font-medium text-accent-ink">
               <span className="num">{activeCount}</span> {activeCount === 1 ? "filter" : "filters"}
             </span>
             <Button variant="ghost" size="sm" className="h-7 px-2 text-meta" onClick={clearFilters}>
@@ -474,7 +474,7 @@ function TimeGrid({
                   <span
                     className={cn(
                       "num mx-auto mt-0.5 grid size-7 place-items-center rounded-full text-meta",
-                      isToday ? "bg-ink font-medium text-paper" : "text-ink group-hover:bg-surface",
+                      isToday ? "bg-accent font-semibold text-accent-ink" : "text-ink group-hover:bg-surface",
                     )}
                   >
                     {fmtDate(d, { day: "numeric" })}
@@ -693,7 +693,7 @@ function MonthGrid({
                     aria-label={`${dayName}, ${items.length ? `${items.length} ${items.length === 1 ? "booking" : "bookings"}` : "no bookings"}. Open day`}
                     className={cn(
                       "num grid size-7 place-items-center rounded-full text-meta transition-colors duration-150 ease-[var(--ease-out-quart)]",
-                      isToday ? "bg-ink font-medium text-paper" : inMonth ? "text-ink hover:bg-surface" : "text-ink-3 hover:bg-surface",
+                      isToday ? "bg-accent font-semibold text-accent-ink" : inMonth ? "text-ink hover:bg-surface" : "text-ink-3 hover:bg-surface",
                     )}
                   >
                     {fmtDate(d, { day: "numeric" })}

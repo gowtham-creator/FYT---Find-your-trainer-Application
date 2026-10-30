@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BarList, Legend, StackedColumns, ViewToggle, type Series } from "@/components/charts/charts";
+import { AreaTrend, BarList, Legend, StackedColumns, ViewToggle, type Series } from "@/components/charts/charts";
 import { solarIcon } from "@/components/icons/solar";
 import { Panel, PanelHeader } from "@/components/ui/primitives";
 import { fmtNumber, fmtPct } from "@/lib/utils";
@@ -31,7 +31,7 @@ export function AnalyticsCharts({
   const total = segments.student + segments.corporate;
 
   return (
-    <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+    <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
       <Panel>
         <PanelHeader
           icon={solarIcon("chart-square-bold-duotone")}
@@ -72,13 +72,20 @@ export function AnalyticsCharts({
           actions={<ViewToggle table={bkTable} onChange={setBkTable} />}
         />
         <div className="px-5 py-4">
-          <StackedColumns
-            data={series}
-            series={[{ key: "bookings", label: "Bookings", color: "var(--viz-1)" }]}
-            label="Bookings made per day"
-            table={bkTable}
-            height={180}
-          />
+          {bkTable ? (
+            <StackedColumns
+              data={series}
+              series={[{ key: "bookings", label: "Bookings", color: "var(--viz-1)" }]}
+              label="Bookings made per day"
+              table
+            />
+          ) : (
+            <AreaTrend
+              data={series.map((d) => ({ day: d.day, value: d.bookings }))}
+              label="Bookings made per day. Use the Table view for exact values."
+              height={180}
+            />
+          )}
         </div>
       </Panel>
 
@@ -88,18 +95,25 @@ export function AnalyticsCharts({
           <BarList items={mix} />
           {total ? (
             <div>
-              <p className="mb-1.5 text-meta text-ink-2">Who is booking</p>
-              <div className="flex h-2.5 w-full gap-[2px] overflow-hidden rounded-[3px]" role="img" aria-label={`Students ${segments.student}, corporate ${segments.corporate}`}>
-                <div style={{ width: `${(segments.student / total) * 100}%`, background: "var(--viz-1)" }} />
-                <div style={{ width: `${(segments.corporate / total) * 100}%`, background: "var(--viz-2)" }} />
-              </div>
-              <div className="mt-1.5 flex justify-between text-caption text-ink-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="size-2 rounded-[2px] bg-[var(--viz-1)]" /> Students <span className="num text-ink">{fmtPct(segments.student / total, 0)}</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="size-2 rounded-[2px] bg-[var(--viz-2)]" /> Corporate <span className="num text-ink">{fmtPct(segments.corporate / total, 0)}</span>
-                </span>
+              <p className="mb-3 text-meta text-ink-2">Who is booking</p>
+              <div className="flex items-center gap-6">
+                <Donut
+                  parts={[
+                    { label: "Students", value: segments.student, color: "var(--viz-1)" },
+                    { label: "Corporate", value: segments.corporate, color: "var(--viz-2)" },
+                  ]}
+                  total={total}
+                />
+                <ul className="flex flex-col gap-2 text-meta text-ink-2">
+                  <li className="inline-flex items-center gap-2">
+                    <span className="size-[9px] rounded-full bg-[var(--viz-1)]" aria-hidden /> Students
+                    <span className="num ml-2 text-ink">{fmtPct(segments.student / total, 0)}</span>
+                  </li>
+                  <li className="inline-flex items-center gap-2">
+                    <span className="size-[9px] rounded-full bg-[var(--viz-2)]" aria-hidden /> Corporate
+                    <span className="num ml-2 text-ink">{fmtPct(segments.corporate / total, 0)}</span>
+                  </li>
+                </ul>
               </div>
             </div>
           ) : null}
@@ -115,6 +129,42 @@ export function AnalyticsCharts({
           />
         </div>
       </Panel>
+    </div>
+  );
+}
+
+/** NXT donut: 18px stroke on a --line track, total centred, 2px gaps. */
+function Donut({ parts, total }: { parts: Array<{ label: string; value: number; color: string }>; total: number }) {
+  const R = 52;
+  const C = 2 * Math.PI * R;
+  const gap = parts.filter((p) => p.value > 0).length > 1 ? 3 : 0;
+  const segments = parts.map((p, i) => ({
+    ...p,
+    len: (p.value / total) * C,
+    start: (parts.slice(0, i).reduce((sum, x) => sum + x.value, 0) / total) * C,
+  }));
+  return (
+    <div className="relative size-[132px] shrink-0" role="img" aria-label={parts.map((p) => `${p.label} ${p.value}`).join(", ")}>
+      <svg viewBox="0 0 132 132" className="size-full -rotate-90" aria-hidden>
+        <circle cx="66" cy="66" r={R} fill="none" stroke="var(--line)" strokeWidth="18" />
+        {segments.map((p) => (
+          <circle
+            key={p.label}
+            cx="66"
+            cy="66"
+            r={R}
+            fill="none"
+            stroke={p.color}
+            strokeWidth="18"
+            strokeDasharray={`${Math.max(0, p.len - gap)} ${C}`}
+            strokeDashoffset={-p.start}
+          />
+        ))}
+      </svg>
+      <div className="absolute inset-0 grid place-content-center text-center">
+        <span className="text-[20px] font-semibold leading-none tabular-nums text-ink">{fmtNumber(total)}</span>
+        <span className="mt-1 text-caption text-ink-3">bookings</span>
+      </div>
     </div>
   );
 }

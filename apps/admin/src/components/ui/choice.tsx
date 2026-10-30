@@ -49,11 +49,11 @@ export function ChipSelect({
             aria-pressed={on}
             onClick={() => onChange(on ? value.filter((x) => x !== o) : [...value, o])}
             className={cn(
-              "inline-flex h-7 select-none items-center gap-1 rounded-[5px] px-2 text-meta ring-1 ring-inset",
+              "inline-flex h-7 select-none items-center gap-1 rounded-full px-2.5 text-meta ring-1 ring-inset",
               "transition-[background-color,color,box-shadow,transform] active:scale-[0.97]",
               motion,
               focusRing,
-              on ? "bg-ink text-paper ring-ink" : "bg-surface text-ink-2 ring-line hover:text-ink hover:ring-line-strong",
+              on ? "bg-accent text-accent-ink ring-accent" : "bg-surface text-ink-2 ring-line hover:text-ink hover:ring-line-strong",
             )}
           >
             {on ? <Check className="size-3" strokeWidth={2.25} aria-hidden /> : null}
@@ -102,7 +102,7 @@ export function TagInput({
         )}
       >
         {value.map((t) => (
-          <span key={t} className="inline-flex h-6 items-center gap-1 rounded-[4px] bg-sunken pl-2 pr-1 text-meta text-ink ring-1 ring-inset ring-line-strong/50">
+          <span key={t} className="inline-flex h-6 items-center gap-1 rounded-full bg-sunken pl-2.5 pr-1 text-meta text-ink ring-1 ring-inset ring-line-strong/50">
             {t}
             <button
               type="button"
@@ -139,7 +139,7 @@ export function TagInput({
               type="button"
               onClick={() => add(s)}
               className={cn(
-                "inline-flex h-6 items-center gap-1 rounded-[4px] border border-dashed border-line-strong px-1.5 text-caption text-ink-2",
+                "inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line-strong px-1.5 text-caption text-ink-2",
                 "transition-[border-color,color,transform] hover:border-ink hover:text-ink active:scale-[0.97]",
                 motion,
                 focusRing,
@@ -188,15 +188,15 @@ export function Segmented<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="relative inline-grid rounded-[var(--radius-control)] bg-sunken p-0.5 ring-1 ring-inset ring-line"
+      className="relative inline-grid rounded-[10px] bg-sunken p-[3px] ring-1 ring-inset ring-line"
       style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
     >
       {/* Sliding thumb: one element moved by transform, so the change reads as motion, not a repaint. */}
       {index >= 0 ? (
         <span
           aria-hidden
-          className={cn("pointer-events-none absolute inset-y-0.5 left-0.5 rounded-[5px] bg-surface ring-1 ring-inset ring-line-strong/60 transition-transform", "duration-200 ease-[var(--ease-out-quart)]")}
-          style={{ width: `calc((100% - 4px) / ${options.length})`, transform: `translateX(${index * 100}%)` }}
+          className={cn("pointer-events-none absolute inset-y-[3px] left-[3px] rounded-[8px] bg-surface shadow-[0_1px_3px_rgb(0_0_0/0.1)] transition-transform", "duration-200 ease-[var(--ease-out-quart)]")}
+          style={{ width: `calc((100% - 6px) / ${options.length})`, transform: `translateX(${index * 100}%)` }}
         />
       ) : null}
       {options.map((o, i) => {
@@ -214,10 +214,10 @@ export function Segmented<T extends string>({
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => onKeyDown(e, i)}
             className={cn(
-              "relative h-7 whitespace-nowrap rounded-[5px] px-3 text-meta transition-colors",
+              "relative h-7 whitespace-nowrap rounded-[8px] px-3 text-meta transition-colors",
               motion,
               "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
-              on ? "font-medium text-ink" : "text-ink-2 hover:text-ink",
+              on ? "font-semibold text-ink" : "text-ink-2 hover:text-ink",
             )}
           >
             {o.label}

@@ -158,7 +158,7 @@ function RoleCell({ icon: Icon, role, count, body, you, className }: { icon: Rea
         <Icon className="size-5 text-[var(--accent)]" strokeWidth={1.6} aria-hidden />
         <p className="text-body font-medium text-ink">{role}</p>
         <span className="num text-meta text-ink-3">{count}</span>
-        {you ? <span className="ml-auto rounded-[4px] bg-accent-soft px-1.5 text-caption font-medium leading-5 text-accent-ink">Your role</span> : null}
+        {you ? <span className="ml-auto rounded-full bg-accent-soft px-2 text-caption font-medium leading-5 text-on-accent-soft">Your role</span> : null}
       </div>
       <p className="text-meta leading-relaxed text-ink-2">{body}</p>
     </div>

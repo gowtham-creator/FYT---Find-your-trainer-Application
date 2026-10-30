@@ -7,7 +7,7 @@ import { Button } from "./primitives";
 import { cn } from "@/lib/utils";
 
 const scrim =
-  "fixed inset-0 z-40 bg-ink/25 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out";
+  "fixed inset-0 z-40 bg-[#0B1530]/40 backdrop-blur-[2px] data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out";
 
 /** Right-side editing drawer. Preferred over centered modals for edits. */
 export function Drawer({
@@ -39,7 +39,7 @@ export function Drawer({
         <Dialog.Overlay className={scrim} />
         <Dialog.Content
           className={cn(
-            "fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-line bg-surface shadow-[var(--shadow-overlay)]",
+            "fixed inset-y-0 right-0 z-50 flex w-full flex-col overflow-hidden border-l border-line bg-surface shadow-[var(--shadow-overlay)] sm:rounded-l-[var(--radius-overlay)]",
             "data-[state=open]:animate-drawer-in data-[state=closed]:animate-drawer-out",
             width,
           )}
@@ -63,12 +63,12 @@ export function Drawer({
             )}
           >
             {Icon ? (
-              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-accent-soft text-on-accent-soft ring-1 ring-inset ring-accent/30">
+              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-accent-soft text-on-accent-soft">
                 <Icon className="size-5" aria-hidden />
               </span>
             ) : null}
             <div className="min-w-0 flex-1">
-              <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
+              <Dialog.Title className="font-display text-[18px] font-semibold leading-tight tracking-[-0.01em] text-ink">{title}</Dialog.Title>
               {description ? (
                 <Dialog.Description className="mt-0.5 text-meta text-ink-2">{description}</Dialog.Description>
               ) : (
@@ -156,13 +156,13 @@ export function ConfirmDialog({
             {tone === "danger" ? (
               <span
                 aria-hidden
-                className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-[9px] bg-bad-soft text-on-bad-soft ring-1 ring-inset ring-bad/20"
+                className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-[10px] bg-bad-soft text-on-bad-soft"
               >
                 <AlertTriangle className="size-[18px]" strokeWidth={2} />
               </span>
             ) : null}
             <div className="min-w-0 flex-1">
-              <Dialog.Title className="font-display text-[20px] font-medium leading-tight tracking-[-0.005em] text-ink">{title}</Dialog.Title>
+              <Dialog.Title className="font-display text-[18px] font-semibold leading-tight tracking-[-0.01em] text-ink">{title}</Dialog.Title>
               <Dialog.Description asChild>
                 <div className="mt-1.5 text-body leading-relaxed text-ink-2">{body}</div>
               </Dialog.Description>

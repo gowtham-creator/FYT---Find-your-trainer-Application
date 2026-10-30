@@ -22,7 +22,7 @@ import {
   Database,
 } from "lucide-react";
 import { NAV, allNavItems, type NavItem } from "./nav";
-import { Avatar, Kbd } from "@/components/ui/primitives";
+import { Kbd } from "@/components/ui/primitives";
 import { RoleBadge } from "@/components/ui/status";
 import type { Permission, Role } from "@/lib/rbac";
 import { PERMISSIONS } from "@/lib/rbac";
@@ -102,8 +102,8 @@ export function AppShell({
       <div className="flex min-h-[100dvh] bg-paper">
         <div
           className={cn(
-            "sticky top-0 hidden h-[100dvh] shrink-0 border-r border-line bg-sunken transition-[width] duration-200 ease-[var(--ease-out-quart)] lg:block",
-            collapsed ? "w-[64px]" : "w-[248px]",
+            "sticky top-0 hidden h-[100dvh] shrink-0 bg-[linear-gradient(180deg,var(--nav-bg),var(--nav-bg-2))] text-nav-ink transition-[width] duration-200 ease-[var(--ease-out-quart)] lg:block",
+            collapsed ? "w-[64px]" : "w-[256px]",
           )}
         >
           {sidebar}
@@ -111,8 +111,8 @@ export function AppShell({
 
         <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
           <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/25 data-[state=open]:animate-fade-in lg:hidden" />
-            <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-[272px] border-r border-line bg-sunken shadow-[var(--shadow-overlay)] data-[state=open]:animate-fade-in lg:hidden">
+            <Dialog.Overlay className="fixed inset-0 z-40 bg-[#0B1530]/40 data-[state=open]:animate-fade-in lg:hidden" />
+            <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-[272px] bg-[linear-gradient(180deg,var(--nav-bg),var(--nav-bg-2))] text-nav-ink shadow-[var(--shadow-overlay)] data-[state=open]:animate-fade-in lg:hidden">
               <Dialog.Title className="sr-only">Navigation</Dialog.Title>
               <Dialog.Description className="sr-only">Console sections</Dialog.Description>
               <Sidebar
@@ -131,10 +131,10 @@ export function AppShell({
         </Dialog.Root>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-paper/90 px-4 backdrop-blur-sm sm:px-6">
+          <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-surface/85 px-4 backdrop-blur-[10px] backdrop-saturate-150 sm:px-6">
             <button
               onClick={() => setMobileOpen(true)}
-              className="grid size-9 place-items-center rounded-[var(--radius-control)] text-ink-2 hover:bg-sunken hover:text-ink lg:hidden"
+              className={cn(iconBtn, "lg:hidden")}
               aria-label="Open navigation"
             >
               <Menu className="size-5" strokeWidth={1.5} />
@@ -144,13 +144,13 @@ export function AppShell({
               <span className="hidden sm:inline" aria-hidden>
                 /
               </span>
-              <span className="truncate font-medium text-ink">{current?.label ?? (pathname.startsWith("/credits") ? "Credits & licences" : "Profile")}</span>
+              <span className="truncate font-semibold text-ink">{current?.label ?? (pathname.startsWith("/credits") ? "Credits & licences" : "Profile")}</span>
             </nav>
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-2">
               {demo ? (
                 <span
                   title="Figures come from seeded demo records, not live Firebase data."
-                  className="hidden h-7 items-center gap-1.5 rounded-[5px] border border-dashed border-line-strong px-2 text-caption text-ink-2 md:inline-flex"
+                  className="hidden h-7 items-center gap-1.5 rounded-full bg-info-soft px-2.5 text-caption font-medium text-on-info-soft md:inline-flex"
                 >
                   <Database className="size-3.5" strokeWidth={1.75} aria-hidden />
                   Demo data
@@ -158,10 +158,10 @@ export function AppShell({
               ) : null}
               <button
                 onClick={() => setPaletteOpen(true)}
-                className="group hidden h-9 w-60 items-center gap-2 rounded-[var(--radius-control)] border border-line bg-surface px-3 text-meta text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
+                className="group hidden h-[38px] max-w-[420px] flex-1 items-center gap-2 rounded-[10px] border border-line bg-paper px-3 text-meta text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
               >
                 <UiIcon name="search" className="size-4 transition-colors duration-150 group-hover:text-ink-2" />
-                Jump to…
+                Search pages and actions…
                 <span className="ml-auto flex gap-1">
                   <Kbd>⌘</Kbd>
                   <Kbd>K</Kbd>
@@ -171,8 +171,11 @@ export function AppShell({
               <AccountMenu viewer={viewer} />
             </div>
           </header>
-          <main id="main" className="mx-auto w-full max-w-[1400px] flex-1 px-4 pb-16 pt-7 sm:px-6 lg:px-8">
-            {children}
+          <main id="main" className="mx-auto w-full max-w-[1400px] flex-1 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+            {/* Page enter (NXT dm-fade): replays on each route change. */}
+            <div key={pathname} className="animate-page">
+              {children}
+            </div>
           </main>
         </div>
 
@@ -201,21 +204,23 @@ function Sidebar({
 }) {
   return (
     <div className="flex h-full flex-col">
-      <div className={cn("flex h-14 items-center gap-2.5 border-b border-line", collapsed ? "justify-center px-0" : "px-4")}>
-        <FytMark className="h-[30px] w-auto shrink-0 drop-shadow-[0_2px_3px_oklch(0.55_0.12_60/0.25)]" />
+      <div className={cn("flex h-16 shrink-0 items-center gap-2.5 border-b border-nav-line", collapsed ? "justify-center px-0" : "px-4")}>
+        <FytMark tone="onDark" className="h-[30px] w-auto shrink-0" />
         {!collapsed ? (
-          <div className="min-w-0 leading-tight">
-            <FytWordmark className="h-[15px] w-auto" />
-            <p className="mt-1 text-caption text-ink-3">Operator console</p>
+          <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+            <FytWordmark tone="onDark" className="h-[15px] w-auto" />
+            <span className="inline-flex h-6 items-center rounded-full border border-white/16 bg-white/12 px-2.5 text-caption font-medium text-white">
+              {viewer.role === "owner" ? "Owner" : viewer.role === "superadmin" ? "Super admin" : "Admin"}
+            </span>
           </div>
         ) : null}
       </div>
 
-      <nav aria-label="Console" className="flex-1 overflow-y-auto px-2.5 py-3 [scrollbar-width:thin]">
+      <nav aria-label="Console" className="nav-scroll flex-1 overflow-y-auto px-3 py-4">
         {collapsed ? null : (
           <button
             onClick={onSearch}
-            className="mb-3 flex h-8 w-full items-center gap-2 rounded-[var(--radius-control)] px-2.5 text-meta text-ink-2 transition-colors hover:bg-line/50 hover:text-ink md:hidden"
+            className="mb-3 flex h-9 w-full items-center gap-2 rounded-[10px] bg-white/10 px-3 text-meta text-nav-ink transition-colors hover:bg-white/16 hover:text-white md:hidden"
           >
             <UiIcon name="search" className="size-4" /> Search
           </button>
@@ -231,9 +236,9 @@ function Sidebar({
           return (
             <div key={gi} className={cn(gi > 0 && "mt-4")}>
               {group.heading && !collapsed ? (
-                <p className="mb-1 px-2.5 text-micro font-medium uppercase tracking-[0.08em] text-ink-3">{group.heading}</p>
+                <p className="mb-1.5 px-3 text-micro font-medium uppercase tracking-[0.1em] text-nav-ink-muted">{group.heading}</p>
               ) : gi > 0 && collapsed ? (
-                <div className="mx-3 mb-2 border-t border-line" />
+                <div className="mx-3 mb-2 border-t border-nav-line" />
               ) : null}
               <ul className="flex flex-col gap-0.5">
                 {items.map((item) => (
@@ -253,13 +258,18 @@ function Sidebar({
         })}
       </nav>
 
-      <div className={cn("border-t border-line p-2.5", collapsed && "flex flex-col items-center gap-2")}>
+      <div className={cn("border-t border-nav-line p-3", collapsed && "flex flex-col items-center gap-2")}>
         {!collapsed ? (
-          <div className="mb-2 flex items-center gap-2.5 rounded-[var(--radius-control)] px-1.5 py-1">
-            <Avatar name={viewer.name} />
+          <div className="mb-2 flex items-center gap-2.5 rounded-[10px] bg-white/8 px-2 py-2">
+            <span
+              aria-hidden
+              className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-caption font-semibold text-[#1E4FB8]"
+            >
+              {initials(viewer.name)}
+            </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-meta font-medium text-ink">{viewer.name}</p>
-              <RoleBadge role={viewer.role} className="mt-0.5 h-5 px-1.5 text-caption" />
+              <p className="truncate text-meta font-medium text-white">{viewer.name}</p>
+              <RoleBadge role={viewer.role} onDark className="mt-1 h-5 px-2 text-caption" />
             </div>
           </div>
         ) : null}
@@ -267,15 +277,15 @@ function Sidebar({
           <button
             onClick={onToggle}
             className={cn(
-              "flex h-8 items-center gap-2 rounded-[var(--radius-control)] text-meta text-ink-3 transition-colors hover:bg-line/50 hover:text-ink",
-              collapsed ? "w-9 justify-center" : "w-full px-2.5",
+              "flex h-9 items-center gap-2 rounded-[10px] border border-white/18 bg-white/12 text-meta text-white transition-[background-color,transform] duration-150 hover:-translate-y-px hover:bg-white/18",
+              collapsed ? "w-9 justify-center" : "w-full px-3",
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? <PanelLeftOpen className="size-4" strokeWidth={1.5} /> : <PanelLeftClose className="size-4" strokeWidth={1.5} />}
             {!collapsed ? (
               <>
-                Collapse <span className="ml-auto flex gap-1"><Kbd>⌘</Kbd><Kbd>\</Kbd></span>
+                Collapse <span className="ml-auto flex gap-1"><NavKbd>⌘</NavKbd><NavKbd>\</NavKbd></span>
               </>
             ) : null}
           </button>
@@ -306,30 +316,36 @@ function NavLink({
         <Icon
           className={cn(
             "size-[18px] shrink-0 transition-[color,transform] duration-150 ease-[var(--ease-out-quart)]",
-            active ? "text-[var(--accent)]" : "text-ink-3 group-hover:scale-105 group-hover:text-ink-2",
+            active ? "text-current" : "text-current group-hover:scale-105",
           )}
           strokeWidth={1.6}
           aria-hidden
         />
-        {collapsed && badge ? <span className="absolute -right-1 -top-1 size-2 rounded-full bg-accent ring-2 ring-sunken" /> : null}
+        {collapsed && badge ? <span className="absolute -right-1 -top-1 size-2 rounded-full bg-[#7FD3FF] ring-2 ring-nav-bg" /> : null}
       </span>
       {!collapsed ? <span className="truncate">{item.label}</span> : null}
-      {!collapsed && locked ? <Lock className="ml-auto size-3.5 text-ink-3" strokeWidth={1.75} aria-label="Locked" /> : null}
+      {!collapsed && locked ? <Lock className="ml-auto size-3.5 text-white/45" strokeWidth={1.75} aria-label="Locked" /> : null}
       {!collapsed && !locked && badge ? (
-        <span className="num ml-auto rounded-[4px] bg-accent px-1.5 text-caption font-medium leading-5 text-accent-ink">{badge}</span>
+        <span
+          className={cn(
+            "num ml-auto min-w-6 rounded-full px-1.5 text-center text-caption font-medium leading-5",
+            active ? "bg-nav-active-ink text-nav-active-bg" : "bg-white/18 text-white",
+          )}
+        >
+          {badge}
+        </span>
       ) : null}
     </>
   );
   const cls = cn(
-    "group relative flex h-8 items-center gap-2.5 rounded-[var(--radius-control)] text-body",
+    "group relative flex h-9 items-center gap-2.5 rounded-[10px] text-meta font-medium",
     "transition-[background-color,color,box-shadow] duration-150 ease-[var(--ease-out-quart)]",
-    collapsed ? "w-9 justify-center mx-auto" : "px-2.5",
-    // The active item lifts onto --surface against the --sunken sidebar; depth
-    // is the tone change plus a hairline, never a shadow.
+    collapsed ? "w-10 justify-center mx-auto" : "px-3",
+    // NXT: the active item is a white pill with blue text and a soft drop.
     active
-      ? "bg-surface font-medium text-ink shadow-[0_0_0_1px_var(--line)]"
-      : "text-ink-2 hover:bg-line/50 hover:text-ink active:scale-[0.98]",
-    locked && "text-ink-3 hover:bg-transparent hover:text-ink-3 active:scale-100",
+      ? "bg-nav-active-bg font-semibold text-nav-active-ink shadow-[0_6px_16px_-8px_rgb(0_0_0/0.45)]"
+      : "text-nav-ink hover:bg-nav-hover hover:text-white active:scale-[0.98]",
+    locked && "text-white/45 hover:bg-transparent hover:text-white/45 active:scale-100",
   );
 
   const node = locked ? (
@@ -369,7 +385,29 @@ function NavLink({
 const menuContent =
   "z-50 min-w-[200px] rounded-[var(--radius-panel)] border border-line bg-raised p-1 shadow-[var(--shadow-overlay)] data-[state=open]:animate-rise";
 const menuItem =
-  "flex h-8 cursor-pointer select-none items-center gap-2 rounded-[5px] px-2 text-meta text-ink outline-none data-[highlighted]:bg-sunken";
+  "flex h-9 cursor-pointer select-none items-center gap-2 rounded-[8px] px-2.5 text-meta text-ink outline-none data-[highlighted]:bg-sunken";
+
+/* 38px topbar icon button: paper fill, hairline, 1px lift on hover. */
+const iconBtn =
+  "grid size-[38px] shrink-0 place-items-center rounded-[10px] border border-line bg-paper text-ink-2 " +
+  "transition-[transform,border-color,color] duration-150 ease-[var(--ease-out-quart)] hover:-translate-y-px hover:border-ink/40 hover:text-ink";
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase())
+    .join("");
+}
+
+function NavKbd({ children }: { children: React.ReactNode }) {
+  return (
+    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-white/20 bg-white/10 px-1 font-mono text-caption leading-none text-white/80">
+      {children}
+    </kbd>
+  );
+}
 
 function ThemeMenu() {
   const [theme, choose] = useLocalStorage("tp-theme", "light", ["light", "dark", "system"] as const);
@@ -390,7 +428,7 @@ function ThemeMenu() {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger
         aria-label="Theme"
-        className="grid size-9 place-items-center rounded-[var(--radius-control)] text-ink-2 transition-colors hover:bg-sunken hover:text-ink"
+        className={iconBtn}
       >
         <Icon className="size-[18px]" strokeWidth={1.5} />
       </DropdownMenu.Trigger>
@@ -415,13 +453,21 @@ function ThemeMenu() {
 function AccountMenu({ viewer }: { viewer: ShellViewer }) {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex items-center gap-2 rounded-[var(--radius-control)] py-1 pl-1 pr-2 transition-colors hover:bg-sunken">
-        <Avatar name={viewer.name} className="size-7" />
+      <DropdownMenu.Trigger className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-surface py-1 pl-1 pr-2.5 transition-[border-color,transform] duration-150 hover:-translate-y-px hover:border-ink/40">
+        <span aria-hidden className="grid size-[30px] place-items-center rounded-full bg-accent text-caption font-semibold text-accent-ink">
+          {initials(viewer.name)}
+        </span>
+        <span className="hidden min-w-0 text-left leading-tight sm:block">
+          <span className="block max-w-[140px] truncate text-caption font-semibold text-ink">{viewer.name}</span>
+          <span className="block text-caption text-ink-3">
+            {viewer.role === "owner" ? "Owner" : viewer.role === "superadmin" ? "Super admin" : "Admin"}
+          </span>
+        </span>
         <ChevronsUpDown className="size-3.5 text-ink-3" strokeWidth={1.75} aria-hidden />
         <span className="sr-only">Account menu</span>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content align="end" sideOffset={6} className={cn(menuContent, "w-64")}>
+        <DropdownMenu.Content align="end" sideOffset={8} className={cn(menuContent, "w-64 rounded-[14px]")}>
           <div className="px-2 py-2">
             <p className="truncate text-meta font-medium text-ink">{viewer.name}</p>
             <p className="num truncate text-caption text-ink-3">{viewer.email}</p>
@@ -476,7 +522,7 @@ function CommandPalette({
       open={open}
       onOpenChange={onOpenChange}
       label="Command palette"
-      overlayClassName="fixed inset-0 z-40 bg-ink/25 animate-fade-in"
+      overlayClassName="fixed inset-0 z-40 bg-[#0B1530]/40 animate-fade-in"
       contentClassName="fixed left-1/2 top-[14vh] z-50 w-[calc(100%-2rem)] max-w-[560px] -translate-x-1/2 overflow-hidden rounded-[var(--radius-overlay)] border border-line bg-raised shadow-[var(--shadow-overlay)] animate-rise"
     >
       <div className="flex items-center gap-2.5 border-b border-line px-4">
@@ -533,8 +579,8 @@ function CommandPalette({
 const paletteGroup =
   "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-micro [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-ink-3";
 const paletteItem =
-  "group flex h-9 cursor-pointer select-none items-center gap-2.5 rounded-[6px] px-2.5 text-body text-ink " +
-  "transition-colors duration-100 ease-[var(--ease-out-quart)] data-[selected=true]:bg-sunken";
+  "group flex h-9 cursor-pointer select-none items-center gap-2.5 rounded-[8px] px-2.5 text-body text-ink " +
+  "transition-colors duration-100 ease-[var(--ease-out-quart)] data-[selected=true]:bg-accent-soft";
 const paletteIcon =
   "size-4 shrink-0 text-ink-3 transition-colors duration-100 group-data-[selected=true]:text-[var(--accent)]";
 const paletteEnter =

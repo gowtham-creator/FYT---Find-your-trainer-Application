@@ -7,20 +7,21 @@ import { cn } from "@/lib/utils";
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger" | "accent";
 type ButtonSize = "sm" | "md" | "lg" | "icon";
 
-// Depth is surface tone plus a 1px line, so a raised button gets its weight
-// from an inset top highlight rather than a drop shadow.
+// Primary is solid brand blue with an inset highlight and a soft blue drop.
+// Secondary lifts 1px on hover (the NXT signature).
+const primaryClass =
+  "bg-accent text-accent-ink border border-accent " +
+  "shadow-[inset_0_1px_0_oklch(1_0_0/0.18),0_8px_18px_-10px_color-mix(in_oklab,var(--accent)_70%,transparent)] " +
+  "hover:bg-accent-hover hover:border-accent-hover";
 const variantClass: Record<ButtonVariant, string> = {
-  primary:
-    "bg-ink text-paper border border-ink shadow-[inset_0_1px_0_oklch(1_0_0/0.12)] " +
-    "hover:bg-ink/88 hover:border-ink/88 active:bg-ink",
+  primary: primaryClass,
   secondary:
-    "bg-surface text-ink border border-line hover:border-line-strong hover:bg-sunken active:bg-line/60",
+    "bg-surface text-ink border border-line hover:border-ink/40 hover:-translate-y-px active:translate-y-0 active:bg-sunken",
   ghost: "text-ink-2 border border-transparent hover:text-ink hover:bg-sunken active:bg-line/50",
   danger:
-    "bg-bad text-paper border border-bad shadow-[inset_0_1px_0_oklch(1_0_0/0.16)] " +
-    "hover:bg-bad/90 hover:border-bad/90",
-  accent:
-    "bg-accent text-accent-ink border border-accent shadow-[inset_0_1px_0_oklch(1_0_0/0.22)] hover:brightness-[1.04]",
+    "bg-bad text-white border border-bad shadow-[inset_0_1px_0_oklch(1_0_0/0.16)] " +
+    "hover:bg-bad/90 hover:border-bad/90 dark:text-[#1A0710]",
+  accent: primaryClass,
 };
 const sizeClass: Record<ButtonSize, string> = {
   sm: "h-8 px-3 text-meta gap-1.5",
@@ -82,7 +83,7 @@ const controlBase =
   "shadow-[inset_0_1px_0_oklch(var(--shadow-ink)/0.03)] " +
   "transition-[border-color,box-shadow,background-color] duration-150 ease-[var(--ease-out-quart)] " +
   "hover:border-line-strong " +
-  "focus-visible:outline-none focus-visible:border-accent focus-visible:ring-3 focus-visible:ring-accent/25 " +
+  "focus-visible:outline-none focus-visible:border-accent focus-visible:bg-surface focus-visible:ring-[3px] focus-visible:ring-accent/15 " +
   "aria-[invalid=true]:border-bad aria-[invalid=true]:focus-visible:border-bad aria-[invalid=true]:focus-visible:ring-bad/25 " +
   "disabled:cursor-not-allowed disabled:opacity-60 disabled:bg-sunken disabled:hover:border-line";
 
@@ -111,7 +112,7 @@ export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttrib
       className={cn(
         controlBase,
         "h-9 appearance-none bg-[length:15px] bg-[right_10px_center] bg-no-repeat pl-3 pr-9 text-body",
-        "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23878078' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")]",
+        "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23636B88' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")]",
         className,
       )}
       {...rest}
@@ -183,13 +184,13 @@ export function Switch({
       className={cn(
         "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border",
         "transition-[background-color,border-color] duration-150 ease-[var(--ease-out-quart)]",
-        checked ? "border-ink bg-ink" : "border-line-strong bg-sunken hover:border-ink/50",
+        checked ? "border-accent bg-accent" : "border-line-strong bg-sunken hover:border-ink/50",
         "disabled:cursor-not-allowed disabled:opacity-50",
       )}
     >
       <span
         className={cn(
-          "h-3.5 w-3.5 rounded-full bg-paper transition-transform duration-200 ease-[var(--ease-out-quart)]",
+          "h-3.5 w-3.5 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.2)] transition-transform duration-200 ease-[var(--ease-out-quart)]",
           checked ? "translate-x-[18px]" : "translate-x-[2px]",
         )}
       />
@@ -227,14 +228,14 @@ export function Checkbox({
         className={cn(
           "pointer-events-none relative grid size-4 place-items-center overflow-hidden rounded-[4px] border",
           "transition-[background-color,border-color,transform] duration-150 ease-[var(--ease-out-quart)]",
-          filled ? "border-ink bg-ink" : "border-line-strong bg-surface",
+          filled ? "border-accent bg-accent" : "border-line-strong bg-surface",
           "peer-hover:border-ink/70 peer-active:scale-90",
           "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent",
           "peer-disabled:opacity-45",
         )}
       >
         {indeterminate ? (
-          <span className="block h-[2px] w-[8px] rounded-full bg-paper" />
+          <span className="block h-[2px] w-[8px] rounded-full bg-accent-ink" />
         ) : (
           <svg
             viewBox="0 0 14 14"
@@ -244,7 +245,7 @@ export function Checkbox({
             strokeLinecap="round"
             strokeLinejoin="round"
             className={cn(
-              "block size-full text-paper transition-[stroke-dashoffset,opacity] duration-150 ease-[var(--ease-out-quart)]",
+              "block size-full text-accent-ink transition-[stroke-dashoffset,opacity] duration-150 ease-[var(--ease-out-quart)]",
               rest.checked ? "opacity-100 [stroke-dashoffset:0]" : "opacity-0 [stroke-dashoffset:11]",
             )}
             style={{ strokeDasharray: 11 }}
@@ -282,7 +283,7 @@ export function Kbd({ children }: { children: React.ReactNode }) {
 
 export function Panel({ className, children, ...rest }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <section className={cn("rounded-[var(--radius-panel)] border border-line bg-surface", className)} {...rest}>
+    <section className={cn("rounded-[var(--radius-panel)] border border-line bg-surface shadow-[var(--shadow-card)]", className)} {...rest}>
       {children}
     </section>
   );
@@ -305,12 +306,16 @@ export function PanelHeader({
   return (
     // Wraps instead of squeezing: when the actions don't fit beside the title
     // they drop to their own line, so the title never collapses to a sliver.
-    <header className={cn("flex flex-wrap items-start justify-between gap-x-4 gap-y-3 border-b border-line px-5 py-3.5", className)}>
+    <header className={cn("flex flex-wrap items-start justify-between gap-x-4 gap-y-3 px-5 pb-3 pt-4", className)}>
       <div className="flex min-w-[min(100%,11rem)] flex-1 items-start gap-2.5">
-        {Icon ? <Icon className="mt-0.5 size-[18px] shrink-0 text-ink-3" aria-hidden /> : null}
+        {Icon ? (
+          <span className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-accent-soft text-on-accent-soft">
+            <Icon className="size-[17px]" aria-hidden />
+          </span>
+        ) : null}
         <div className="min-w-0 flex-1">
-          <h2 className="text-body-lg font-medium text-ink">{title}</h2>
-          {description ? <p className="mt-0.5 text-meta text-ink-2">{description}</p> : null}
+          <h2 className="text-body font-semibold text-ink">{title}</h2>
+          {description ? <p className="mt-0.5 text-caption text-ink-3">{description}</p> : null}
         </div>
       </div>
       {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
@@ -332,8 +337,8 @@ export function PageHeader({
   return (
     <div className="flex flex-col gap-4 pb-6 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0">
-        {eyebrow ? <div className="mb-1.5 text-micro font-medium uppercase tracking-[0.08em] text-ink-3">{eyebrow}</div> : null}
-        <h1 className="font-display text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">{title}</h1>
+        {eyebrow ? <div className="mb-1.5 text-micro font-medium uppercase tracking-[0.08em] text-accent">{eyebrow}</div> : null}
+        <h1 className="font-display text-[26px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink">{title}</h1>
         {description ? <p className="mt-1 max-w-[65ch] text-body text-ink-2">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
@@ -360,7 +365,7 @@ export function EmptyState({
         <Icon className="size-6" strokeWidth={1.5} aria-hidden />
       </div>
       <div>
-        <p className="font-display text-[19px] font-medium leading-snug text-ink">{title}</p>
+        <p className="font-display text-[18px] font-semibold leading-snug text-ink">{title}</p>
         <p className="mt-1 max-w-[46ch] text-meta leading-relaxed text-ink-2">{body}</p>
       </div>
       {action}
@@ -375,16 +380,25 @@ export function Avatar({ name, className }: { name: string; className?: string }
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
     .join("");
-  // stable hue per name, low chroma so avatars never compete with status color
-  let h = 0;
-  for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 360;
+  // Stable hue per name from a cool-only set (blues, teal, green): never amber
+  // or brown, and low chroma so avatars never compete with status colour.
+  let hash = 0;
+  for (const c of name) hash = (hash * 31 + c.charCodeAt(0)) % 9973;
+  const h = COOL_HUES[hash % COOL_HUES.length];
   return (
     <span
       aria-hidden
-      className={cn("inline-grid size-8 shrink-0 place-items-center rounded-full text-caption font-medium", className)}
-      style={{ background: `oklch(0.9 0.04 ${h})`, color: `oklch(0.35 0.06 ${h})` }}
+      className={cn(
+        "inline-grid size-8 shrink-0 place-items-center rounded-full text-caption font-medium",
+        "bg-[oklch(0.93_0.04_var(--avatar-h))] text-[oklch(0.38_0.09_var(--avatar-h))]",
+        "dark:bg-[oklch(0.32_0.06_var(--avatar-h))] dark:text-[oklch(0.88_0.07_var(--avatar-h))]",
+        className,
+      )}
+      style={{ "--avatar-h": h } as React.CSSProperties}
     >
       {initials}
     </span>
   );
 }
+
+const COOL_HUES = [210, 225, 240, 255, 190, 170, 150];

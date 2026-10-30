@@ -2,7 +2,7 @@
 
 /**
  * Small chart kit following the dataviz method:
- * - fixed categorical order (--viz-1, --viz-2), validated light + dark
+ * - fixed categorical order (--viz-1 azure, --viz-2 teal, --viz-3 sky), validated light + dark
  * - thin marks, 4px rounded data-ends on the value end, 2px surface gaps
  * - hover layer with tooltip; hit targets are the full column
  * - legend for >= 2 series, text in ink tokens, a table view for every chart
@@ -28,7 +28,7 @@ export function ViewToggle({ table, onChange }: { table: boolean; onChange: (t: 
   return (
     <button
       onClick={() => onChange(!table)}
-      className="inline-flex h-7 items-center gap-1.5 rounded-[5px] px-2 text-caption text-ink-2 hover:bg-sunken hover:text-ink"
+      className="inline-flex h-7 items-center gap-1.5 rounded-[8px] px-2 text-caption text-ink-2 hover:bg-sunken hover:text-ink"
       aria-pressed={table}
     >
       {table ? <BarChart3 className="size-3.5" strokeWidth={1.75} /> : <Table2 className="size-3.5" strokeWidth={1.75} />}
@@ -42,7 +42,7 @@ export function Legend({ series }: { series: Series[] }) {
     <ul className="flex flex-wrap items-center gap-4 text-caption text-ink-2">
       {series.map((s) => (
         <li key={s.key} className="inline-flex items-center gap-1.5">
-          <span className="size-2.5 rounded-[2px]" style={{ background: s.color }} aria-hidden />
+          <span className="size-[9px] rounded-full" style={{ background: s.color }} aria-hidden />
           {s.label}
         </li>
       ))}
@@ -100,7 +100,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
     <div className="relative" role="img" aria-label={`${label}. Use the Table view for exact values.`}>
       <div className="relative ml-8" style={{ height }}>
         {ticks.map((t) => (
-          <div key={t} className="absolute inset-x-0 border-t border-line/80" style={{ bottom: `${(t / max) * 100}%` }}>
+          <div key={t} className={cn("absolute inset-x-0 border-t", t === 0 ? "border-line" : "border-dashed border-line/70")} style={{ bottom: `${(t / max) * 100}%` }}>
             <span className="num absolute -left-8 -top-2 w-6 text-right text-caption text-ink-3">{fmtNumber(t)}</span>
           </div>
         ))}
@@ -115,7 +115,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
                 onMouseEnter={() => setHover(i)}
               >
                 {hover === i ? <div className="absolute inset-y-0 inset-x-[1px] rounded-[3px] bg-sunken/80" aria-hidden /> : null}
-                <div className="relative mx-auto flex w-[62%] max-w-[18px] flex-col-reverse gap-[2px]">
+                <div className="relative mx-auto flex w-[62%] max-w-[22px] flex-col-reverse gap-[2px]">
                   {series.map((s, si) => {
                     const v = d[s.key] ?? 0;
                     if (!v) return null;
@@ -125,7 +125,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
                       <div
                         key={s.key}
                         style={{ height: Math.max(2, (v / max) * height - 2), background: s.color }}
-                        className={cn(isTop ? "rounded-t-[4px]" : "", si === 0 && "rounded-b-[1px]")}
+                        className={cn(isTop ? "rounded-t-[6px]" : "", si === 0 && "rounded-b-[1px]")}
                       />
                     );
                   })}
@@ -136,7 +136,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
         </div>
         {hover !== null ? (
           <div
-            className="pointer-events-none absolute z-10 w-44 rounded-[8px] border border-line bg-raised px-3 py-2 text-caption shadow-[var(--shadow-overlay)]"
+            className="pointer-events-none absolute z-10 w-44 rounded-[10px] border border-line bg-raised px-3 py-2 text-caption shadow-[var(--shadow-overlay)]"
             style={{
               left: `clamp(0px, calc(${(hover + 0.5) * colW}% - 88px), calc(100% - 176px))`,
               bottom: `${Math.min(92, (totals[hover] / max) * 100 + 6)}%`,
@@ -146,7 +146,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
             {series.map((s) => (
               <p key={s.key} className="flex items-center justify-between gap-3 text-ink-2">
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="size-2 rounded-[2px]" style={{ background: s.color }} />
+                  <span className="size-2 rounded-full" style={{ background: s.color }} />
                   {s.label}
                 </span>
                 <span className="num text-ink">{data[hover][s.key]}</span>
@@ -194,14 +194,108 @@ export function BarList({
               {secondary ? <span className="ml-2 text-caption text-ink-3">{secondary(i, idx)}</span> : null}
             </span>
           </div>
-          <div className="h-2 w-full rounded-[2px] bg-sunken" title={`${i.label}: ${format(i.value)}`}>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-sunken" title={`${i.label}: ${format(i.value)}`}>
             <div
-              className="h-full rounded-r-[4px] transition-[width] duration-300 ease-[var(--ease-out-quart)]"
+              className="h-full rounded-full transition-[width] duration-300 ease-[var(--ease-out-quart)]"
               style={{ width: `${(i.value / max) * 100}%`, background: color, minWidth: i.value ? 3 : 0 }}
             />
           </div>
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * Area trend (NXT TrendArea): a 2px line over a gradient fill that fades from
+ * 28% to 0. One series, baseline at zero, hover shows the day and value.
+ */
+export function AreaTrend({
+  data,
+  color = "var(--viz-1)",
+  height = 180,
+  label,
+  format = fmtNumber,
+}: {
+  data: Array<{ day: number; value: number }>;
+  color?: string;
+  height?: number;
+  label: string;
+  format?: (n: number) => string;
+}) {
+  const id = React.useId().replace(/:/g, "");
+  const [hover, setHover] = React.useState<number | null>(null);
+  if (data.length < 2) return null;
+  const max = niceMax(Math.max(1, ...data.map((d) => d.value)));
+  const W = 600;
+  const H = height;
+  const pad = 6;
+  const x = (i: number) => (i / (data.length - 1)) * W;
+  const y = (v: number) => pad + (1 - v / max) * (H - pad * 2);
+  const line = data.map((d, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(d.value).toFixed(1)}`).join(" ");
+  const area = `${line} L${W},${H} L0,${H} Z`;
+  const ticks = [0, max / 2, max];
+  return (
+    <div className="relative" role="img" aria-label={label}>
+      <div className="relative ml-8" style={{ height: H }}>
+        {ticks.map((t) => (
+          <div
+            key={t}
+            className={cn("absolute inset-x-0 border-t", t === 0 ? "border-line" : "border-dashed border-line/70")}
+            style={{ top: y(t) }}
+          >
+            <span className="num absolute -left-8 -top-2 w-6 text-right text-caption text-ink-3">{fmtNumber(t)}</span>
+          </div>
+        ))}
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 size-full overflow-visible" aria-hidden>
+          <defs>
+            <linearGradient id={`${id}f`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style={{ stopColor: color, stopOpacity: 0.28 }} />
+              <stop offset="1" style={{ stopColor: color, stopOpacity: 0 }} />
+            </linearGradient>
+          </defs>
+          <path d={area} fill={`url(#${id}f)`} />
+          <path
+            d={line}
+            fill="none"
+            style={{ stroke: color }}
+            strokeWidth={2}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        <div className="absolute inset-0 flex" onMouseLeave={() => setHover(null)}>
+          {data.map((d, i) => (
+            <div key={d.day} className="h-full flex-1" onMouseEnter={() => setHover(i)} />
+          ))}
+        </div>
+        {hover !== null ? (
+          <>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-surface"
+              style={{ left: `${(hover / (data.length - 1)) * 100}%`, top: y(data[hover].value), background: color }}
+            />
+            <div
+              className="pointer-events-none absolute z-10 rounded-[10px] border border-line bg-raised px-3 py-2 text-caption shadow-[var(--shadow-overlay)]"
+              style={{
+                left: `clamp(0px, calc(${(hover / (data.length - 1)) * 100}% - 64px), calc(100% - 128px))`,
+                top: Math.max(0, y(data[hover].value) - 56),
+                width: 128,
+              }}
+            >
+              <p className="num text-ink-3">{fmtDate(data[hover].day, { weekday: "short", day: "numeric", month: "short" })}</p>
+              <p className="num font-medium text-ink">{format(data[hover].value)}</p>
+            </div>
+          </>
+        ) : null}
+      </div>
+      <div className="ml-8 mt-2 flex justify-between text-caption text-ink-3">
+        <span className="num">{fmtDate(data[0].day)}</span>
+        <span className="num">{fmtDate(data[Math.floor(data.length / 2)].day)}</span>
+        <span className="num">{fmtDate(data[data.length - 1].day)}</span>
+      </div>
+    </div>
   );
 }

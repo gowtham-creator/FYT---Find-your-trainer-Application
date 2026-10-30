@@ -34,7 +34,7 @@ export function OwnershipClient({
       <Panel>
         <PanelHeader icon={solarIcon("crown-bold-duotone")} title="Current owner" />
         <div className="flex items-center gap-3 px-5 py-4">
-          <span className="grid size-9 place-items-center rounded-full bg-accent-soft text-accent-ink">
+          <span className="grid size-9 place-items-center rounded-full bg-accent-soft text-on-accent-soft">
             <Crown className="size-4" strokeWidth={1.75} aria-hidden />
           </span>
           <div>
