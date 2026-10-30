@@ -109,7 +109,8 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
   const canResend = !!view && view.resendsLeft > 0 && resendIn <= 0;
 
   const orbTheme = theme === "dark" ? "light" : "dark";
-  const orbColor = theme === "dark" ? "#8a5410" : "#f3b340";
+  // On the azure button: white in light mode, deep navy on the lighter dark-mode button.
+  const orbColor = theme === "dark" ? "#0B1530" : "#FFFFFF";
   const Channel = channel === "sms" ? MessageSquareText : Mail;
 
   const error = state.error && !pending ? state.error : expired && !state.error ? "This code has expired. Send a new one." : undefined;
@@ -118,11 +119,11 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
     <div>
       <header>
         <StepIndicator current={2} />
-        <div className="mt-4 grid size-11 place-items-center rounded-[10px] bg-sunken text-ink ring-1 ring-inset ring-line">
+        <div className="mt-4 grid size-11 place-items-center rounded-[12px] bg-accent-soft text-on-accent-soft">
           <Channel className="size-5" strokeWidth={1.75} aria-hidden />
         </div>
-        <h1 className="font-display mt-3 text-[30px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">Enter verification code</h1>
-        <p className="mt-1.5 text-body leading-relaxed text-ink-2">
+        <h1 className="font-display mt-3 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">Enter verification code</h1>
+        <p className="mt-1.5 text-meta leading-relaxed text-ink-2">
           {method === "phone" ? (
             <>
               If that number belongs to an operator, we&apos;ve sent a 6-digit code to <span className="num whitespace-nowrap text-ink">{destination}</span>.
@@ -136,7 +137,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
       </header>
 
       {demo && !ended ? (
-        <div className="mt-5 rounded-[var(--radius-panel)] border border-dashed border-line-strong bg-sunken/70 px-3.5 py-3">
+        <div className="mt-5 rounded-[12px] border border-dashed border-accent/35 bg-accent-soft/50 px-3.5 py-3">
           <div className="flex items-center justify-between gap-3">
             <p className="text-meta font-medium text-ink">Demo mode — no message was sent</p>
             <span className="rounded-full border border-dashed border-line-strong px-2 py-px text-micro font-medium uppercase tracking-[0.12em] text-ink-2">
@@ -155,7 +156,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
                 type="button"
                 disabled={busy}
                 onClick={() => otpRef.current?.fill(demoCode)}
-                className="rounded-[var(--radius-control)] border border-line bg-surface px-2.5 py-1 text-meta font-medium text-ink transition-colors hover:bg-sunken focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-60"
+                className="rounded-[var(--radius-control)] border border-line bg-surface px-2.5 py-1 text-meta font-medium text-ink transition-[transform,border-color] hover:-translate-y-px hover:border-ink/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-60"
               >
                 Fill in
               </button>
@@ -169,7 +170,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
       ) : null}
 
       {ended ? (
-        <div role="alert" className="mt-6 flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-bad-soft px-3.5 py-3 text-meta leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
+        <div role="alert" className="mt-6 flex items-start gap-2.5 rounded-[12px] bg-bad-soft px-3.5 py-3 text-meta leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
           <AlertCircle className="mt-px size-4 shrink-0" strokeWidth={2} aria-hidden />
           <span>This sign-in has ended. Start again to get a new code.</span>
         </div>
@@ -235,16 +236,17 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
             disabled={busy}
             aria-busy={pending || undefined}
             className={
-              "group relative isolate mt-4 flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-[8px] border border-ink bg-ink px-5 " +
-              "text-body-lg font-medium text-paper shadow-[inset_0_1px_0_oklch(1_0_0/0.14),0_1px_2px_oklch(var(--shadow-ink)/0.1),0_8px_20px_-8px_oklch(var(--shadow-ink)/0.45)] " +
-              "transition-transform duration-150 ease-[var(--ease-out-quart)] active:scale-[0.985] disabled:cursor-default disabled:active:scale-100 " +
+              "group relative isolate mt-4 flex h-[46px] w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-accent px-5 " +
+              "bg-[linear-gradient(180deg,color-mix(in_oklab,var(--accent)_90%,white),var(--accent)_52%,color-mix(in_oklab,var(--accent)_80%,#0B1530))] " +
+              "text-body-lg font-semibold text-accent-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_14px_28px_-14px_color-mix(in_oklab,var(--accent)_80%,transparent)] " +
+              "transition-transform duration-150 ease-[var(--ease-out-quart)] hover:-translate-y-px active:translate-y-0 active:scale-[0.985] disabled:cursor-default disabled:hover:translate-y-0 disabled:active:scale-100 " +
               "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
             }
           >
             <AnimatePresence mode="wait" initial={false}>
               {verified ? (
                 <motion.span key="done" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduce ? 0 : 0.2 }} className="flex items-center gap-2">
-                  <span className="grid size-5 place-items-center rounded-full bg-accent text-accent-ink">
+                  <span className="grid size-5 place-items-center rounded-full bg-accent-ink text-accent">
                     <Check className="size-3.5" strokeWidth={3} aria-hidden />
                   </span>
                   Verified. Opening the console
@@ -314,7 +316,7 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
             type="submit"
             className={
               ended
-                ? "flex h-11 w-full items-center justify-center gap-2 rounded-[8px] border border-ink bg-ink text-body-lg font-medium text-paper focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
+                ? "flex h-[46px] w-full items-center justify-center gap-2 rounded-[10px] border border-accent bg-accent text-body-lg font-semibold text-accent-ink hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
                 : "inline-flex items-center gap-1.5 rounded-[var(--radius-control)] px-1.5 py-0.5 text-meta font-medium text-ink-2 transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             }
           >

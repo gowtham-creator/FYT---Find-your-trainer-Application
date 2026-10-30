@@ -19,16 +19,19 @@
  *
  * Kept from the previous form: inline validation, show / hide password, the
  * Caps Lock warning, a shake on error (not under reduced motion), ThinkingOrb
- * while pending, and demo quick-fill cards that fill (never submit) a form.
+ * while pending. Demo builds add one quiet "Use a demo account" link that
+ * opens a menu; picking an account fills (never submits) the active form.
  */
 import * as React from "react";
 import { useActionState, useState } from "react";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   AlertCircle,
   ArrowRight,
   AtSign,
   Check,
+  ChevronDown,
   Crown,
   Eye,
   EyeOff,
@@ -87,7 +90,16 @@ export type GoogleStatus = ProviderStatus;
 
 type Provider = "google" | "sso";
 const PROVIDER_BUTTON =
-  "flex h-11 w-full items-center justify-center gap-2.5 rounded-[8px] border border-line bg-surface text-body font-medium text-ink transition-colors duration-150 hover:bg-sunken focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper";
+  "flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-line bg-surface text-meta font-medium text-ink " +
+  "transition-[transform,border-color] duration-150 ease-[var(--ease-out-quart)] hover:-translate-y-px hover:border-ink/40 " +
+  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-accent/25";
+
+/* NXT input: 44px, r10, --paper fill; on focus it lifts to surface with a
+   brand border and a 3px ring, and the leading icon turns brand. */
+const INPUT =
+  "h-11 rounded-[10px] bg-paper text-body-lg focus-visible:bg-surface focus-visible:ring-[3px] focus-visible:ring-accent/15";
+const INPUT_ICON =
+  "pointer-events-none absolute left-3.5 top-1/2 size-[17px] -translate-y-1/2 text-ink-3 transition-colors duration-150 group-focus-within:text-accent";
 
 export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: boolean; google: ProviderStatus; sso: ProviderStatus }) {
   const [method, setMethod] = useState<Method>("email");
@@ -119,51 +131,9 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
   };
 
   return (
-    <div className="mt-6">
-      {/* Providers: Google, then SSO. Neither submits the forms below. */}
-      <div className="space-y-2.5">
-        <button type="button" onClick={() => onProvider("google")} className={PROVIDER_BUTTON}>
-          <GoogleMark className="size-[18px] shrink-0" />
-          Continue with Google
-        </button>
-        <button type="button" onClick={() => onProvider("sso")} className={PROVIDER_BUTTON}>
-          <KeyRound className="size-[18px] shrink-0 text-ink" strokeWidth={1.75} aria-hidden />
-          Continue with SSO
-        </button>
-      </div>
-      <div role="status">
-        <AnimatePresence initial={false} mode="wait">
-          {notice ? (
-            <motion.div
-              key={notice}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: reduce ? 0 : 0.22, ease: [0.25, 1, 0.5, 1] }}
-              className="overflow-hidden"
-            >
-              <p className="mt-2.5 flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-sunken px-3.5 py-3 text-meta leading-snug text-ink-2 ring-1 ring-inset ring-line">
-                <AlertCircle className="mt-px size-4 shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
-                <span>
-                  <span className="font-medium text-ink">
-                    {notice === "google" ? "Google sign-in isn\u2019t available for this workspace." : "SSO isn\u2019t available for this workspace."}
-                  </span>{" "}
-                  {status[notice].reason} Use your email or phone below.
-                </span>
-              </p>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </div>
-
-      <div className="my-5 flex items-center gap-3" role="separator" aria-label="or">
-        <span className="h-px flex-1 bg-line" />
-        <span className="text-micro font-medium uppercase tracking-[0.14em] text-ink-3">or</span>
-        <span className="h-px flex-1 bg-line" />
-      </div>
-
-      {/* Method tabs */}
-      <div role="tablist" aria-label="Sign-in method" className="grid grid-cols-2 gap-1 rounded-[10px] bg-sunken p-1 ring-1 ring-inset ring-line">
+    <div className="mt-5">
+      {/* Method tabs (NXT segmented control) */}
+      <div role="tablist" aria-label="Sign-in method" className="grid grid-cols-2 gap-1 rounded-[11px] bg-sunken p-[3px] ring-1 ring-inset ring-line">
         {(
           [
             { key: "email", label: "Email", icon: Mail },
@@ -186,15 +156,15 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
               onClick={() => setMethod(key)}
               onKeyDown={onTabKey}
               className={
-                "relative flex h-9 items-center justify-center gap-2 rounded-[7px] text-body font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
-                (on ? "text-ink" : "text-ink-2 hover:text-ink")
+                "relative flex h-9 items-center justify-center gap-2 rounded-[8px] text-meta font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
+                (on ? "font-semibold text-ink" : "text-ink-2 hover:text-ink")
               }
             >
               {on ? (
                 <motion.span
                   layoutId="login-method"
                   transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 520, damping: 40 }}
-                  className="absolute inset-0 rounded-[7px] bg-surface shadow-[0_1px_2px_oklch(var(--shadow-ink)/0.1)] ring-1 ring-inset ring-line"
+                  className="absolute inset-0 rounded-[8px] bg-surface shadow-[0_1px_3px_rgb(0_0_0/0.1)]"
                 />
               ) : null}
               <Icon className="relative size-4" strokeWidth={1.75} aria-hidden />
@@ -210,6 +180,50 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
       <div role="tabpanel" id="panel-phone" aria-labelledby="tab-phone" hidden={method !== "phone"}>
         <PhoneForm next={next} demo={demo} />
       </div>
+
+      <div className="my-5 flex items-center gap-3" role="separator" aria-label="or continue with">
+        <span className="h-px flex-1 bg-line" />
+        <span className="text-micro font-medium uppercase tracking-[0.14em] text-ink-3">or continue with</span>
+        <span className="h-px flex-1 bg-line" />
+      </div>
+
+      {/* Providers: Google, then SSO. Neither submits the forms above. */}
+      <div className="grid grid-cols-2 gap-2.5">
+        <button type="button" onClick={() => onProvider("google")} className={PROVIDER_BUTTON} aria-label="Continue with Google">
+          <GoogleMark className="size-[17px] shrink-0" />
+          Google
+        </button>
+        <button type="button" onClick={() => onProvider("sso")} className={PROVIDER_BUTTON} aria-label="Continue with SSO">
+          <KeyRound className="size-[17px] shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
+          SSO
+        </button>
+      </div>
+      <div role="status">
+        <AnimatePresence initial={false} mode="wait">
+          {notice ? (
+            <motion.div
+              key={notice}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: reduce ? 0 : 0.22, ease: [0.25, 1, 0.5, 1] }}
+              className="overflow-hidden"
+            >
+              <p className="mt-2.5 flex items-start gap-2.5 rounded-[12px] bg-info-soft px-3.5 py-3 text-meta leading-snug text-ink-2 ring-1 ring-inset ring-info/20">
+                <AlertCircle className="mt-px size-4 shrink-0 text-on-info-soft" strokeWidth={1.75} aria-hidden />
+                <span>
+                  <span className="font-medium text-ink">
+                    {notice === "google" ? "Google sign-in isn\u2019t available for this workspace." : "SSO isn\u2019t available for this workspace."}
+                  </span>{" "}
+                  {status[notice].reason} Use your email or phone below.
+                </span>
+              </p>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
+
     </div>
   );
 }
@@ -240,7 +254,7 @@ function ErrorBanner({ message }: { message?: string }) {
           transition={{ duration: reduce ? 0 : 0.24, ease: [0.25, 1, 0.5, 1] }}
           className="overflow-hidden"
         >
-          <div className="flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-bad-soft px-3.5 py-3 text-meta leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
+          <div className="flex items-start gap-2.5 rounded-[12px] bg-bad-soft px-3.5 py-3 text-meta leading-snug text-on-bad-soft ring-1 ring-inset ring-bad/25">
             <AlertCircle className="mt-px size-4 shrink-0" strokeWidth={2} aria-hidden />
             <span>{message}</span>
           </div>
@@ -265,9 +279,10 @@ function SubmitButton({
 }) {
   const reduce = usePrefersReducedMotion();
   const theme = useDocumentTheme();
-  // The orb sits on the ink button: dark in light mode, light in dark mode.
+  // The orb sits on the azure button: white on #1E4FB8 in light mode, deep
+  // navy on the lighter #6FA0FF button in dark mode.
   const orbTheme = theme === "dark" ? "light" : "dark";
-  const orbColor = theme === "dark" ? "#8a5410" : "#f3b340";
+  const orbColor = theme === "dark" ? "#0B1530" : "#FFFFFF";
   return (
     <>
       <button
@@ -276,9 +291,12 @@ function SubmitButton({
         disabled={pending || sent}
         aria-busy={pending || undefined}
         className={
-          "group relative isolate flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-[8px] border border-ink bg-ink px-5 " +
-          "text-body-lg font-medium text-paper shadow-[inset_0_1px_0_oklch(1_0_0/0.14),0_1px_2px_oklch(var(--shadow-ink)/0.1),0_8px_20px_-8px_oklch(var(--shadow-ink)/0.45)] " +
-          "transition-[transform,box-shadow] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.985] disabled:cursor-default disabled:active:scale-100 " +
+          "group relative isolate flex h-[46px] w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-accent px-5 " +
+          "bg-[linear-gradient(180deg,color-mix(in_oklab,var(--accent)_90%,white),var(--accent)_52%,color-mix(in_oklab,var(--accent)_80%,#0B1530))] " +
+          "text-body-lg font-semibold text-accent-ink " +
+          "shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_14px_28px_-14px_color-mix(in_oklab,var(--accent)_80%,transparent)] " +
+          "transition-[transform,box-shadow] duration-150 ease-[var(--ease-out-quart)] hover:-translate-y-px hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_18px_32px_-12px_color-mix(in_oklab,var(--accent)_80%,transparent)] " +
+          "active:translate-y-0 active:scale-[0.985] disabled:cursor-default disabled:hover:translate-y-0 disabled:active:scale-100 " +
           "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
         }
       >
@@ -291,7 +309,7 @@ function SubmitButton({
               transition={{ duration: reduce ? 0 : 0.2 }}
               className="flex items-center gap-2"
             >
-              <span className="grid size-5 place-items-center rounded-full bg-accent text-accent-ink">
+              <span className="grid size-5 place-items-center rounded-full bg-accent-ink text-accent">
                 <Check className="size-3.5" strokeWidth={3} aria-hidden />
               </span>
               Code sent. Opening verification
@@ -319,7 +337,7 @@ function SubmitButton({
             >
               {idle}
               <ArrowRight
-                className="size-4 transition-transform duration-150 ease-[var(--ease-out-quart)] group-hover:translate-x-0.5"
+                className="size-4 transition-transform duration-200 ease-[var(--ease-out-quart)] group-hover:translate-x-[3px]"
                 strokeWidth={1.75}
                 aria-hidden
               />
@@ -382,7 +400,6 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
     setPasswordErr(undefined);
     setEmailOk(true);
     setPicked(role.key);
-    submitRef.current?.focus();
   };
 
   return (
@@ -396,7 +413,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
             <AtSign
               aria-hidden
               strokeWidth={1.75}
-              className="pointer-events-none absolute left-3.5 top-1/2 size-[17px] -translate-y-1/2 text-ink-3 transition-colors duration-150 group-focus-within:text-ink"
+              className={INPUT_ICON}
             />
             <Input
               ref={emailRef}
@@ -422,7 +439,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownEmailErr}
               aria-describedby={shownEmailErr ? "email-error" : undefined}
-              className="h-11 rounded-[8px] pl-10 pr-10 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
+              className={INPUT + " pl-10 pr-10"}
             />
             <AnimatePresence>
               {emailOk && !shownEmailErr ? (
@@ -446,7 +463,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
             <KeyRound
               aria-hidden
               strokeWidth={1.75}
-              className="pointer-events-none absolute left-3.5 top-1/2 size-[17px] -translate-y-1/2 text-ink-3 transition-colors duration-150 group-focus-within:text-ink"
+              className={INPUT_ICON}
             />
             <Input
               ref={passwordRef}
@@ -464,7 +481,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownPasswordErr}
               aria-describedby={[shownPasswordErr ? "password-error" : "", caps ? "caps-warning" : ""].filter(Boolean).join(" ") || undefined}
-              className="h-11 rounded-[8px] pl-10 pr-12 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
+              className={INPUT + " pl-10 pr-12"}
             />
             <button
               type="button"
@@ -502,20 +519,7 @@ function EmailForm({ next, demo }: { next?: string; demo?: boolean }) {
         </div>
       </motion.form>
 
-      {demo ? (
-        <DemoCards
-          title="Demo accounts"
-          hint={
-            <>
-              password <span className="num text-ink">{DEMO_PASSWORD}</span>
-            </>
-          }
-          detail={(r) => r.email}
-          picked={picked}
-          disabled={busy}
-          onPick={fill}
-        />
-      ) : null}
+      {demo ? <DemoMenu detail={(r) => r.email} picked={picked} disabled={busy} onPick={fill} afterPick={submitRef} /> : null}
     </>
   );
 }
@@ -550,7 +554,6 @@ function PhoneForm({ next, demo }: { next?: string; demo?: boolean }) {
     if (phoneRef.current) phoneRef.current.value = role.phone;
     setErr(undefined);
     setPicked(role.key);
-    submitRef.current?.focus();
   };
 
   return (
@@ -569,7 +572,7 @@ function PhoneForm({ next, demo }: { next?: string; demo?: boolean }) {
             <Smartphone
               aria-hidden
               strokeWidth={1.75}
-              className="pointer-events-none absolute left-3.5 top-1/2 size-[17px] -translate-y-1/2 text-ink-3 transition-colors duration-150 group-focus-within:text-ink"
+              className={INPUT_ICON}
             />
             <Input
               ref={phoneRef}
@@ -593,7 +596,7 @@ function PhoneForm({ next, demo }: { next?: string; demo?: boolean }) {
               }}
               aria-invalid={!!shownErr}
               aria-describedby={shownErr ? "phone-error" : undefined}
-              className="num h-11 rounded-[8px] pl-10 text-body-lg focus-visible:ring-4 focus-visible:ring-accent/20"
+              className={"num pl-10 " + INPUT}
             />
           </div>
         </Field>
@@ -603,77 +606,87 @@ function PhoneForm({ next, demo }: { next?: string; demo?: boolean }) {
         </div>
       </motion.form>
 
-      {demo ? (
-        <DemoCards title="Demo numbers" hint="fills the form" detail={(r) => r.phone} picked={picked} disabled={busy} onPick={fill} />
-      ) : null}
+      {demo ? <DemoMenu detail={(r) => r.phone} picked={picked} disabled={busy} onPick={fill} afterPick={submitRef} /> : null}
     </>
   );
 }
 
-function DemoCards({
-  title,
-  hint,
+/**
+ * Demo builds only: one quiet text link under the submit button that opens a
+ * menu of sandbox accounts. Picking one fills the active form (email, or the
+ * phone number) and never submits; the password is filled silently and never
+ * printed on the page. Focus then lands on the submit button.
+ */
+function DemoMenu({
   detail,
   picked,
   disabled,
   onPick,
+  afterPick,
 }: {
-  title: string;
-  hint: React.ReactNode;
   detail: (r: (typeof DEMO_ROLES)[number]) => string;
   picked?: string;
   disabled?: boolean;
   onPick: (r: (typeof DEMO_ROLES)[number]) => void;
+  afterPick: React.RefObject<HTMLButtonElement | null>;
 }) {
-  const id = React.useId();
+  const chose = React.useRef(false);
   return (
-    <section aria-labelledby={id} className="mt-5">
-      <div className="flex items-baseline justify-between gap-3">
-        <h2 id={id} className="text-meta font-medium text-ink">
-          {title}
-        </h2>
-        <p className="text-caption text-ink-2">{hint}</p>
-      </div>
-      <ul className="mt-2 grid grid-cols-3 gap-1.5">
-        {DEMO_ROLES.map((role) => {
-          const Icon = role.icon;
-          const on = picked === role.key;
-          return (
-            <li key={role.key} className="min-w-0">
-              <button
-                type="button"
-                onClick={() => onPick(role)}
-                disabled={disabled}
-                aria-pressed={on}
-                title={role.sees}
-                className={
-                  "flex w-full min-w-0 flex-col items-start gap-1 rounded-[var(--radius-panel)] border px-2 py-2 text-left " +
-                  "transition-[border-color,background-color,box-shadow] duration-150 ease-[var(--ease-out-quart)] disabled:opacity-60 " +
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
-                  (on
-                    ? "border-accent bg-accent-soft/50 shadow-[0_0_0_3px_color-mix(in_oklch,var(--accent)_22%,transparent)]"
-                    : "border-line bg-surface/70 hover:border-line-strong hover:bg-surface")
-                }
-              >
-                <span className="flex w-full items-center gap-1.5">
-                  <Icon className={"size-3.5 shrink-0 " + (on ? "text-ink" : "text-ink-2")} strokeWidth={1.75} aria-hidden />
-                  <span className="truncate text-meta font-medium text-ink">{role.label}</span>
-                  {on ? <Check className="ml-auto size-3.5 shrink-0 text-ink" strokeWidth={2.5} aria-hidden /> : null}
-                </span>
-                <span className="block w-full text-caption tracking-[-0.01em] tabular-nums text-ink-2 [overflow-wrap:anywhere]">
-                  <DemoDetail text={detail(role)} />
-                </span>
-                <span className="sr-only">{role.sees}</span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+    <div className="mt-3 flex justify-center">
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          disabled={disabled}
+          className="group inline-flex items-center gap-1 rounded-[6px] px-1 text-meta text-ink-2 underline decoration-line-strong underline-offset-4 transition-colors duration-150 hover:text-ink hover:decoration-ink-3 disabled:opacity-60 data-[state=open]:text-ink"
+        >
+          Use a demo account
+          <ChevronDown className="size-3.5 transition-transform duration-150 group-data-[state=open]:rotate-180" strokeWidth={2} aria-hidden />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            align="center"
+            sideOffset={8}
+            onCloseAutoFocus={(e) => {
+              if (!chose.current) return;
+              chose.current = false;
+              e.preventDefault();
+              afterPick.current?.focus();
+            }}
+            className="z-50 w-64 rounded-[12px] border border-line bg-raised p-1 shadow-[var(--shadow-overlay)] data-[state=open]:animate-rise"
+          >
+            {DEMO_ROLES.map((role) => {
+              const Icon = role.icon;
+              const on = picked === role.key;
+              return (
+                <DropdownMenu.Item
+                  key={role.key}
+                  title={role.sees}
+                  onSelect={() => {
+                    chose.current = true;
+                    onPick(role);
+                  }}
+                  className="flex cursor-pointer select-none items-center gap-2.5 rounded-[8px] px-2.5 py-2 outline-none data-[highlighted]:bg-accent-soft"
+                >
+                  <span className="grid size-8 shrink-0 place-items-center rounded-[8px] bg-accent-soft text-on-accent-soft">
+                    <Icon className="size-4" strokeWidth={1.75} aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-meta font-medium text-ink">{role.label}</span>
+                    <span className="num block truncate text-caption text-ink-3">{detail(role)}</span>
+                  </span>
+                  {on ? <Check className="size-4 shrink-0 text-accent" strokeWidth={2.25} aria-hidden /> : null}
+                  <span className="sr-only">{role.sees}</span>
+                </DropdownMenu.Item>
+              );
+            })}
+            <DropdownMenu.Separator className="my-1 h-px bg-line" />
+            <p className="px-2.5 pb-1.5 pt-1 text-caption text-ink-3">Sandbox data. Fills the form only.</p>
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
+    </div>
   );
 }
 
-/** Monochrome "G" (brand glyph in currentColor, to stay in the ink palette). */
 /** The standard four-colour Google "G". Fixed fills: never follows currentColor. */
 function GoogleMark({ className }: { className?: string }) {
   return (
@@ -683,18 +696,5 @@ function GoogleMark({ className }: { className?: string }) {
       <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
     </svg>
-  );
-}
-
-/** Lets a demo email break before the "@" instead of truncating at the larger size. */
-function DemoDetail({ text }: { text: string }) {
-  const at = text.indexOf("@");
-  if (at <= 0) return <>{text}</>;
-  return (
-    <>
-      {text.slice(0, at)}
-      <wbr />
-      {text.slice(at)}
-    </>
   );
 }

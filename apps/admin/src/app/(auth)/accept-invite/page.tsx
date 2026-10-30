@@ -15,7 +15,7 @@ export default async function AcceptInvitePage({ searchParams }: { searchParams:
         {invite ? (
           <>
             <p className="text-micro font-medium uppercase tracking-[0.08em] text-ink-3">Operator invite</p>
-            <h1 className="mt-2 font-display text-[30px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">Welcome, {invite.name.split(" ")[0]}</h1>
+            <h1 className="mt-2 font-display text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">Welcome, {invite.name.split(" ")[0]}</h1>
             <p className="mt-2 text-body text-ink-2">
               You were invited as <span className="font-medium text-ink">{ROLE_LABEL[invite.role]}</span>. Set a password for{" "}
               <span className="num text-ink">{invite.email}</span> to finish.
@@ -27,7 +27,7 @@ export default async function AcceptInvitePage({ searchParams }: { searchParams:
             <span className="grid size-10 place-items-center rounded-[10px] border border-line bg-sunken text-ink-2">
               <LinkIcon className="size-5" strokeWidth={1.5} aria-hidden />
             </span>
-            <h1 className="font-display text-[24px] font-medium leading-tight tracking-[-0.01em] text-ink">This invite link doesn&apos;t work</h1>
+            <h1 className="font-display text-[22px] font-semibold leading-tight tracking-[-0.02em] text-ink">This invite link doesn&apos;t work</h1>
             <p className="text-body text-ink-2">It may have been used already or withdrawn. Ask the super admin who invited you for a new link.</p>
             <Link href="/login" className="text-body font-medium text-ink underline decoration-line-strong underline-offset-4">Go to sign in</Link>
           </div>

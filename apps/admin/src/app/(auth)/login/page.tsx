@@ -7,7 +7,7 @@
  * three plain capability lines.
  */
 import type { Metadata } from "next";
-import { Timer, UserPlus, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { DATA_SOURCE } from "@/lib/data/store";
 import { safeNext } from "@/lib/auth/identifiers";
 import { googleOAuthStatus } from "@/lib/auth/oauth-google";
@@ -33,31 +33,22 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <AuthShell>
       <header>
         <StepIndicator current={1} />
-        <h1 className="font-display mt-4 text-[30px] font-medium leading-[1.15] tracking-[-0.01em] text-ink">Sign in to FYT Console</h1>
-        <p className="mt-1.5 text-body leading-relaxed text-ink-2">
-          For the FYT operations team. Step 2 is a 6{"\u2011"}digit code we send you.
+        <p className="num mt-5 text-micro font-medium uppercase tracking-[0.16em] text-accent">Operator console</p>
+        <h1 className="font-display mt-1.5 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">Sign in to FYT Console</h1>
+        <p className="mt-1.5 text-meta leading-relaxed text-ink-2">
+          Step 2 is a 6{"\u2011"}digit code we send you.
         </p>
       </header>
 
       {message ? (
-        <p role="status" className="mt-5 flex items-start gap-2.5 rounded-[var(--radius-panel)] bg-sunken px-3.5 py-3 text-meta leading-snug text-ink ring-1 ring-inset ring-line">
-          <AlertCircle className="mt-px size-4 shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
+        <p role="status" className="mt-5 flex items-start gap-2.5 rounded-[12px] bg-info-soft px-3.5 py-3 text-meta leading-snug text-ink ring-1 ring-inset ring-info/20">
+          <AlertCircle className="mt-px size-4 shrink-0 text-on-info-soft" strokeWidth={1.75} aria-hidden />
           {message}
         </p>
       ) : null}
 
       <LoginForm next={dest === "/" ? undefined : dest} demo={DATA_SOURCE === "demo"} google={googleOAuthStatus()} sso={ssoStatus()} />
 
-      <ul className="mt-6 space-y-2 border-t border-line pt-4 text-meta leading-snug text-ink-2">
-        <li className="flex items-start gap-2.5">
-          <UserPlus className="mt-px size-3.5 shrink-0 text-ink-3" strokeWidth={1.75} aria-hidden />
-          Operator accounts are by invitation. If you need access, ask a super admin.
-        </li>
-        <li className="flex items-start gap-2.5">
-          <Timer className="mt-px size-3.5 shrink-0 text-ink-3" strokeWidth={1.75} aria-hidden />
-          Sessions end after 35 minutes without activity.
-        </li>
-      </ul>
     </AuthShell>
   );
 }

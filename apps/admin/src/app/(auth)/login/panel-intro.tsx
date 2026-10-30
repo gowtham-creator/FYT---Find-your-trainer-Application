@@ -31,7 +31,7 @@ export function PanelIntro() {
 
   return (
     <>
-      <p className="font-display max-w-[460px] text-[44px] font-medium leading-[1.08] tracking-[-0.015em] text-ink xl:text-[52px]">
+      <p className="font-display max-w-[16ch] text-[40px] font-semibold leading-[1.08] tracking-[-0.025em] text-white xl:text-[44px]">
         {HEADLINE.map((word, i) => (
           <span key={i}>
             <motion.span className="inline-block" {...rise(0.15 + i * WORD_STEP, 16)}>
@@ -42,14 +42,14 @@ export function PanelIntro() {
         ))}
       </p>
 
-      <motion.p className="mt-5 max-w-[400px] text-[16px] leading-relaxed text-ink-2" {...rise(AFTER_HEADLINE)}>
+      <motion.p className="mt-5 max-w-[40ch] text-[16px] leading-relaxed text-white/80" {...rise(AFTER_HEADLINE)}>
         {SUPPORT}
       </motion.p>
 
-      <ul className="mt-9 space-y-3.5">
+      <ul className="mt-8 space-y-3">
         {POINTS.map(({ icon: Icon, text }, i) => (
-          <motion.li key={text} className="flex items-center gap-3.5 text-body-lg text-ink" {...rise(AFTER_HEADLINE + 0.15 + i * 0.1)}>
-            <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-surface text-ink ring-1 ring-inset ring-line">
+          <motion.li key={text} className="flex items-center gap-3.5 text-body text-white/95" {...rise(AFTER_HEADLINE + 0.15 + i * 0.1)}>
+            <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-white/14 text-white ring-1 ring-inset ring-white/20">
               <Icon className="size-[18px]" strokeWidth={1.75} aria-hidden />
             </span>
             {text}
