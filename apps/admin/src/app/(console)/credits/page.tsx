@@ -84,31 +84,22 @@ const ICONS: Credit[] = [
 
 const FONTS: Credit[] = [
   {
-    name: "Playfair Display",
-    by: "Claus Eggers Sørensen",
-    use: "Page titles, sign-in headlines, drawer and dialog titles.",
+    name: "Open Sauce One",
+    by: "Alfredo Marco Pradil, The Open Sauce One Authors",
+    use: "All interface text: page titles, headings, body, labels and the sign-in screen. Self-hosted.",
     licence: "SIL Open Font License 1.1",
     licenceHref: "https://openfontlicense.org",
-    source: "Google Fonts",
-    sourceHref: "https://fonts.google.com/specimen/Playfair+Display",
+    source: "GitHub",
+    sourceHref: "https://github.com/marcologous/Open-Sauce-Fonts",
   },
   {
-    name: "Inter",
-    by: "Rasmus Andersson, The Inter Project Authors",
-    use: "Body and interface text.",
-    licence: "SIL Open Font License 1.1",
-    licenceHref: "https://openfontlicense.org",
-    source: "Google Fonts",
-    sourceHref: "https://fonts.google.com/specimen/Inter",
-  },
-  {
-    name: "Geist Mono",
-    by: "Vercel, with Basement Studio",
+    name: "JetBrains Mono",
+    by: "JetBrains, The JetBrains Mono Project Authors",
     use: "Figures, references, phone numbers and keyboard hints.",
     licence: "SIL Open Font License 1.1",
     licenceHref: "https://openfontlicense.org",
     source: "Google Fonts",
-    sourceHref: "https://fonts.google.com/specimen/Geist+Mono",
+    sourceHref: "https://fonts.google.com/specimen/JetBrains+Mono",
   },
 ];
 
@@ -139,15 +130,6 @@ const PATTERNS: Credit[] = [
     licenceHref: "https://21st.dev/@efferd/components/auth-page",
     source: "21st.dev",
     sourceHref: "https://21st.dev/@efferd/components/auth-page",
-  },
-  {
-    name: "Gradient Wave",
-    by: "21st.dev community, after Stripe's minigl gradient",
-    use: "Animated WebGL mesh gradient behind the sign-in form, recoloured in paper, stone and marigold.",
-    licence: "Reference, see the file headers",
-    licenceHref: "https://21st.dev",
-    source: "21st.dev",
-    sourceHref: "https://21st.dev",
   },
   {
     name: "OTPVerification",
