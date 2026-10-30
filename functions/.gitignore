@@ -1,0 +1,6 @@
+# esbuild output (deploy and emulator source)
+dist/
+# functions params per project (non-secret, but project-specific)
+.env.*
+!.env.example
+.runtimeconfig.json

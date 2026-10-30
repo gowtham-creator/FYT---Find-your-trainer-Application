@@ -1,0 +1,18 @@
+{
+  "name": "@fyt/rules-tests",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Firestore and Storage security rules matrix (docs/firestore-schema.md §7.3). Needs the emulators, which need Java 21.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "6.0.0",
+    "@types/node": "^24.19.2",
+    "firebase": "13.1.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn()  { return request.auth != null; }
+    function isLearner() { return signedIn() && request.auth.token.firebase.sign_in_provider == 'phone'; }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+    function isPublished() { return resource.data.published == true; }
+
+    // App config. Readable before sign-in so the update/maintenance gates work on the welcome screen.
+    match /config/{docId} {
+      allow get: if docId == 'public';
+    }
+
+    // Catalog: published docs only. Queries MUST include where('published', '==', true).
+    // Subcollections (courses/{id}/private/*, providers/{id}/private/*) are not matched, so they are denied.
+    match /institutes/{id}   { allow get, list: if isLearner() && isPublished(); }
+    match /courses/{id}      { allow get, list: if isLearner() && isPublished(); }
+    match /providers/{id}    { allow get, list: if isLearner() && isPublished(); }
+    match /catalogIndex/{id} { allow get: if isLearner(); }
+    match /announcements/{id} { allow get, list: if isLearner(); }
+
+    // Own account. All writes go through callables (ensureUserV1, saveProfileV1, deleteAccountV1).
+    match /users/{uid} {
+      allow get: if isSelf(uid);
+
+      match /notifications/{nid} {
+        allow get, list: if isSelf(uid);
+        allow update: if isSelf(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readAt'])
+          && request.resource.data.readAt == request.time;
+      }
+      // devices/{hash}: no client access (registerDeviceV1 / unregisterDeviceV1)
+    }
+
+    // Own bookings, read-only. Queries MUST include where('userId', '==', uid).
+    match /bookings/{id} {
+      allow get, list: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Everything else (admins, availability, slotLedgers, bookingRefs, broadcasts, config/private,
+    // statsDaily, audit, deadLetters, users/*/devices, */private/*) is denied by omission.
+  }
+}

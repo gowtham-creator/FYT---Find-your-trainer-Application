@@ -1,0 +1,9 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /catalog/{collection}/{ownerId}/{file} {
+      allow read: if request.auth != null;   // the app normally loads tokenised download URLs, which bypass rules
+      allow write: if false;                 // uploads go through the admin server (Admin SDK or V4 signed URL)
+    }
+  }
+}

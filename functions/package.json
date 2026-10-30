@@ -1,0 +1,31 @@
+{
+  "name": "functions",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FYT Cloud Functions (2nd gen, asia-south1). Versioned callables validated with @fyt/domain.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run test/unit",
+    "test:integration": "npm run build && vitest run test/integration",
+    "seed": "tsx scripts/seed-emulator.ts"
+  },
+  "engines": {
+    "node": "24"
+  },
+  "dependencies": {
+    "@fyt/domain": "file:../packages/domain",
+    "firebase-admin": "14.5.0",
+    "firebase-functions": "7.4.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "esbuild": "0.28.2",
+    "tsx": "^4.21.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

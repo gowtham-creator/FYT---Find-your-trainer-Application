@@ -1,0 +1,29 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json",
+    "location": "asia-south1"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": [
+    {
+      "source": "functions/dist",
+      "codebase": "default",
+      "runtime": "nodejs24",
+      "predeploy": ["npm run build -w functions"]
+    }
+  ],
+  "emulators": {
+    "singleProjectMode": true,
+    "auth": { "port": 9099 },
+    "firestore": { "port": 8080 },
+    "functions": { "port": 5001 },
+    "storage": { "port": 9199 },
+    "tasks": { "port": 9499 },
+    "ui": { "enabled": true, "port": 4000 },
+    "hub": { "port": 4400 },
+    "logging": { "port": 4500 }
+  }
+}

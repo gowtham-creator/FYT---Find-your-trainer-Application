@@ -22,3 +22,10 @@ node-compile-cache/
 # misc
 .DS_Store
 *.log
+
+# Firebase emulator exports and CLI cache
+.emulator-data/
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
