@@ -5,6 +5,9 @@ import { AlertCircle } from "lucide-react";
 import { Button, Field, Input } from "@/components/ui/primitives";
 import { acceptInvite, type AcceptState } from "./actions";
 
+/* Same field as the sign-in form. */
+const INPUT = "h-11 rounded-[10px] bg-paper text-body-lg focus-visible:bg-surface focus-visible:ring-[3px] focus-visible:ring-accent/15";
+
 export function AcceptForm({ token, email }: { token: string; email: string }) {
   const [state, action, pending] = useActionState<AcceptState, FormData>(acceptInvite, {});
   return (
@@ -18,10 +21,10 @@ export function AcceptForm({ token, email }: { token: string; email: string }) {
         </div>
       ) : null}
       <Field label="New password" htmlFor="password" hint="12+ characters, upper and lower case, and a number.">
-        <Input id="password" name="password" type="password" autoComplete="new-password" className="h-11" required />
+        <Input id="password" name="password" type="password" autoComplete="new-password" className={INPUT} required />
       </Field>
       <Field label="Repeat password" htmlFor="repeat">
-        <Input id="repeat" name="repeat" type="password" autoComplete="new-password" className="h-11" required />
+        <Input id="repeat" name="repeat" type="password" autoComplete="new-password" className={INPUT} required />
       </Field>
       <Button type="submit" variant="primary" size="lg" loading={pending} className="mt-1 w-full justify-center">
         Set password and continue

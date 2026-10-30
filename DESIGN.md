@@ -60,7 +60,7 @@ Each `*-soft` fill has an `--on-*-soft` text token that clears 4.5:1 on it. A st
 - **KPIs are separate cards** in a 2-up / 4-up grid, each with a 3px brand-gradient (or teal / sky / green) top bar, an uppercase label, a 28px/600 value, a delta pill and a 38px icon tile.
 - Tables are the primary data affordance: a card with an uppercase 12px header on surface, 11px row padding, a faint azure row hover, a sticky header, a bulk-select bar and skeleton rows. Panels are cards (surface, hairline, card shadow); their header has no full-width divider.
 - Editing happens in a right-side drawer, not a centered modal. Destructive confirmations use a small anchored dialog.
-- Sign-in: an animated azure panel on the left (cool glows and white floating paths only), and a calm slate column on the right with a 420px, 20px-radius card topped by a brand bar.
+- Sign-in: two inset 14px panes on slate: a bordered form pane on the left (420px column, large 34px heading), and on the right a navy pane with an animated azure grain gradient, one large headline and a glass strip. Below `lg` the dark pane becomes a short brand band above the form.
 
 ## Charts
 Azure first, teal second, sky third; never orange or amber series. Columns are up to 22px wide with a 6px top radius over dashed gridlines. Trends use an area chart (2px line, gradient fill from 28% to 0). Splits use a donut (18px stroke on a `--line` track, total centred). Legends use 9px round dots. Every chart has a table view or an accessible label.

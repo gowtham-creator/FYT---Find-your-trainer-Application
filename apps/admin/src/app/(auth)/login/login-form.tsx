@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Step 1 of sign-in, in the "Auth Page" column order (see ./auth-shell.tsx):
+ * Step 1 of sign-in, in the "Auth Section 1" column order (see ./auth-shell.tsx):
  * provider buttons, "or" separator, then the methods.
  *
  *  - Google and SSO: neither is configured yet (src/lib/auth/oauth-google.ts,
@@ -131,8 +131,50 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
   };
 
   return (
-    <div className="mt-5">
-      {/* Method tabs (NXT segmented control) */}
+    <div className="mt-6">
+      {/* Providers: Google, then SSO. Neither submits the forms below. */}
+      <div className="grid grid-cols-2 gap-2.5">
+        <button type="button" onClick={() => onProvider("google")} className={PROVIDER_BUTTON} aria-label="Continue with Google">
+          <GoogleMark className="size-[17px] shrink-0" />
+          Google
+        </button>
+        <button type="button" onClick={() => onProvider("sso")} className={PROVIDER_BUTTON} aria-label="Continue with SSO">
+          <KeyRound className="size-[17px] shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
+          SSO
+        </button>
+      </div>
+      <div role="status">
+        <AnimatePresence initial={false} mode="wait">
+          {notice ? (
+            <motion.div
+              key={notice}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: reduce ? 0 : 0.22, ease: [0.25, 1, 0.5, 1] }}
+              className="overflow-hidden"
+            >
+              <p className="mt-2.5 flex items-start gap-2.5 rounded-[12px] bg-info-soft px-3.5 py-3 text-meta leading-snug text-ink-2 ring-1 ring-inset ring-info/20">
+                <AlertCircle className="mt-px size-4 shrink-0 text-on-info-soft" strokeWidth={1.75} aria-hidden />
+                <span>
+                  <span className="font-medium text-ink">
+                    {notice === "google" ? "Google sign-in isn’t available for this workspace." : "SSO isn’t available for this workspace."}
+                  </span>{" "}
+                  {status[notice].reason} Use your email or phone below.
+                </span>
+              </p>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
+      <div className="my-5 flex items-center gap-3" role="separator" aria-label="or">
+        <span className="h-px flex-1 bg-line" />
+        <span className="text-micro font-medium uppercase tracking-[0.14em] text-ink-3">or</span>
+        <span className="h-px flex-1 bg-line" />
+      </div>
+
+      {/* Method tabs */}
       <div role="tablist" aria-label="Sign-in method" className="grid grid-cols-2 gap-1 rounded-[11px] bg-sunken p-[3px] ring-1 ring-inset ring-line">
         {(
           [
@@ -164,7 +206,7 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
                 <motion.span
                   layoutId="login-method"
                   transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 520, damping: 40 }}
-                  className="absolute inset-0 rounded-[8px] bg-surface shadow-[0_1px_3px_rgb(0_0_0/0.1)]"
+                  className="absolute inset-0 rounded-[8px] bg-raised shadow-[0_1px_3px_rgb(0_0_0/0.1)] ring-1 ring-line"
                 />
               ) : null}
               <Icon className="relative size-4" strokeWidth={1.75} aria-hidden />
@@ -180,50 +222,6 @@ export function LoginForm({ next, demo, google, sso }: { next?: string; demo?: b
       <div role="tabpanel" id="panel-phone" aria-labelledby="tab-phone" hidden={method !== "phone"}>
         <PhoneForm next={next} demo={demo} />
       </div>
-
-      <div className="my-5 flex items-center gap-3" role="separator" aria-label="or continue with">
-        <span className="h-px flex-1 bg-line" />
-        <span className="text-micro font-medium uppercase tracking-[0.14em] text-ink-3">or continue with</span>
-        <span className="h-px flex-1 bg-line" />
-      </div>
-
-      {/* Providers: Google, then SSO. Neither submits the forms above. */}
-      <div className="grid grid-cols-2 gap-2.5">
-        <button type="button" onClick={() => onProvider("google")} className={PROVIDER_BUTTON} aria-label="Continue with Google">
-          <GoogleMark className="size-[17px] shrink-0" />
-          Google
-        </button>
-        <button type="button" onClick={() => onProvider("sso")} className={PROVIDER_BUTTON} aria-label="Continue with SSO">
-          <KeyRound className="size-[17px] shrink-0 text-ink-2" strokeWidth={1.75} aria-hidden />
-          SSO
-        </button>
-      </div>
-      <div role="status">
-        <AnimatePresence initial={false} mode="wait">
-          {notice ? (
-            <motion.div
-              key={notice}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: reduce ? 0 : 0.22, ease: [0.25, 1, 0.5, 1] }}
-              className="overflow-hidden"
-            >
-              <p className="mt-2.5 flex items-start gap-2.5 rounded-[12px] bg-info-soft px-3.5 py-3 text-meta leading-snug text-ink-2 ring-1 ring-inset ring-info/20">
-                <AlertCircle className="mt-px size-4 shrink-0 text-on-info-soft" strokeWidth={1.75} aria-hidden />
-                <span>
-                  <span className="font-medium text-ink">
-                    {notice === "google" ? "Google sign-in isn\u2019t available for this workspace." : "SSO isn\u2019t available for this workspace."}
-                  </span>{" "}
-                  {status[notice].reason} Use your email or phone below.
-                </span>
-              </p>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </div>
-
-
     </div>
   );
 }

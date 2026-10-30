@@ -1,30 +1,30 @@
 /**
- * Shared shell for both sign-in steps (/login and /login/verify), so step 2
- * feels like the same page.
+ * Shared shell for the auth screens (/login, /login/verify, /accept-invite),
+ * so every step feels like the same page.
  *
- * Structure follows the "Auth Page" component by efferd on 21st.dev
- * (https://21st.dev/@efferd/components/auth-page): a split layout with an
- * animated left panel and a centred auth column on the right over soft radial
- * washes. Restyled after the NXT Schools demo sign-in: the left panel is a
- * slowly shifting azure gradient with floating cool glows and white floating
- * paths; the right column is calm slate with two faint washes and a 20px card
- * with a brand-gradient top bar. Cool hues only: no amber, gold or brown.
- * The left panel is hidden below `lg`, as in the source.
+ * Layout follows "Auth Section 1" by solaceui on 21st.dev
+ * (https://21st.dev/@solaceui/components/auth-section-1): two inset rounded
+ * panes on the page, a bordered form pane and a dark grain-gradient pane with
+ * one large headline and a glass strip at the foot. Adapted for FYT:
+ *  - recoloured to the console tokens and an azure-on-navy grain (the source's
+ *    orange, black and white are not used), see ./grain-field.tsx;
+ *  - the console's fonts and type scale, not the source's;
+ *  - the FYT lockup on the dark pane;
+ *  - below `lg` the dark pane shrinks to a short brand band above the form,
+ *    so sign-in stays on one screen on a phone.
  */
-import { FytMark, FytWordmark, type FytTone } from "@/components/brand/fyt";
-import { FloatingPaths } from "./floating-paths";
+import { FytMark, FytWordmark } from "@/components/brand/fyt";
+import { GrainField } from "./grain-field";
 import { PanelIntro } from "./panel-intro";
 import { ThemeToggle } from "./theme-toggle";
 
-function Lockup({ className, tone = "azure" }: { className?: string; tone?: FytTone }) {
+function Lockup() {
   return (
-    <div className={className}>
-      <FytMark tone={tone} className={tone === "onDark" ? "h-9 w-auto" : "h-9 w-auto drop-shadow-[0_2px_4px_oklch(0.2_0.08_262/0.35)]"} />
+    <div className="animate-rise relative flex items-center gap-3 self-start">
+      <FytMark tone="onDark" className="h-9 w-auto" />
       <div className="leading-tight">
-        <FytWordmark tone={tone} className="h-[17px] w-auto" />
-        <p className={"mt-1 text-micro uppercase tracking-[0.16em] " + (tone === "onDark" ? "text-white/75" : "text-ink-2")}>
-          Find your trainer
-        </p>
+        <FytWordmark tone="onDark" className="h-[17px] w-auto" />
+        <p className="mt-1 text-micro uppercase tracking-[0.16em] text-white/75">Find your trainer</p>
       </div>
     </div>
   );
@@ -32,58 +32,23 @@ function Lockup({ className, tone = "azure" }: { className?: string; tone?: FytT
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="relative isolate min-h-dvh bg-paper lg:grid lg:h-dvh lg:grid-cols-[1.05fr_0.95fr] lg:overflow-hidden">
-      {/* ---------- Left: azure panel, motion + a short introduction (lg and up) ---------- */}
-      <aside className="relative hidden h-dvh flex-col overflow-hidden bg-[#1E4FB8] p-10 text-white lg:flex xl:p-14">
-        {/* Two panel-sized gradients crossfading on opacity (compositor only).
-            A panned 240% layer or an animated background-position costs far
-            more paint and tile memory for the same slow drift. */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,#0E2659_0%,#1E4FB8_46%,#2C63D6_74%,#16409A_100%)]" />
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(315deg,#0E2659_0%,#1E4FB8_42%,#2C63D6_70%,#16409A_100%)] animate-bg-shift" />
-        {/* Cool glows only (NXT's amber and gold glows are not used). */}
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <span className="absolute -right-24 -top-36 size-[480px] rounded-full bg-[radial-gradient(circle,rgba(111,160,255,0.6),transparent_60%)] animate-glow-a" />
-          <span className="absolute -bottom-40 -left-24 size-[440px] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.45),transparent_60%)] animate-glow-b" />
-          <span className="absolute left-[34%] top-[30%] size-[360px] rounded-full bg-[radial-gradient(circle,rgba(165,200,255,0.35),transparent_60%)] animate-glow-a [animation-delay:-6s]" />
-        </div>
-        <div className="absolute inset-0">
-          <FloatingPaths position={1} />
-          <FloatingPaths position={-1} />
-        </div>
-
-        <div className="relative z-10 self-start">
-          <Lockup tone="onDark" className="animate-rise flex items-center gap-3" />
-        </div>
-
-        <div className="relative z-10 mt-auto">
-          {/* A soft fade toward the panel's deep end so no stroke crosses the copy. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-x-14 -bottom-14 -top-32 -z-10 bg-[linear-gradient(to_bottom,transparent,rgb(14_38_89/0.55)_8rem)]"
-          />
-          <PanelIntro />
-          <p className="mt-10 text-caption text-white/60">© FYT · Find your trainer</p>
-        </div>
+    <main className="relative isolate flex min-h-dvh flex-col gap-3 bg-paper p-3 lg:grid lg:h-dvh lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:overflow-hidden">
+      {/* ---------- Dark pane: grain, lockup, headline ---------- */}
+      <aside className="relative flex min-h-[84px] shrink-0 flex-col justify-center overflow-hidden rounded-[14px] bg-[#060E24] px-5 py-4 text-white lg:order-2 lg:justify-start lg:p-10 xl:p-14">
+        <GrainField className="absolute inset-0 size-full" />
+        {/* On the short band the lockup needs a calm side to sit on. */}
+        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,#060E24_30%,rgb(6_14_36/0.6)_62%,transparent)] lg:hidden" />
+        <Lockup />
+        <PanelIntro />
       </aside>
 
-      {/* ---------- Right: the auth column ---------- */}
-      <div className="relative flex min-h-dvh flex-col overflow-hidden bg-paper bg-[radial-gradient(640px_400px_at_82%_-10%,color-mix(in_oklab,var(--accent)_12%,transparent),transparent_70%),radial-gradient(560px_440px_at_4%_112%,color-mix(in_oklab,#38BDF8_10%,transparent),transparent_68%)] px-4 py-5 sm:px-8 lg:min-h-0 lg:py-0">
-        {/* At lg the lockup lives in the left panel, so this row floats and
-            the card gets the full height to stay centred without scrolling. */}
-        <div className="flex items-center justify-between lg:absolute lg:inset-x-0 lg:top-0 lg:z-10 lg:px-8 lg:py-5">
-          <Lockup className="animate-rise flex items-center gap-3 lg:invisible" />
+      {/* ---------- Form pane ---------- */}
+      <div className="relative flex min-h-0 flex-1 flex-col rounded-[14px] border border-line bg-surface px-5 py-6 sm:px-10 lg:overflow-y-auto">
+        <div className="absolute right-3 top-3 z-10 sm:right-4 sm:top-4">
           <ThemeToggle />
         </div>
-
-        <div className="flex flex-1 items-center justify-center py-6">
-          <div
-            className="animate-rise relative w-full max-w-[420px] rounded-[20px] border border-line bg-surface px-5 pb-6 pt-7 shadow-[0_2px_6px_oklch(var(--shadow-ink)/0.04),0_40px_80px_-38px_oklch(var(--shadow-ink)/0.34)] sm:px-8"
-            style={{ animationDelay: "40ms", animationFillMode: "both" }}
-          >
-            {/* NXT .dm-login-card::before: a 3px brand bar inset from the edges. */}
-            <span aria-hidden className="absolute inset-x-7 top-0 h-[3px] rounded-b-full" style={{ background: "var(--brand-gradient)" }} />
-            {children}
-          </div>
+        <div className="animate-rise m-auto w-full max-w-[420px]" style={{ animationDelay: "40ms", animationFillMode: "both" }}>
+          {children}
         </div>
       </div>
     </main>

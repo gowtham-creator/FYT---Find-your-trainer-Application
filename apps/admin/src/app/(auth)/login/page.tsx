@@ -1,10 +1,10 @@
 /**
  * FYT operator console: sign in, step 1 of 2.
  *
- * Layout: ./auth-shell.tsx (after the "Auth Page" component by efferd on
- * 21st.dev). Step 1 never creates a session; it earns a 6-digit code checked
- * on /login/verify. No social proof anywhere: the left panel is a headline and
- * three plain capability lines.
+ * Layout: ./auth-shell.tsx (after "Auth Section 1" by solaceui on 21st.dev).
+ * Step 1 never creates a session; it earns a 6-digit code checked on
+ * /login/verify. No social proof anywhere: the dark pane is a headline and one
+ * plain line.
  */
 import type { Metadata } from "next";
 import { AlertCircle } from "lucide-react";
@@ -14,7 +14,7 @@ import { googleOAuthStatus } from "@/lib/auth/oauth-google";
 import { ssoStatus } from "@/lib/auth/sso";
 import { AuthShell } from "./auth-shell";
 import { LoginForm } from "./login-form";
-import { StepIndicator } from "./step-indicator";
+import { AUTH_TITLE, StepIndicator } from "./step-indicator";
 
 export const metadata: Metadata = { title: "Sign in" };
 
@@ -33,9 +33,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <AuthShell>
       <header>
         <StepIndicator current={1} />
-        <p className="num mt-5 text-micro font-medium uppercase tracking-[0.16em] text-accent">Operator console</p>
-        <h1 className="font-display mt-1.5 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">Sign in to FYT Console</h1>
-        <p className="mt-1.5 text-meta leading-relaxed text-ink-2">
+        <h1 className={"mt-6 " + AUTH_TITLE}>Sign in to FYT Console</h1>
+        <p className="mt-2 text-body-lg text-ink-2">
           Step 2 is a 6{"\u2011"}digit code we send you.
         </p>
       </header>

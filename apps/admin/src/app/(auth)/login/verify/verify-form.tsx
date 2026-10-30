@@ -20,7 +20,7 @@ import { OtpInput, type OtpInputHandle } from "@/components/ui/otp-input";
 import type { ChallengeView } from "@/lib/auth/otp";
 import type { CodeChannel, SignInMethod } from "@/lib/auth/ticket";
 import { resendVerificationCode, restartSignIn, verifyCode, type ResendState, type VerifyState } from "./actions";
-import { StepIndicator } from "../step-indicator";
+import { AUTH_TITLE, StepIndicator } from "../step-indicator";
 import { useDocumentTheme } from "../use-document-theme";
 import { usePrefersReducedMotion } from "../use-reduced-motion";
 
@@ -119,11 +119,9 @@ export function VerifyForm({ destination, method, channel, view, demo, demoCode,
     <div>
       <header>
         <StepIndicator current={2} />
-        <div className="mt-4 grid size-11 place-items-center rounded-[12px] bg-accent-soft text-on-accent-soft">
-          <Channel className="size-5" strokeWidth={1.75} aria-hidden />
-        </div>
-        <h1 className="font-display mt-3 text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">Enter verification code</h1>
-        <p className="mt-1.5 text-meta leading-relaxed text-ink-2">
+        <h1 className={"mt-6 " + AUTH_TITLE}>Enter verification code</h1>
+        <p className="mt-2 text-body leading-relaxed text-ink-2">
+          <Channel className="mr-1.5 inline size-4 -translate-y-px text-ink-3" strokeWidth={1.75} aria-hidden />
           {method === "phone" ? (
             <>
               If that number belongs to an operator, we&apos;ve sent a 6-digit code to <span className="num whitespace-nowrap text-ink">{destination}</span>.

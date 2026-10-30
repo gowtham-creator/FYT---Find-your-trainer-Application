@@ -1,24 +1,19 @@
 "use client";
 
 /**
- * Copy for the sign-in side panel: one headline that arrives word by word,
- * one supporting line, and three plain capability lines revealed in a gentle
- * stagger. No cards, no data, no social proof.
+ * The dark pane's copy (lg and up): one large headline that arrives word by
+ * word and one line in a glass strip at the foot, where "Auth Section 1" has
+ * its download link (see ./auth-shell.tsx). No cards, no data, no social proof.
  *
  * Motion is opacity + translate only (motion/react). Under
  * prefers-reduced-motion the same markup renders static and finished.
  */
 import { motion } from "motion/react";
-import { CalendarCheck2, ListChecks, Video, type LucideIcon } from "lucide-react";
+import { CalendarCheck2 } from "lucide-react";
 import { usePrefersReducedMotion } from "./use-reduced-motion";
 
 const HEADLINE = "Every booking, handled in one place.".split(" ");
-const SUPPORT = "The operations console for FYT trainers and institutes in Hyderabad.";
-const POINTS: { icon: LucideIcon; text: string }[] = [
-  { icon: ListChecks, text: "Bookings confirmed from one queue" },
-  { icon: Video, text: "Meet links created for you" },
-  { icon: CalendarCheck2, text: "Every session on the right trainer's calendar" },
-];
+const SUPPORT = "The operations console for FYT trainers and institutes.";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 const WORD_STEP = 0.07;
@@ -30,8 +25,8 @@ export function PanelIntro() {
     reduce ? {} : { initial: { opacity: 0, y }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, delay, ease: EASE } };
 
   return (
-    <>
-      <p className="font-display max-w-[16ch] text-[40px] font-semibold leading-[1.08] tracking-[-0.025em] text-white xl:text-[44px]">
+    <div className="relative hidden flex-1 flex-col lg:flex">
+      <p className="font-display mt-14 max-w-[13ch] text-balance text-[clamp(40px,4.3vw,64px)] font-medium leading-[1.08] tracking-[-0.04em] text-white xl:mt-16">
         {HEADLINE.map((word, i) => (
           <span key={i}>
             <motion.span className="inline-block" {...rise(0.15 + i * WORD_STEP, 16)}>
@@ -42,20 +37,13 @@ export function PanelIntro() {
         ))}
       </p>
 
-      <motion.p className="mt-5 max-w-[40ch] text-[16px] leading-relaxed text-white/80" {...rise(AFTER_HEADLINE)}>
+      <motion.p
+        className="mt-auto flex min-h-12 items-center gap-3 self-start rounded-[10px] border border-white/25 bg-[#060E24]/70 px-4 py-2.5 text-body text-white/90"
+        {...rise(AFTER_HEADLINE)}
+      >
+        <CalendarCheck2 className="size-[18px] shrink-0" strokeWidth={1.75} aria-hidden />
         {SUPPORT}
       </motion.p>
-
-      <ul className="mt-8 space-y-3">
-        {POINTS.map(({ icon: Icon, text }, i) => (
-          <motion.li key={text} className="flex items-center gap-3.5 text-body text-white/95" {...rise(AFTER_HEADLINE + 0.15 + i * 0.1)}>
-            <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-white/14 text-white ring-1 ring-inset ring-white/20">
-              <Icon className="size-[18px]" strokeWidth={1.75} aria-hidden />
-            </span>
-            {text}
-          </motion.li>
-        ))}
-      </ul>
-    </>
+    </div>
   );
 }

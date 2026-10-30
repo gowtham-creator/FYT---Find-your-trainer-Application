@@ -183,9 +183,6 @@
   --animate-pop-in: pop-in 180ms var(--ease-out-quart);
   --animate-shimmer: shimmer 1.4s linear infinite;
   --animate-page: page-in 300ms var(--ease-out-quart);
-  --animate-bg-shift: bg-shift 16s ease-in-out infinite;
-  --animate-glow-a: glow-float 14s ease-in-out infinite;
-  --animate-glow-b: glow-float 11s ease-in-out -4s infinite reverse;
 }
 
 @keyframes fade-in {
@@ -221,15 +218,6 @@
 @keyframes page-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
-}
-/* Login aside: slow gradient crossfade and floating cool glows. */
-@keyframes bg-shift {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-@keyframes glow-float {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(24px, -18px, 0) scale(1.08); }
 }
 @keyframes shimmer {
   from { background-position: -200% 0; }

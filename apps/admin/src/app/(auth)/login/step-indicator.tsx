@@ -7,6 +7,9 @@ import { Check } from "lucide-react";
 
 const STEPS = ["Sign in", "Verify"] as const;
 
+/** The large heading shared by every auth screen. */
+export const AUTH_TITLE = "font-display text-balance text-[30px] font-medium leading-[1.1] tracking-[-0.035em] text-ink sm:text-[34px]";
+
 export function StepIndicator({ current }: { current: 1 | 2 }) {
   return (
     <ol aria-label="Sign-in steps" className="flex items-center gap-2.5 text-meta font-medium">
