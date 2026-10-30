@@ -1,0 +1,29 @@
+{
+  "name": "fyt",
+  "private": true,
+  "description": "FYT (Find Your Trainer) monorepo: admin console, mobile app, Cloud Functions and shared domain code.",
+  "workspaces": [
+    "packages/*",
+    "apps/admin",
+    "apps/mobile",
+    "functions",
+    "tests/rules"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "emulators": "firebase emulators:start --project demo-fyt --import .emulator-data --export-on-exit",
+    "emulators:fresh": "firebase emulators:start --project demo-fyt",
+    "seed": "npm run seed -w functions",
+    "build:functions": "npm run build -w functions",
+    "test": "npm test -w packages/domain -w apps/admin -w functions -w apps/mobile",
+    "test:rules": "firebase emulators:exec --project demo-fyt --only firestore,storage \"npm test -w tests/rules\"",
+    "test:integration": "firebase emulators:exec --project demo-fyt --only auth,firestore,functions \"npm run test:integration -w functions\"",
+    "typecheck": "npm run typecheck -w packages/domain -w functions -w apps/mobile -w tests/rules",
+    "lint": "npm run lint -w apps/admin -w apps/mobile"
+  },
+  "devDependencies": {
+    "firebase-tools": "15.34.2"
+  }
+}

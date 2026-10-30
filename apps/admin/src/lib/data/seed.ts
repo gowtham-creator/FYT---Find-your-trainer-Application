@@ -21,7 +21,7 @@ import type {
   Provider,
 } from "./types";
 import { DEFAULT_ADMIN_PERMISSIONS } from "../rbac";
-import { addDays, istDateKey, weekdayOf } from "../slots";
+import { addDays, istDateKey, weekdayOf } from "@fyt/domain/slots";
 
 export function hashPassword(pw: string): string {
   const salt = randomBytes(16).toString("hex");

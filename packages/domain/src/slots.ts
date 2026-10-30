@@ -3,9 +3,9 @@
  * the concrete slots a learner is offered.
  *
  * This module is PURE (no clock, no store, no I/O) and has only type imports,
- * so it runs unchanged in the console, in `node --test`, and in the Cloud
- * Function `getSlots`, which must mirror it exactly. Change the rules here and
- * in the Function together.
+ * so it runs unchanged in the admin console, in the mobile app and in the
+ * Cloud Functions (`getAvailabilityV1`, `createBookingV1`). It lives in
+ * `@fyt/domain` so every caller runs the same code.
  *
  * Rules, in order of precedence:
  *  1. Time zone. Every date and minute is Asia/Kolkata (UTC+05:30, no DST).
@@ -27,7 +27,7 @@
  *  8. Offered = not blocked, remaining > 0 and outside the lead time.
  *     Output is sorted by start time, then by mode.
  */
-import type { Booking, Mode } from "./data/types";
+import type { BookingStatus, Mode } from "./common";
 
 export const IST_OFFSET_MS = 330 * 60_000;
 const DAY_MS = 86_400_000;
@@ -54,7 +54,11 @@ export interface SlotException {
   reason?: string;
 }
 
-export type SlotBooking = Pick<Booking, "start" | "end" | "status">;
+export interface SlotBooking {
+  start: number;
+  end: number;
+  status: BookingStatus;
+}
 
 export interface SlotQuery {
   rules: readonly SlotRule[];
@@ -235,7 +239,7 @@ export function planDays(q: SlotQuery): DayPlan[] {
   return days;
 }
 
-/** The bookable slots a learner is offered in [from, to]. Mirrors Cloud Function `getSlots`. */
+/** The bookable slots a learner is offered in [from, to]. Used by `getAvailabilityV1`. */
 export function generateSlots(q: SlotQuery): Slot[] {
   return planDays(q).flatMap((d) => d.slots.filter((s) => s.state === "open"));
 }

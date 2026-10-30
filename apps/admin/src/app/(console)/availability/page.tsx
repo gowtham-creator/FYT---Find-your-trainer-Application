@@ -1,7 +1,7 @@
 import { requirePermission } from "@/lib/auth";
 import { requestTime } from "@/lib/clock";
 import { db } from "@/lib/data/store";
-import { addDays, istDateKey, istEpoch } from "@/lib/slots";
+import { addDays, istDateKey, istEpoch } from "@fyt/domain/slots";
 import { PageHeader } from "@/components/ui/primitives";
 import { AvailabilityClient } from "./availability-client";
 

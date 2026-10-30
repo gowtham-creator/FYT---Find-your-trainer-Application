@@ -4,7 +4,7 @@ import * as React from "react";
 import { Ban, MapPin, PencilLine, Plus, Video } from "lucide-react";
 import { Panel, PanelHeader } from "@/components/ui/primitives";
 import { Pill } from "@/components/ui/status";
-import { addDays, istEpoch, planDays, type SlotBooking, type SlotException, type SlotRule } from "@/lib/slots";
+import { addDays, istEpoch, planDays, type SlotBooking, type SlotException, type SlotRule } from "@fyt/domain/slots";
 import { cn, fmtDate, minutesToLabel } from "@/lib/utils";
 
 const PREVIEW_DAYS = 14;

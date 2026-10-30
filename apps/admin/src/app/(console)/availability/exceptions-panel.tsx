@@ -9,7 +9,7 @@ import { ConfirmDialog, Drawer } from "@/components/ui/overlays";
 import { Pill } from "@/components/ui/status";
 import { useServerAction } from "@/components/ui/use-action";
 import { solarIcon } from "@/components/icons/solar";
-import { addDays, istEpoch } from "@/lib/slots";
+import { addDays, istEpoch } from "@fyt/domain/slots";
 import { fmtDate, minutesToLabel } from "@/lib/utils";
 import { addAvailabilityException, removeAvailabilityException } from "./actions";
 

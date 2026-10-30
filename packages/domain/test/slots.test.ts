@@ -1,18 +1,10 @@
 /**
- * Unit tests for the pure slot generator. Runs on Node's built-in test runner
- * with native TypeScript type stripping (Node >= 22.18), no extra deps:
- *
- *   npm test          (node --test src/lib/*.test.ts)
- *
- * The module is loaded through a URL so Node gets an explicit `.ts` path while
- * `tsc` still type-checks it against `./slots`.
+ * Unit tests for the pure slot generator (moved from apps/admin/src/lib with
+ * the generator). Run with `npm test -w packages/domain` (vitest).
  */
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 import assert from "node:assert/strict";
-
-type SlotsModule = typeof import("./slots");
-const mod: SlotsModule = await import(new URL("./slots.ts", import.meta.url).href);
-const { generateSlots, planDays, istEpoch, istDateKey, weekdayOf, addDays } = mod;
+import { generateSlots, planDays, istEpoch, istDateKey, weekdayOf, addDays } from "../src/slots";
 
 // 2026-10-05 is a Monday. "now" is Sunday 2026-10-04 08:00 IST.
 const NOW = istEpoch("2026-10-04", 8 * 60);

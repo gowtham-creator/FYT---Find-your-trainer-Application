@@ -5,7 +5,7 @@ import { z } from "zod";
 import { assertPermission, ForbiddenError } from "@/lib/auth";
 import { audit, db, newId } from "@/lib/data/store";
 import type { AvailabilityException, BookingTarget } from "@/lib/data/types";
-import { addDays, istDateKey, istEpoch, isValidDateKey, weekdayOf } from "@/lib/slots";
+import { addDays, istDateKey, istEpoch, isValidDateKey, weekdayOf } from "@fyt/domain/slots";
 import { fmtDate, minutesToLabel } from "@/lib/utils";
 import type { ActionResult } from "../bookings/actions";
 

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Copy, Plus, Trash2 } from "lucide-react";
 import type { AvailabilityException, AvailabilityRule } from "@/lib/data/types";
-import type { SlotBooking } from "@/lib/slots";
+import type { SlotBooking } from "@fyt/domain/slots";
 import { Button, EmptyState, Input, Panel, PanelHeader, Select } from "@/components/ui/primitives";
 import { useServerAction } from "@/components/ui/use-action";
 import { cn, minutesToLabel } from "@/lib/utils";
