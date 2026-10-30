@@ -44,7 +44,7 @@ not taken from the source.
 | --- | --- | --- | --- | --- |
 | Event Manager | vaib215 | https://21st.dev/@vaib215/components/event-manager | Day, Week and Month booking calendar layout. Reference only, no source code included | `src/app/(console)/bookings/booking-calendar.tsx` |
 | Segmented Control | ddoemonn | https://21st.dev/@ddoemonn/components/segmented-control | Segmented view switch. Reference only, no source code included | `src/components/ui/choice.tsx` |
-| Auth Section 1 | solaceui | https://21st.dev/@solaceui/components/auth-section-1 | Layout of the sign-in, verification and invite screens. Grain gradient redrawn in Canvas 2D; the source's WebGL shader is not included | `src/app/(auth)/login/` |
+| Auth Section 1 | solaceui | https://21st.dev/@solaceui/components/auth-section-1 | Layout of the sign-in, verification and invite screens. Canvas 2D fallback grain redrawn after its grain gradient; the panel's WebGL fluid is our own and the source's shader is not included. The fluid's noise hash is "Hash without Sine" by Dave Hoskins (MIT) | `src/app/(auth)/login/` |
 | Empty State | serafimcloud | https://21st.dev/@serafimcloud/components/empty-state | The tilted card fan in empty states | `src/components/ui/primitives.tsx` |
 | OTPVerification | 21st.dev community | https://21st.dev | Sign-in code field | `src/components/ui/otp-input.tsx` |
 

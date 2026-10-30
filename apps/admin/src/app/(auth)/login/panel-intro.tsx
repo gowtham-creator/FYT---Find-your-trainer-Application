@@ -26,7 +26,7 @@ export function PanelIntro() {
 
   return (
     <div className="relative hidden flex-1 flex-col lg:flex">
-      <p className="font-display mt-14 max-w-[13ch] text-balance text-[clamp(40px,4.3vw,64px)] font-medium leading-[1.08] tracking-[-0.04em] text-white xl:mt-16">
+      <p data-grain-calm className="font-display mt-14 max-w-[13ch] text-balance text-[clamp(40px,4.3vw,64px)] font-medium leading-[1.08] tracking-[-0.04em] text-white xl:mt-16">
         {HEADLINE.map((word, i) => (
           <span key={i}>
             <motion.span className="inline-block" {...rise(0.15 + i * WORD_STEP, 16)}>

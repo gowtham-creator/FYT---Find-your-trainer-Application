@@ -1,23 +1,26 @@
 "use client";
 
 /**
- * Animated grain gradient for the sign-in panel: two soft colour fields in
- * opposite corners whose edges dissolve into stipple.
+ * The sign-in panel's animated background.
  *
- * The look comes from the `GrainGradient` shader (shape "corners") used by
- * "Auth Section 1" by solaceui on 21st.dev
- * (https://21st.dev/@solaceui/components/auth-section-1). That shader needs
- * WebGL and a new dependency, so this is a small Canvas 2D rebuild instead,
- * and none of the shader's code is used:
+ * Normally this is the WebGL fluid in ./fluid-gl.ts. If WebGL is missing, or
+ * stops working and does not recover, the canvas is replaced and the Canvas 2D
+ * grain below takes over, so the panel is never blank. Until the first frame
+ * the panel shows its own navy background.
+ *
+ * The fallback's look comes from the `GrainGradient` shader (shape "corners")
+ * used by "Auth Section 1" by solaceui on 21st.dev
+ * (https://21st.dev/@solaceui/components/auth-section-1), rebuilt in Canvas 2D
+ * with none of the shader's code:
  *  - each pixel is a corner-distance value plus a fixed noise offset, looked
  *    up in a 256-step ramp of cool colours (deep navy, pale azure fringe,
  *    brand azure); the source's orange and white are not used;
  *  - about 20 frames a second at a reduced resolution. requestAnimationFrame
  *    stops by itself in a hidden tab, and a canvas with no size draws nothing;
  *  - prefers-reduced-motion: one still frame.
- * Until the first frame the panel shows its own navy background.
  */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { startFluid } from "./fluid-gl";
 import { usePrefersReducedMotion } from "./use-reduced-motion";
 
 const FRAME_MS = 50;
@@ -95,62 +98,69 @@ function paint(buf: Uint32Array, noise: Int8Array, ramp: Uint32Array, w: number,
   }
 }
 
+function startGrain(canvas: HTMLCanvasElement, still: boolean) {
+  const ctx = canvas.getContext("2d", { alpha: false });
+  if (!ctx) return;
+
+  const ramp = buildRamp();
+  let raf = 0;
+  let last = 0;
+  let image: ImageData | null = null;
+  let buf: Uint32Array | null = null;
+  let noise: Int8Array | null = null;
+
+  const draw = (t: number) => {
+    if (!image || !buf || !noise) return;
+    paint(buf, noise, ramp, image.width, image.height, t);
+    ctx.putImageData(image, 0, 0);
+  };
+
+  const resize = () => {
+    const { width, height } = canvas.getBoundingClientRect();
+    if (width < 1 || height < 1) {
+      image = null;
+      return;
+    }
+    const scale = Math.max(1.5, Math.sqrt((width * height) / MAX_PIXELS));
+    const w = Math.ceil(width / scale);
+    const h = Math.ceil(height / scale);
+    canvas.width = w;
+    canvas.height = h;
+    image = ctx.createImageData(w, h);
+    buf = new Uint32Array(image.data.buffer);
+    noise = buildNoise(w * h);
+    draw(still ? STILL_T : STILL_T + performance.now() / 1000);
+  };
+
+  const tick = (now: number) => {
+    raf = requestAnimationFrame(tick);
+    if (now - last < FRAME_MS) return;
+    last = now;
+    draw(STILL_T + now / 1000);
+  };
+
+  const observer = new ResizeObserver(resize);
+  observer.observe(canvas);
+  resize();
+  if (!still) raf = requestAnimationFrame(tick);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    observer.disconnect();
+  };
+}
+
 export function GrainField({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = usePrefersReducedMotion();
+  const [fluid, setFluid] = useState(true);
 
   useEffect(() => {
     const canvas = ref.current;
-    const ctx = canvas?.getContext("2d", { alpha: false });
-    if (!canvas || !ctx) return;
+    if (!canvas) return;
+    return fluid ? startFluid(canvas, { still: reduce, onFail: () => setFluid(false) }) : startGrain(canvas, reduce);
+  }, [fluid, reduce]);
 
-    const ramp = buildRamp();
-    let raf = 0;
-    let last = 0;
-    let image: ImageData | null = null;
-    let buf: Uint32Array | null = null;
-    let noise: Int8Array | null = null;
-
-    const draw = (t: number) => {
-      if (!image || !buf || !noise) return;
-      paint(buf, noise, ramp, image.width, image.height, t);
-      ctx.putImageData(image, 0, 0);
-    };
-
-    const resize = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-      if (width < 1 || height < 1) {
-        image = null;
-        return;
-      }
-      const scale = Math.max(1.5, Math.sqrt((width * height) / MAX_PIXELS));
-      const w = Math.ceil(width / scale);
-      const h = Math.ceil(height / scale);
-      canvas.width = w;
-      canvas.height = h;
-      image = ctx.createImageData(w, h);
-      buf = new Uint32Array(image.data.buffer);
-      noise = buildNoise(w * h);
-      draw(reduce ? STILL_T : STILL_T + performance.now() / 1000);
-    };
-
-    const tick = (now: number) => {
-      raf = requestAnimationFrame(tick);
-      if (now - last < FRAME_MS) return;
-      last = now;
-      draw(STILL_T + now / 1000);
-    };
-
-    const observer = new ResizeObserver(resize);
-    observer.observe(canvas);
-    resize();
-    if (!reduce) raf = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-    };
-  }, [reduce]);
-
-  return <canvas ref={ref} aria-hidden className={className} />;
+  // A canvas keeps its first context type, so the fallback needs a new element.
+  return <canvas key={fluid ? "fluid" : "grain"} ref={ref} aria-hidden className={className} />;
 }

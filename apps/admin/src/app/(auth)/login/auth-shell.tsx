@@ -4,10 +4,10 @@
  *
  * Layout follows "Auth Section 1" by solaceui on 21st.dev
  * (https://21st.dev/@solaceui/components/auth-section-1): two inset rounded
- * panes on the page, a bordered form pane and a dark grain-gradient pane with
+ * panes on the page, a bordered form pane and a dark animated gradient pane with
  * one large headline and a glass strip at the foot. Adapted for FYT:
- *  - recoloured to the console tokens and an azure-on-navy grain (the source's
- *    orange, black and white are not used), see ./grain-field.tsx;
+ *  - recoloured to the console tokens and an azure-on-navy fluid (the source's
+ *    orange, black and white are not used), see ./fluid-gl.ts;
  *  - the console's fonts and type scale, not the source's;
  *  - the FYT lockup on the dark pane;
  *  - below `lg` the dark pane shrinks to a short brand band above the form,
@@ -20,7 +20,7 @@ import { ThemeToggle } from "./theme-toggle";
 
 function Lockup() {
   return (
-    <div className="animate-rise relative flex items-center gap-3 self-start">
+    <div data-grain-calm className="animate-rise relative flex items-center gap-3 self-start">
       <FytMark tone="onDark" className="h-9 w-auto" />
       <div className="leading-tight">
         <FytWordmark tone="onDark" className="h-[17px] w-auto" />

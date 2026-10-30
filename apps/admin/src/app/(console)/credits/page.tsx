@@ -130,7 +130,7 @@ const PATTERNS: Credit[] = [
     licenceHref: "https://21st.dev/@solaceui/components/auth-section-1",
     source: "21st.dev",
     sourceHref: "https://21st.dev/@solaceui/components/auth-section-1",
-    note: "Recoloured to azure on navy. The grain is a new Canvas 2D drawing; the source's WebGL shader is not included.",
+    note: "Recoloured to azure on navy. The panel's WebGL fluid and the Canvas 2D fallback grain are new drawings; the source's shader is not included. The fluid's noise hash is \"Hash without Sine\" by Dave Hoskins (MIT).",
   },
   {
     name: "Empty State",
