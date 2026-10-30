@@ -202,7 +202,25 @@ const POINTER_EASE = 0.9;
 const RESTORE_WAIT_MS = 2500;
 /** Padding around the text, and the calm zone's falloff as part of the short side. */
 const CALM_MARGIN = 16;
-const CALM_SOFT = 0.24;
+export const CALM_SOFT = 0.24;
+
+/** The right and bottom edge, in CSS pixels from the canvas corner, of what must stay dark. */
+export function measureCalm(canvas: HTMLCanvasElement, elements: Element[]) {
+  const box = canvas.getBoundingClientRect();
+  let right = 0;
+  let bottom = 0;
+  for (const element of elements) {
+    const rect = element.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) continue;
+    right = Math.max(right, rect.right - box.left);
+    bottom = Math.max(bottom, rect.bottom - box.top);
+  }
+  return { right: right + CALM_MARGIN, bottom: bottom + CALM_MARGIN };
+}
+
+export function findCalmElements(canvas: HTMLCanvasElement) {
+  return Array.from(canvas.parentElement?.querySelectorAll("[data-grain-calm]") ?? []);
+}
 
 type Program = { program: WebGLProgram; uniforms: Record<string, WebGLUniformLocation | null> };
 
@@ -300,7 +318,7 @@ export function startFluid(canvas: HTMLCanvasElement, { still, onFail }: Options
   }
 
   const panel = canvas.parentElement;
-  const calmElements = panel ? Array.from(panel.querySelectorAll("[data-grain-calm]")) : [];
+  const calmElements = findCalmElements(canvas);
 
   let scene: Scene | null = null;
   let raf = 0;
@@ -378,16 +396,9 @@ export function startFluid(canvas: HTMLCanvasElement, { still, onFail }: Options
     fieldX = (box.width / unit) * FIELD_SCALE;
     fieldY = (box.height / unit) * FIELD_SCALE;
 
-    let right = 0;
-    let bottom = 0;
-    for (const element of calmElements) {
-      const rect = element.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) continue;
-      right = Math.max(right, rect.right - box.left);
-      bottom = Math.max(bottom, rect.bottom - box.top);
-    }
-    calmX = (right + CALM_MARGIN) * dpr;
-    calmY = (bottom + CALM_MARGIN) * dpr;
+    const calm = measureCalm(canvas, calmElements);
+    calmX = calm.right * dpr;
+    calmY = calm.bottom * dpr;
     calmSoft = Math.min(box.width, box.height) * CALM_SOFT * dpr;
 
     draw();

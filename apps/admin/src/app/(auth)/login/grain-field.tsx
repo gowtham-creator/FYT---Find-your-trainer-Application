@@ -20,12 +20,14 @@
  *  - prefers-reduced-motion: one still frame.
  */
 import { useEffect, useRef, useState } from "react";
-import { startFluid } from "./fluid-gl";
+import { CALM_SOFT, findCalmElements, measureCalm, startFluid } from "./fluid-gl";
 import { usePrefersReducedMotion } from "./use-reduced-motion";
 
 const FRAME_MS = 50;
 const MAX_PIXELS = 300_000;
 const STILL_T = 12;
+/** Enough to push any value below the stipple's step, so the text sits on navy. */
+const CALM_PUSH = 1.3;
 
 /** value (0-1) -> colour. The hard step at 0.5 is what makes the stipple. */
 const STOPS: [number, number, number, number][] = [
@@ -65,7 +67,19 @@ function buildNoise(size: number) {
   return noise;
 }
 
-function paint(buf: Uint32Array, noise: Int8Array, ramp: Uint32Array, w: number, h: number, t: number) {
+/** 1 up to `edge`, easing to 0 over `soft`, for each of `length` pixels. */
+function calmEdge(length: number, edge: number, soft: number) {
+  const weights = new Float32Array(length);
+  for (let i = 0; i < length; i++) {
+    const k = Math.min(1, Math.max(0, (i - edge) / soft));
+    weights[i] = 1 - k * k * (3 - 2 * k);
+  }
+  return weights;
+}
+
+type Calm = { x: Float32Array; y: Float32Array };
+
+function paint(buf: Uint32Array, noise: Int8Array, ramp: Uint32Array, calm: Calm, w: number, h: number, t: number) {
   const waveX = new Float32Array(w);
   const waveY = new Float32Array(h);
   for (let x = 0; x < w; x++) waveX[x] = 0.1 * Math.sin((x / w) * 6.1 - t * 0.27);
@@ -91,7 +105,7 @@ function paint(buf: Uint32Array, noise: Int8Array, ramp: Uint32Array, w: number,
       // 1 at a corner, 0 on the ellipse edge, negative outside.
       const a = 1 - Math.sqrt(ax * ax + ay * ay) + wave;
       const b = 1 - Math.sqrt(bx * bx + by * by) - wave;
-      const value = 0.5 + 0.95 * (a > b ? a : b) + noise[i] * 0.0019;
+      const value = 0.5 + 0.95 * (a > b ? a : b) + noise[i] * 0.0019 - CALM_PUSH * calm.x[x] * calm.y[y];
       const index = value <= 0 ? 0 : value >= 1 ? 255 : (value * 255) | 0;
       buf[i] = ramp[index];
     }
@@ -108,10 +122,12 @@ function startGrain(canvas: HTMLCanvasElement, still: boolean) {
   let image: ImageData | null = null;
   let buf: Uint32Array | null = null;
   let noise: Int8Array | null = null;
+  let calm: Calm | null = null;
+  const calmElements = findCalmElements(canvas);
 
   const draw = (t: number) => {
-    if (!image || !buf || !noise) return;
-    paint(buf, noise, ramp, image.width, image.height, t);
+    if (!image || !buf || !noise || !calm) return;
+    paint(buf, noise, ramp, calm, image.width, image.height, t);
     ctx.putImageData(image, 0, 0);
   };
 
@@ -129,6 +145,9 @@ function startGrain(canvas: HTMLCanvasElement, still: boolean) {
     image = ctx.createImageData(w, h);
     buf = new Uint32Array(image.data.buffer);
     noise = buildNoise(w * h);
+    const box = measureCalm(canvas, calmElements);
+    const soft = (Math.min(width, height) * CALM_SOFT) / scale;
+    calm = { x: calmEdge(w, box.right / scale, soft), y: calmEdge(h, box.bottom / scale, soft) };
     draw(still ? STILL_T : STILL_T + performance.now() / 1000);
   };
 
@@ -141,6 +160,7 @@ function startGrain(canvas: HTMLCanvasElement, still: boolean) {
 
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
+  for (const element of calmElements) observer.observe(element);
   resize();
   if (!still) raf = requestAnimationFrame(tick);
 
