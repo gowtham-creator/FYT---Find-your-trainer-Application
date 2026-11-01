@@ -64,26 +64,28 @@ export function AnalyticsCharts({
         </div>
       </Panel>
 
-      <Panel>
+      <Panel className="flex flex-col">
         <PanelHeader
           icon={solarIcon("round-graph-bold-duotone")}
           title="Bookings made per day"
           description={`Last ${series.length} days`}
           actions={<ViewToggle table={bkTable} onChange={setBkTable} />}
         />
-        <div className="px-5 py-4">
+        <div className="flex min-h-0 flex-1 flex-col px-5 py-4">
           {bkTable ? (
             <StackedColumns
               data={series}
               series={[{ key: "bookings", label: "Bookings", color: "var(--viz-1)" }]}
               label="Bookings made per day"
               table
+              tableClassName="max-h-[340px]"
             />
           ) : (
             <AreaTrend
               data={series.map((d) => ({ day: d.day, value: d.bookings }))}
               label="Bookings made per day. Use the Table view for exact values."
               height={180}
+              fill
             />
           )}
         </div>

@@ -12,7 +12,10 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
   const d = db();
   const now = requestTime();
   const demand = new Map<string, number>();
-  for (const b of d.bookings) if (b.targetType === "course" && b.createdAt > now - 30 * 86_400_000) demand.set(b.targetId, (demand.get(b.targetId) ?? 0) + 1);
+  // Same window as Analytics: made in the last 30 days, so nothing dated after now.
+  for (const b of d.bookings) {
+    if (b.targetType === "course" && b.createdAt > now - 30 * 86_400_000 && b.createdAt < now) demand.set(b.targetId, (demand.get(b.targetId) ?? 0) + 1);
+  }
   return (
     <>
       <PageHeader title="Courses & projects" description="Listings learners browse and book demos for. Hidden listings stay here but disappear from the app." />

@@ -106,14 +106,20 @@ export function dailySeries(days = 30, now = Date.now()) {
   return out;
 }
 
+/**
+ * Every "in the last N days" figure counts records made in [from, now). The
+ * upper bound matters: a booking dated after `now` was not made in the period,
+ * and the page's KPI band and daily series already leave those out.
+ */
 export function funnel(now = Date.now(), days = 30) {
   const d = db();
   const from = now - days * DAY;
-  const learners = d.learners.filter((l) => l.createdAt >= from);
+  const learners = inRange(d.learners, (l) => l.createdAt, from, now);
   const onboarded = learners.filter((l) => l.onboarded);
-  const bookedIds = new Set(d.bookings.filter((b) => b.createdAt >= from).map((b) => b.learnerId));
+  const made = inRange(d.bookings, (b) => b.createdAt, from, now);
+  const bookedIds = new Set(made.map((b) => b.learnerId));
   const booked = onboarded.filter((l) => bookedIds.has(l.id));
-  const attendedIds = new Set(d.bookings.filter((b) => b.createdAt >= from && b.status === "completed").map((b) => b.learnerId));
+  const attendedIds = new Set(made.filter((b) => b.status === "completed").map((b) => b.learnerId));
   const attended = booked.filter((l) => attendedIds.has(l.id));
   return [
     { stage: "Registered", count: learners.length },
@@ -127,8 +133,7 @@ export function demandByListing(now = Date.now(), days = 30, limit = 8) {
   const d = db();
   const from = now - days * DAY;
   const map = new Map<string, { type: BookingTarget; id: string; bookings: number; completed: number }>();
-  for (const b of d.bookings) {
-    if (b.createdAt < from) continue;
+  for (const b of inRange(d.bookings, (x) => x.createdAt, from, now)) {
     const k = `${b.targetType}:${b.targetId}`;
     const cur = map.get(k) ?? { type: b.targetType, id: b.targetId, bookings: 0, completed: 0 };
     cur.bookings += 1;
@@ -145,7 +150,7 @@ export function bookingMix(now = Date.now(), days = 30) {
   const d = db();
   const from = now - days * DAY;
   const counts: Record<BookingTarget, number> = { course: 0, trainer: 0, mentor: 0, consultant: 0 };
-  for (const b of d.bookings) if (b.createdAt >= from) counts[b.targetType] += 1;
+  for (const b of inRange(d.bookings, (x) => x.createdAt, from, now)) counts[b.targetType] += 1;
   return counts;
 }
 

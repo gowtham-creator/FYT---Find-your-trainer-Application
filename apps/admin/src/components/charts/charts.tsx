@@ -57,12 +57,14 @@ export function StackedColumns<T extends { day: number } & Record<string, number
   height = 220,
   label,
   table,
+  tableClassName = "max-h-[260px]",
 }: {
   data: T[];
   series: Series[];
   height?: number;
   label: string;
   table: boolean;
+  tableClassName?: string;
 }) {
   const [hover, setHover] = React.useState<number | null>(null);
   const totals = data.map((d) => series.reduce((s, x) => s + (d[x.key] ?? 0), 0));
@@ -73,7 +75,7 @@ export function StackedColumns<T extends { day: number } & Record<string, number
 
   if (table)
     return (
-      <div className="max-h-[260px] overflow-y-auto">
+      <div className={cn("overflow-y-auto", tableClassName)}>
         <table className="w-full text-meta">
           <caption className="sr-only">{label}</caption>
           <thead className="sticky top-0 bg-surface text-left text-ink-2">
@@ -216,12 +218,16 @@ export function AreaTrend({
   height = 180,
   label,
   format = fmtNumber,
+  fill = false,
 }: {
   data: Array<{ day: number; value: number }>;
   color?: string;
+  /** Plot height, or the minimum when `fill` is set. */
   height?: number;
   label: string;
   format?: (n: number) => string;
+  /** Grow to the height of a flex parent instead of staying at `height`. */
+  fill?: boolean;
 }) {
   const id = React.useId().replace(/:/g, "");
   const [hover, setHover] = React.useState<number | null>(null);
@@ -235,14 +241,16 @@ export function AreaTrend({
   const line = data.map((d, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(d.value).toFixed(1)}`).join(" ");
   const area = `${line} L${W},${H} L0,${H} Z`;
   const ticks = [0, max / 2, max];
+  // Percentages of the plot, so marks stay on the data when `fill` stretches it.
+  const pct = (v: number) => `${(y(v) / H) * 100}%`;
   return (
-    <div className="relative" role="img" aria-label={label}>
-      <div className="relative ml-8" style={{ height: H }}>
+    <div className={cn("relative", fill && "flex min-h-0 flex-1 flex-col")} role="img" aria-label={label}>
+      <div className={cn("relative ml-8", fill && "flex-1")} style={fill ? { minHeight: H } : { height: H }}>
         {ticks.map((t) => (
           <div
             key={t}
             className={cn("absolute inset-x-0 border-t", t === 0 ? "border-line" : "border-dashed border-line/70")}
-            style={{ top: y(t) }}
+            style={{ top: pct(t) }}
           >
             <span className="num absolute -left-8 -top-2 w-6 text-right text-caption text-ink-3">{fmtNumber(t)}</span>
           </div>
@@ -275,13 +283,13 @@ export function AreaTrend({
             <span
               aria-hidden
               className="pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-surface"
-              style={{ left: `${(hover / (data.length - 1)) * 100}%`, top: y(data[hover].value), background: color }}
+              style={{ left: `${(hover / (data.length - 1)) * 100}%`, top: pct(data[hover].value), background: color }}
             />
             <div
               className="pointer-events-none absolute z-10 rounded-[10px] border border-line bg-raised px-3 py-2 text-caption shadow-[var(--shadow-overlay)]"
               style={{
                 left: `clamp(0px, calc(${(hover / (data.length - 1)) * 100}% - 64px), calc(100% - 128px))`,
-                top: Math.max(0, y(data[hover].value) - 56),
+                top: `max(0px, calc(${pct(data[hover].value)} - 56px))`,
                 width: 128,
               }}
             >
