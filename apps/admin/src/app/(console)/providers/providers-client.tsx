@@ -58,20 +58,20 @@ export function ProvidersClient({ rows, openNew, initialType }: { rows: Row[]; o
               {r.featured ? <Star className="size-3.5 shrink-0 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
               {r.name}
             </p>
-            <p className="max-w-[260px] truncate text-caption text-ink-3" title={r.headline}>{r.headline}</p>
+            <p className="max-w-[220px] truncate text-caption text-ink-3" title={r.headline}>{r.headline}</p>
           </div>
         </div>
       ),
     },
-    { key: "type", header: "Type", sortValue: (r) => r.type, cell: (r) => <Pill tone="neutral" icon={r.isOrganisation ? Building : UserRound}>{TYPE_LABEL[r.type]}</Pill> },
-    { key: "exp", header: "Experience", hideBelow: "lg", sortValue: (r) => r.yearsExperience, cell: (r) => <span className="num text-ink-2">{r.yearsExperience} yrs</span> },
+    { key: "type", header: "Type", hideBelow: "md", sortValue: (r) => r.type, cell: (r) => <Pill tone="neutral" icon={r.isOrganisation ? Building : UserRound}>{TYPE_LABEL[r.type]}</Pill> },
+    { key: "exp", header: "Experience", hideBelow: "2xl", sortValue: (r) => r.yearsExperience, cell: (r) => <span className="num text-ink-2">{r.yearsExperience} yrs</span> },
     {
       key: "slots",
       header: "Open slots / wk",
-      hideBelow: "md",
+      hideBelow: "xl",
       sortValue: (r) => r.slotsPerWeek,
       cell: (r) =>
-        r.slotsPerWeek ? <span className="num">{r.slotsPerWeek}</span> : <span className="text-meta text-warn">No availability</span>,
+        r.slotsPerWeek ? <span className="num">{r.slotsPerWeek}</span> : <span className="text-meta text-on-warn-soft">No availability</span>,
     },
     { key: "upcoming", header: "Upcoming", sortValue: (r) => r.upcoming, cell: (r) => <span className="num">{r.upcoming}</span>, className: "text-right", headerClassName: "text-right" },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },

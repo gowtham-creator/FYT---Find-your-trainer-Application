@@ -19,6 +19,7 @@ export function Drawer({
   children,
   footer,
   width = "max-w-[520px]",
+  initialFocus = "field",
 }: {
   /** Solar two-tone icon for what the drawer edits. */
   icon?: React.ElementType;
@@ -29,8 +30,16 @@ export function Drawer({
   children: React.ReactNode;
   footer?: React.ReactNode;
   width?: string;
+  /**
+   * Where focus lands on open. "field" suits an edit form. "title" suits a
+   * drawer you open to read, where an input is one of several options: it
+   * keeps a date picker from taking focus, and a screen reader starts at the
+   * heading. Tab still walks the drawer and stays trapped inside it.
+   */
+  initialFocus?: "field" | "title";
 }) {
   const body = React.useRef<HTMLDivElement>(null);
+  const heading = React.useRef<HTMLHeadingElement>(null);
   const [scrolled, setScrolled] = React.useState(false);
 
   return (
@@ -48,6 +57,10 @@ export function Drawer({
           // a screen reader reads the title before anything else.
           onOpenAutoFocus={(e) => {
             e.preventDefault();
+            if (initialFocus === "title") {
+              heading.current?.focus();
+              return;
+            }
             const first = body.current?.querySelector<HTMLElement>(
               "input:not([type='hidden']):not([disabled]), select:not([disabled]), textarea:not([disabled])",
             );
@@ -68,7 +81,13 @@ export function Drawer({
               </span>
             ) : null}
             <div className="min-w-0 flex-1">
-              <Dialog.Title className="font-display text-[18px] font-semibold leading-tight tracking-[-0.01em] text-ink">{title}</Dialog.Title>
+              <Dialog.Title
+                ref={heading}
+                tabIndex={-1}
+                className="font-display text-[18px] font-semibold leading-tight tracking-[-0.01em] text-ink focus-visible:outline-none"
+              >
+                {title}
+              </Dialog.Title>
               {description ? (
                 <Dialog.Description className="mt-0.5 text-meta text-ink-2">{description}</Dialog.Description>
               ) : (

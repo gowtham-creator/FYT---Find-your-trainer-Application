@@ -16,6 +16,8 @@ import { UiIcon } from "@/components/icons/ui-icon";
 
 type Row = Learner & { bookings: number; attended: number };
 
+const orgOf = (r: Row) => (r.segment === "corporate" ? `${r.currentRole ?? ""}${r.company ? `, ${r.company}` : ""}` : r.institution ?? "");
+
 export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; bookingsByLearner: Record<string, BookingRow[]>; now: number }) {
   const [openId, setOpenId] = React.useState<string | null>(null);
   const [blockOpen, setBlockOpen] = React.useState(false);
@@ -33,7 +35,10 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
           <Avatar name={r.name} />
           <div className="min-w-0">
             <p className="truncate font-medium">{r.name}</p>
-            <p className="num truncate text-caption text-ink-3">{r.phone}</p>
+            <p className="truncate text-caption text-ink-3">
+              <span className="2xl:hidden">{r.segment === "corporate" ? "Corporate" : "Student"} · </span>
+              <span className="num">{r.phone}</span>
+            </p>
           </div>
         </div>
       ),
@@ -41,21 +46,28 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
     {
       key: "segment",
       header: "Segment",
+      hideBelow: "2xl",
       sortValue: (r) => r.segment,
       cell: (r) =>
         r.segment === "corporate" ? <Pill icon={Briefcase}>Corporate</Pill> : <Pill icon={GraduationCap}>Student</Pill>,
     },
     {
+      // College or company over the area, so eight columns' worth of detail
+      // fits at laptop width and State is never pushed out of the card.
       key: "org",
       header: "College / company",
-      hideBelow: "md",
-      cell: (r) => (
-        <span className="text-ink-2">
-          {r.segment === "corporate" ? `${r.currentRole ?? ""}${r.company ? `, ${r.company}` : ""}` : r.institution}
-        </span>
-      ),
+      hideBelow: "xl",
+      sortValue: (r) => orgOf(r),
+      cell: (r) => {
+        const org = orgOf(r);
+        return (
+          <div className="min-w-0 max-w-[230px]">
+            <p className="truncate text-ink-2" title={org}>{org}</p>
+            <p className="truncate text-caption text-ink-3">{r.area}</p>
+          </div>
+        );
+      },
     },
-    { key: "area", header: "Area", hideBelow: "xl", sortValue: (r) => r.area, cell: (r) => <span className="text-ink-2">{r.area}</span> },
     {
       key: "bookings",
       header: "Bookings",
@@ -63,10 +75,10 @@ export function LearnersClient({ rows, bookingsByLearner, now }: { rows: Row[]; 
       className: "text-right",
       headerClassName: "text-right",
       cell: (r) => (
-        <span className="num whitespace-nowrap">
-          {r.bookings}
-          {r.bookings ? <span className="text-ink-3"> · {r.attended} attended</span> : null}
-        </span>
+        <div className="whitespace-nowrap">
+          <p className="num">{r.bookings}</p>
+          {r.bookings ? <p className="text-caption text-ink-3"><span className="num">{r.attended}</span> attended</p> : null}
+        </div>
       ),
     },
     {

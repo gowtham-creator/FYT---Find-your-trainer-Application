@@ -58,8 +58,8 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       header: "Learner",
       sortValue: (r) => r.learnerName,
       cell: (r) => (
-        <div className="min-w-0">
-          <p className="truncate font-medium">{r.learnerName}</p>
+        <div className="min-w-0 max-w-[150px] xl:max-w-none">
+          <p className="truncate font-medium" title={r.learnerName}>{r.learnerName}</p>
           <p className="text-caption text-ink-3">{r.learnerSegment === "corporate" ? "Corporate" : "Student"}</p>
         </div>
       ),
@@ -69,8 +69,8 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
       header: "Booked for",
       sortValue: (r) => r.targetName,
       cell: (r) => (
-        <div className="min-w-0 max-w-[280px]">
-          <p className="truncate">{r.targetName}</p>
+        <div className="min-w-0 max-w-[180px] xl:max-w-[280px]">
+          <p className="truncate" title={r.targetName}>{r.targetName}</p>
           <p className="text-caption text-ink-3">{TARGET_LABEL[r.targetType]}</p>
         </div>
       ),
@@ -133,6 +133,20 @@ export function BookingsClient({ rows, now, initialView }: { rows: BookingRow[];
           columns={columns}
           rowKey={(r) => r.id}
           onRowClick={(r) => setOpenId(r.id)}
+          mobileCard={(r) => (
+            <span className="flex flex-col gap-1.5">
+              <span className="flex items-center justify-between gap-3">
+                <span className="num whitespace-nowrap text-meta text-ink">
+                  {fmtDate(r.start, { weekday: "short", day: "numeric", month: "short" })}, {fmtTime(r.start)}
+                </span>
+                <BookingStatusPill status={r.status} />
+              </span>
+              <span className="truncate text-body font-medium text-ink">{r.targetName}</span>
+              <span className="truncate text-meta text-ink-2">
+                {r.learnerName} · {TARGET_LABEL[r.targetType]} · {r.mode === "online" ? "Online" : "In person"}
+              </span>
+            </span>
+          )}
           initialSort={view === "past" || view === "all" ? undefined : { key: "when", dir: "asc" }}
           search={(r) => `${r.ref} ${r.learnerName} ${r.learnerPhone} ${r.targetName}`}
           searchPlaceholder="Search ref, learner, phone, listing"
@@ -225,6 +239,7 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
   return (
     <Drawer
       icon={solarIcon("calendar-mark-bold-duotone")}
+      initialFocus="title"
       open={!!b}
       onOpenChange={(o) => !o && onClose()}
       title={b ? <span className="flex items-center gap-2">Booking <span className="num text-ink-2">{b.ref}</span></span> : ""}

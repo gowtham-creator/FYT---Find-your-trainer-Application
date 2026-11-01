@@ -15,7 +15,7 @@ export interface Column<T> {
   className?: string;
   headerClassName?: string;
   /** Hide below this breakpoint */
-  hideBelow?: "sm" | "md" | "lg" | "xl";
+  hideBelow?: "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
 export interface Filter<T> {
@@ -25,14 +25,53 @@ export interface Filter<T> {
   test: (row: T, value: string) => boolean;
 }
 
-const hideClass = { sm: "hidden sm:table-cell", md: "hidden md:table-cell", lg: "hidden lg:table-cell", xl: "hidden xl:table-cell" };
+const hideClass = { sm: "hidden sm:table-cell", md: "hidden md:table-cell", lg: "hidden lg:table-cell", xl: "hidden xl:table-cell", "2xl": "hidden 2xl:table-cell" };
+
+/** Below this much room a nested scroll is worse than letting the page scroll. */
+const MIN_BODY_H = 280;
+
+function pageTop(el: HTMLElement) {
+  // Summing offsets, not getBoundingClientRect, so the page-enter transform
+  // does not count. offsetTop stops at the parent's padding edge, so borders
+  // are added back.
+  let top = 0;
+  for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) top += n.offsetTop + n.clientTop;
+  return top;
+}
 
 /**
- * Body scroll is capped rather than left to the page, so the header, the
- * toolbar and the pagination stay on screen while an operator works a long
- * queue. Short tables never reach the cap, so they look no different.
+ * One scroll per table page. The rows scroll, and the card stops at the bottom
+ * of the screen, so the header, toolbar and pagination stay in view and the
+ * page itself has nowhere to go. The room left depends on what sits above the
+ * table on each page, so it is measured. Short tables never reach the cap, and
+ * on a screen too small for a useful scroller the cap comes off and the page
+ * scrolls instead.
  */
-const BODY_MAX_H = "max-h-[min(70svh,860px)]";
+function useFitToViewport(enabled: boolean) {
+  const body = React.useRef<HTMLDivElement>(null);
+  React.useLayoutEffect(() => {
+    const el = body.current;
+    const card = el?.parentElement;
+    if (!enabled || !el || !card) return;
+    const fit = () => {
+      if (!el.offsetParent) return; // Hidden: the phone card list is showing.
+      const pad = parseFloat(getComputedStyle(el.closest("main") ?? document.body).paddingBottom) || 0;
+      const below = card.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom;
+      const room = Math.floor(window.innerHeight - pageTop(el) - below - pad);
+      el.style.maxHeight = room >= MIN_BODY_H ? `${room}px` : "none";
+    };
+    fit();
+    // Filter chips and wrapping toolbars move the table without a window resize.
+    const seen = new ResizeObserver(fit);
+    seen.observe(card);
+    window.addEventListener("resize", fit);
+    return () => {
+      seen.disconnect();
+      window.removeEventListener("resize", fit);
+    };
+  }, [enabled]);
+  return body;
+}
 
 /** One applied search term or filter value, removable on its own. */
 function FilterChip({ label, value, onClear }: { label: string; value: string; onClear: () => void }) {
@@ -68,6 +107,8 @@ export function DataTable<T>({
   empty,
   pageSize = 25,
   caption,
+  mobileCard,
+  fitViewport = true,
 }: {
   rows: T[];
   columns: Column<T>[];
@@ -84,6 +125,10 @@ export function DataTable<T>({
   empty: { icon: React.ElementType; title: string; body: React.ReactNode; action?: React.ReactNode };
   pageSize?: number;
   caption: string;
+  /** Replaces the table below `sm` with a list of these, one per row. */
+  mobileCard?: (row: T) => React.ReactNode;
+  /** Turn off when more content follows the table: then the page does the scrolling. */
+  fitViewport?: boolean;
 }) {
   const [q, setQRaw] = React.useState("");
   const [f, setFRaw] = React.useState<Record<string, string>>(initialFilters);
@@ -189,6 +234,7 @@ export function DataTable<T>({
     });
 
   const hasRows = filtered.length > 0;
+  const body = useFitToViewport(hasRows && fitViewport);
 
   return (
     <div className="relative overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface shadow-[var(--shadow-card)]">
@@ -297,8 +343,29 @@ export function DataTable<T>({
           />
         )
       ) : (
+        <>
+        {mobileCard ? (
+          <ul className="divide-y divide-line sm:hidden" aria-label={caption}>
+            {pageRows.map((r) => (
+              <li key={rowKey(r)}>
+                {onRowClick ? (
+                  <button
+                    type="button"
+                    onClick={() => onRowClick(r)}
+                    className="block w-full px-4 py-3 text-left transition-colors duration-100 ease-[var(--ease-out-quart)] active:bg-accent/[0.04] focus-visible:outline-offset-[-2px]"
+                  >
+                    {mobileCard(r)}
+                  </button>
+                ) : (
+                  <div className="px-4 py-3">{mobileCard(r)}</div>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : null}
         <div
-          className={cn("overflow-auto overscroll-contain [scrollbar-width:thin]", BODY_MAX_H)}
+          ref={body}
+          className={cn("overflow-auto overscroll-contain [scrollbar-width:thin]", mobileCard && "hidden sm:block")}
           onScroll={(e) => {
             const next = e.currentTarget.scrollTop > 0;
             if (next !== scrolled) setScrolled(next);
@@ -440,6 +507,7 @@ export function DataTable<T>({
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {pages > 1 && hasRows ? (

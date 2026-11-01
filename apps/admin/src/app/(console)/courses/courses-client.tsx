@@ -54,7 +54,7 @@ export function CoursesClient({
       header: "Listing",
       sortValue: (r) => r.title,
       cell: (r) => (
-        <div className="flex min-w-0 max-w-[420px] items-center gap-3">
+        <div className="flex min-w-0 max-w-[300px] items-center gap-3">
           {r.cover ? (
             <Thumb image={r.cover} alt="" className="h-9 w-14 shrink-0 rounded-[5px] border border-line" />
           ) : (
@@ -65,18 +65,18 @@ export function CoursesClient({
           <div className="min-w-0">
             <p className="flex items-center gap-1.5 truncate font-medium">
               {r.featured ? <Star className="size-3.5 shrink-0 fill-accent text-accent" strokeWidth={1.5} aria-label="Featured" /> : null}
-              <span className="truncate">{r.title}</span>
+              <span className="truncate" title={r.title}>{r.title}</span>
             </p>
             <p className="truncate text-caption text-ink-3">{r.kind === "project" ? "Project" : r.instituteName ?? "No institute"}</p>
           </div>
         </div>
       ),
     },
-    { key: "category", header: "Category", sortValue: (r) => r.category, hideBelow: "md", cell: (r) => <span className="text-ink-2">{r.category}</span> },
+    { key: "category", header: "Category", sortValue: (r) => r.category, hideBelow: "xl", cell: (r) => <span className="text-ink-2">{r.category}</span> },
     {
       key: "stack",
       header: "Tech stack",
-      hideBelow: "lg",
+      hideBelow: "2xl",
       cell: (r) => (
         <div className="flex max-w-[240px] flex-wrap gap-1">
           {r.techStack.slice(0, 3).map((t) => (
@@ -86,7 +86,7 @@ export function CoursesClient({
         </div>
       ),
     },
-    { key: "weeks", header: "Length", sortValue: (r) => r.durationWeeks, hideBelow: "md", cell: (r) => <span className="num text-ink-2">{r.durationWeeks} wk</span> },
+    { key: "weeks", header: "Length", sortValue: (r) => r.durationWeeks, hideBelow: "xl", cell: (r) => <span className="num text-ink-2">{r.durationWeeks} wk</span> },
     {
       key: "demand",
       header: "Bookings 30d",
@@ -96,7 +96,7 @@ export function CoursesClient({
       headerClassName: "text-right",
     },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },
-    { key: "updated", header: "Updated", sortValue: (r) => r.updatedAt, hideBelow: "xl", cell: (r) => <span className="whitespace-nowrap text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
+    { key: "updated", header: "Updated", sortValue: (r) => r.updatedAt, hideBelow: "2xl", cell: (r) => <span className="whitespace-nowrap text-meta text-ink-3">{relTime(r.updatedAt, now)}</span> },
   ];
 
   const e = editing;

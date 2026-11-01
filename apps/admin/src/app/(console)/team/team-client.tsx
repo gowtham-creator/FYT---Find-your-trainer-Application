@@ -86,7 +86,7 @@ export function TeamClient({
     {
       key: "last",
       header: "Last sign-in",
-      hideBelow: "lg",
+      hideBelow: "xl",
       sortValue: (r) => r.lastLoginAt ?? 0,
       cell: (r) => <span className="whitespace-nowrap text-meta text-ink-2">{r.lastLoginAt ? relTime(r.lastLoginAt, now) : "Never"}</span>,
     },
@@ -122,6 +122,7 @@ export function TeamClient({
       </section>
 
       <DataTable
+        fitViewport={false}
         caption="Operators"
         rows={operators}
         columns={columns}
@@ -228,7 +229,7 @@ function PermissionPicker({ grantable, value, onChange, disabled }: { grantable:
                 <span className="flex items-center gap-2 text-body font-medium text-ink">
                   {p.label}
                   {fixed ? <span className="text-caption font-normal text-ink-3">Always on</span> : null}
-                  {p.sensitive ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-[18px] text-warn">Sensitive</span> : null}
+                  {p.sensitive ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-[18px] text-on-warn-soft">Sensitive</span> : null}
                 </span>
                 <span className="block text-meta text-ink-2">{p.description}</span>
               </span>
