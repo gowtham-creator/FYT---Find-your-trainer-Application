@@ -113,7 +113,7 @@ export function OwnershipClient({
             <div>
               <p className="flex items-center gap-2 text-body font-medium text-ink">
                 Maintenance mode
-                {maintenance ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-5 text-warn">On</span> : null}
+                {maintenance ? <span className="rounded-[4px] bg-warn-soft px-1.5 text-caption font-medium leading-5 text-on-warn-soft">On</span> : null}
               </p>
               <p className="text-meta text-ink-2">The app shows a maintenance notice and stops taking new bookings. Existing bookings are kept.</p>
             </div>

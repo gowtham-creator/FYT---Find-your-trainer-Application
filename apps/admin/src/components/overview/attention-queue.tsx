@@ -80,7 +80,7 @@ export function AttentionQueue({ rows, now }: { rows: QueueRow[]; now: number })
                     className={
                       r.status === "meet_failed"
                         ? "mt-0.5 grid size-8 shrink-0 place-items-center rounded-[7px] bg-bad-soft text-bad"
-                        : "mt-0.5 grid size-8 shrink-0 place-items-center rounded-[7px] bg-warn-soft text-warn"
+                        : "mt-0.5 grid size-8 shrink-0 place-items-center rounded-[7px] bg-info-soft text-on-info-soft"
                     }
                   >
                     {r.status === "meet_failed" ? (

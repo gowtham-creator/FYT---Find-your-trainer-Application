@@ -22,8 +22,8 @@
   --ok: #059669;
   --ok-soft: #E3F5EE;
   /* Red-orange, status only, never decorative. */
-  --warn: #EA580C;
-  --warn-soft: #FDEEE4;
+  --warn: #CF4215;
+  --warn-soft: #FCEBE6;
   --bad: #E11D48;
   --bad-soft: #FDE8EC;
   --info: #0284C7;
@@ -31,7 +31,7 @@
   --shadow-ink: 0.25 0.06 262;
   /* Text sitting on a *-soft fill, tuned to clear 4.5:1 on its own tint. */
   --on-ok-soft: #047857;
-  --on-warn-soft: #B4410C;
+  --on-warn-soft: #A83510;
   --on-bad-soft: #BE123C;
   --on-info-soft: #0369A1;
   --on-accent-soft: #1A45A0;
@@ -40,7 +40,7 @@
   --nav-bg-2: #1A45A0;
   --nav-ink: #D6E2FB;
   --nav-ink-strong: #FFFFFF;
-  --nav-ink-muted: #A9BEEB;
+  --nav-ink-muted: #C6D6F8;
   --nav-hover: rgb(255 255 255 / 0.10);
   --nav-line: rgb(255 255 255 / 0.14);
   --nav-active-bg: #FFFFFF;
@@ -69,15 +69,16 @@
   --accent-ink: #0B1530;
   --ok: #34D399;
   --ok-soft: #0F2E26;
-  --warn: #FB923C;
-  --warn-soft: #33200F;
+  /* Red-orange (hue 14) over a deep red fill: a dark tint of orange reads brown. */
+  --warn: #FF8A65;
+  --warn-soft: #3A1719;
   --bad: #FB7185;
   --bad-soft: #351822;
   --info: #38BDF8;
   --info-soft: #0E2A3A;
   --shadow-ink: 0.05 0.02 265;
   --on-ok-soft: #34D399;
-  --on-warn-soft: #FB923C;
+  --on-warn-soft: #FF8A65;
   --on-bad-soft: #FB7185;
   --on-info-soft: #38BDF8;
   --on-accent-soft: #A9C4FF;

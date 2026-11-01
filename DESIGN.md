@@ -23,9 +23,9 @@ A cool slate ground with navy ink and one brand hue, **Azure** (`#1E4FB8`), in t
 | `--accent-soft` / `--on-accent-soft` | `#E8EFFC` / `#1A45A0` | `#1A2747` / `#A9C4FF` | icon tiles, selection, Owner pill |
 | `--accent-ink` | `#FFFFFF` | `#0B1530` | text on azure |
 | `--ok` | `#059669` | `#34D399` | confirmed, healthy |
-| `--warn` | `#EA580C` | `#FB923C` | needs attention (status only, never decorative) |
+| `--warn` | `#CF4215` | `#FF8A65` | needs attention (status only, never decorative); hue 14, on a `--warn-soft` of `#FCEBE6` / `#3A1719` so the dark tint reads red, not brown |
 | `--bad` | `#E11D48` | `#FB7185` | failed, destructive |
-| `--info` | `#0284C7` | `#38BDF8` | info, Super admin pill, demo-data chip |
+| `--info` | `#0284C7` | `#38BDF8` | info, Requested bookings, Super admin pill, demo-data chip |
 | `--nav-bg` → `--nav-bg-2` | `#1E4FB8` → `#1A45A0` | `#0F1A36` → `#0B1328` | sidebar gradient |
 | `--nav-active-bg` / `--nav-active-ink` | `#FFFFFF` / `#1E4FB8` | `#6FA0FF` / `#0B1530` | active nav pill |
 | `--viz-1` / `--viz-2` / `--viz-3` | `#2F6BDE` / `#0E9F8E` / `#0284C7` | `#6FA0FF` / `#2DD4BF` / `#38BDF8` | chart series: azure, teal, sky |
@@ -59,11 +59,12 @@ Each `*-soft` fill has an `--on-*-soft` text token that clears 4.5:1 on it. A st
 - Content is capped at `max-w-[1400px]` with a 16px grid gap. Overview is asymmetric (2fr / 1fr): the action queue and today on the left, the bookings trend and activity on the right.
 - **KPIs are separate cards** in a 2-up / 4-up grid, each with a 3px brand-gradient (or teal / sky / green) top bar, an uppercase label, a 28px/600 value, a delta pill and a 38px icon tile.
 - Tables are the primary data affordance: a card with an uppercase 12px header on surface, 11px row padding, a faint azure row hover, a sticky header, a bulk-select bar and skeleton rows. Panels are cards (surface, hairline, card shadow); their header has no full-width divider.
+- Tables fit the viewport: the card stops at the bottom of the screen and only its rows scroll, so the page never scrolls as well. Below `sm` a table may render stacked cards with status visible. Columns are dropped or merged at a breakpoint rather than cut off.
 - Editing happens in a right-side drawer, not a centered modal. Destructive confirmations use a small anchored dialog.
 - Sign-in: two inset 14px panes on slate: a bordered form pane on the left (420px column, large 34px heading), and on the right a navy pane with slow WebGL fluid in azure (warped flow noise, device-pixel film grain, dimmed behind the text so white copy holds 4.5:1), one large headline and a glass strip. It falls back to a Canvas 2D grain without WebGL, and to one still frame under reduced motion. Below `lg` the dark pane becomes a short brand band above the form.
 
 ## Charts
-Azure first, teal second, sky third; never orange or amber series. Columns are up to 22px wide with a 6px top radius over dashed gridlines. Trends use an area chart (2px line, gradient fill from 28% to 0). Splits use a donut (18px stroke on a `--line` track, total centred). Legends use 9px round dots. Every chart has a table view or an accessible label.
+Azure first, teal second, sky third; never orange or amber series. Columns are up to 22px wide with a 6px top radius over dashed gridlines. Trends use an area chart (2px line, gradient fill from 28% to 0), growing to fill its panel when it sits beside a taller one. Splits use a donut (18px stroke on a `--line` track, total centred). Legends use 9px round dots. Every chart has a table view or an accessible label.
 
 ## Components
 Button (primary = solid azure, secondary = surface + line with a 1px hover lift, ghost, danger, each with a loading state), Input/Select/Textarea (label above, helper, error below; azure focus ring), StatusPill and RoleBadge (fully rounded tints, `onDark` variant for the sidebar), DataTable, Drawer, ConfirmDialog, CommandPalette, EmptyState (teaches the next action), Skeleton, Toast (sonner), PermissionLock (explains which role unlocks a module).

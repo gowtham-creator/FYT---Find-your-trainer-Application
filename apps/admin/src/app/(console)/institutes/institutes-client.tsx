@@ -62,7 +62,7 @@ export function InstitutesClient({ rows, areas, categories, stacks, openNew, now
         r.gallery.length ? (
           <span className="num inline-flex items-center gap-1 text-ink-2"><ImageIcon className="size-3.5" strokeWidth={1.75} /> {r.gallery.length}</span>
         ) : (
-          <span className="text-meta text-warn">No photos</span>
+          <span className="text-meta text-on-warn-soft">No photos</span>
         ),
     },
     { key: "status", header: "In app", sortValue: (r) => Number(r.published), cell: (r) => <PublishedPill published={r.published} /> },

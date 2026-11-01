@@ -70,7 +70,7 @@ export function Pill({
 }
 
 export const BOOKING_STATUS: Record<BookingStatus, { label: string; tone: Tone; icon: React.ElementType }> = {
-  requested: { label: "Requested", tone: "warn", icon: Clock3 },
+  requested: { label: "Requested", tone: "info", icon: Clock3 },
   confirmed: { label: "Confirmed", tone: "ok", icon: CheckCircle2 },
   completed: { label: "Completed", tone: "neutral", icon: CheckCircle2 },
   cancelled: { label: "Cancelled", tone: "neutral", icon: XCircle },

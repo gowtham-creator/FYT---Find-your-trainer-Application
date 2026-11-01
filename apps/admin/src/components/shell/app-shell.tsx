@@ -144,7 +144,7 @@ export function AppShell({
               <span className="hidden sm:inline" aria-hidden>
                 /
               </span>
-              <span className="truncate font-semibold text-ink">{current?.label ?? (pathname.startsWith("/credits") ? "Credits & licences" : "Profile")}</span>
+              <span className="truncate font-semibold text-ink">{current?.label ?? (pathname.startsWith("/credits") ? "Credits & licences" : pathname.startsWith("/profile") ? "Profile" : "Page not found")}</span>
             </nav>
             <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-2">
               {demo ? (
@@ -403,7 +403,7 @@ function initials(name: string) {
 
 function NavKbd({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-white/20 bg-white/10 px-1 font-mono text-caption leading-none text-white/80">
+    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-white/20 bg-white/10 px-1 font-mono text-caption leading-none text-white">
       {children}
     </kbd>
   );

@@ -28,7 +28,7 @@ export function SettingsClient({ initial, maintenance, isOwner }: { initial: S; 
     <div className="flex max-w-[860px] flex-col gap-6 pb-20">
       {maintenance ? (
         <div role="status" className="flex items-start gap-3 rounded-[var(--radius-panel)] bg-warn-soft px-4 py-3 text-meta text-ink">
-          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-warn" strokeWidth={1.75} aria-hidden />
+          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-on-warn-soft" strokeWidth={1.75} aria-hidden />
           <p>
             Maintenance mode is on: the app is not taking new bookings.{" "}
             {isOwner ? <Link href="/ownership" className="font-medium underline underline-offset-4">Turn it off in Ownership</Link> : "Only the owner can turn it off."}

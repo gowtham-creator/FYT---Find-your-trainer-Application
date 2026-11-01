@@ -120,7 +120,7 @@ export function AvailabilityClient({
                 {counts.get(t.id) ? (
                   <span className="num text-caption text-ink-3">{counts.get(t.id)}</span>
                 ) : (
-                  <span className="text-caption text-warn">none</span>
+                  <span className="text-caption text-on-warn-soft">none</span>
                 )}
               </button>
             </li>

@@ -124,9 +124,9 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
                     return (
                       <li
                         key={b.id}
-                        className={`grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5 px-5 py-3 sm:grid-cols-[84px_minmax(0,1fr)_auto] ${past ? "opacity-60" : ""}`}
+                        className={`grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5 px-5 py-3 sm:grid-cols-[84px_minmax(0,1fr)_auto]`}
                       >
-                        <div className="num whitespace-nowrap text-meta text-ink">
+                        <div className={`num whitespace-nowrap text-meta ${past ? "text-ink-2" : "text-ink"}`}>
                           {fmtTime(b.start)}
                           {live ? (
                             <span className="mt-1 flex items-center gap-1 font-sans text-caption font-medium text-ok">
@@ -135,7 +135,7 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
                           ) : null}
                         </div>
                         <div className="min-w-0">
-                          <p className="truncate text-body font-medium text-ink" title={b.targetName}>{b.targetName}</p>
+                          <p className={`truncate text-body font-medium ${past ? "text-ink-2" : "text-ink"}`} title={b.targetName}>{b.targetName}</p>
                           <p className="mt-0.5 flex min-w-0 items-center gap-1.5 text-meta text-ink-2">
                             {b.mode === "online" ? <MeetIcon className="size-3.5 shrink-0" title="Google Meet" /> : <MapPin className="size-3.5 shrink-0" strokeWidth={1.75} />}
                             <span className="truncate">
