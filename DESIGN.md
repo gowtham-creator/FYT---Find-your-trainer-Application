@@ -27,6 +27,7 @@ A cool slate ground with navy ink and one brand hue, **Azure** (`#1E4FB8`), in t
 | `--bad` | `#E11D48` | `#FB7185` | failed, destructive |
 | `--info` | `#0284C7` | `#38BDF8` | info, Requested bookings, Super admin pill, demo-data chip |
 | `--nav-bg` → `--nav-bg-2` | `#1E4FB8` → `#1A45A0` | `#0F1A36` → `#0B1328` | sidebar gradient |
+| `--nav-glow` | `#3A6FD8` | `#23407C` | brightest value of the sign-in panel's animated field |
 | `--nav-active-bg` / `--nav-active-ink` | `#FFFFFF` / `#1E4FB8` | `#6FA0FF` / `#0B1530` | active nav pill |
 | `--viz-1` / `--viz-2` / `--viz-3` | `#2F6BDE` / `#0E9F8E` / `#0284C7` | `#6FA0FF` / `#2DD4BF` / `#38BDF8` | chart series: azure, teal, sky |
 | `--brand-gradient` | azure → sky | light azure → sky | 3px bars on KPI cards and the sign-in card |
@@ -61,7 +62,7 @@ Each `*-soft` fill has an `--on-*-soft` text token that clears 4.5:1 on it. A st
 - Tables are the primary data affordance: a card with an uppercase 12px header on surface, 11px row padding, a faint azure row hover, a sticky header, a bulk-select bar and skeleton rows. Panels are cards (surface, hairline, card shadow); their header has no full-width divider.
 - Tables fit the viewport: the card stops at the bottom of the screen and only its rows scroll, so the page never scrolls as well. Below `sm` a table may render stacked cards with status visible. Columns are dropped or merged at a breakpoint rather than cut off.
 - Editing happens in a right-side drawer, not a centered modal. Destructive confirmations use a small anchored dialog.
-- Sign-in: two inset 14px panes on slate: a bordered form pane on the left (420px column, large 34px heading), and on the right a navy pane with slow WebGL fluid in azure (warped flow noise, device-pixel film grain, dimmed behind the text so white copy holds 4.5:1), one large headline and a glass strip. It falls back to a Canvas 2D grain without WebGL, and to one still frame under reduced motion. Below `lg` the dark pane becomes a short brand band above the form.
+- Sign-in: two inset 14px panes on slate: a bordered form pane on the left (420px column, large 34px heading), and on the right a pane in the sidebar's blue (the `--nav-bg` gradient, so it follows the theme) with a slow WebGL field that drifts from `--nav-bg-2` through `--nav-bg` to `--nav-glow`, held at `--nav-bg` behind the text so white copy holds 4.5:1, one large headline and a glass strip. It falls back to a Canvas 2D grain from the same tokens without WebGL, and to one still frame under reduced motion. Below `lg` the pane becomes a short brand band above the form.
 
 ## Charts
 Azure first, teal second, sky third; never orange or amber series. Columns are up to 22px wide with a 6px top radius over dashed gridlines. Trends use an area chart (2px line, gradient fill from 28% to 0), growing to fill its panel when it sits beside a taller one. Splits use a donut (18px stroke on a `--line` track, total centred). Legends use 9px round dots. Every chart has a table view or an accessible label.

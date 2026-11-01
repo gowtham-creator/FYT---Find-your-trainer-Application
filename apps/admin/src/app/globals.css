@@ -38,6 +38,8 @@
   /* Sidebar (blue gradient, white active pill). */
   --nav-bg: #1E4FB8;
   --nav-bg-2: #1A45A0;
+  /* The brightest the sign-in panel's animated field goes; white stays over 4.5:1. */
+  --nav-glow: #3A6FD8;
   --nav-ink: #D6E2FB;
   --nav-ink-strong: #FFFFFF;
   --nav-ink-muted: #C6D6F8;
@@ -84,6 +86,7 @@
   --on-accent-soft: #A9C4FF;
   --nav-bg: #0F1A36;
   --nav-bg-2: #0B1328;
+  --nav-glow: #23407C;
   --nav-ink: #B8C6E6;
   --nav-ink-strong: #FFFFFF;
   --nav-ink-muted: #7F8DB0;

@@ -6,8 +6,9 @@
  * (https://21st.dev/@solaceui/components/auth-section-1): two inset rounded
  * panes on the page, a bordered form pane and a dark animated gradient pane with
  * one large headline and a glass strip at the foot. Adapted for FYT:
- *  - recoloured to the console tokens and an azure-on-navy fluid (the source's
- *    orange, black and white are not used), see ./fluid-gl.ts;
+ *  - recoloured to the sidebar tokens, so the pane is the same blue as the
+ *    console's sidebar in both themes, over an animated field (the source's
+ *    orange, black and white are not used), see ./tide-gl.ts;
  *  - the console's fonts and type scale, not the source's;
  *  - the FYT lockup on the dark pane;
  *  - below `lg` the dark pane shrinks to a short brand band above the form,
@@ -34,10 +35,10 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative isolate flex min-h-dvh flex-col gap-3 bg-paper p-3 lg:grid lg:h-dvh lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:overflow-hidden">
       {/* ---------- Dark pane: grain, lockup, headline ---------- */}
-      <aside className="relative flex min-h-[84px] shrink-0 flex-col justify-center overflow-hidden rounded-[14px] bg-[#060E24] px-5 py-4 text-white lg:order-2 lg:justify-start lg:p-10 xl:p-14">
+      <aside className="relative flex min-h-[84px] shrink-0 flex-col justify-center overflow-hidden rounded-[14px] bg-[linear-gradient(180deg,var(--nav-bg),var(--nav-bg-2))] px-5 py-4 text-white lg:order-2 lg:justify-start lg:p-10 xl:p-14">
         <GrainField className="absolute inset-0 size-full" />
         {/* On the short band the lockup needs a calm side to sit on. */}
-        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,#060E24_30%,rgb(6_14_36/0.6)_62%,transparent)] lg:hidden" />
+        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,var(--nav-bg)_30%,color-mix(in_srgb,var(--nav-bg)_60%,transparent)_62%,transparent)] lg:hidden" />
         <Lockup />
         <PanelIntro />
       </aside>

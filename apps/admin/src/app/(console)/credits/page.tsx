@@ -130,7 +130,17 @@ const PATTERNS: Credit[] = [
     licenceHref: "https://21st.dev/@solaceui/components/auth-section-1",
     source: "21st.dev",
     sourceHref: "https://21st.dev/@solaceui/components/auth-section-1",
-    note: "Recoloured to azure on navy. The panel's WebGL fluid and the Canvas 2D fallback grain are new drawings; the source's shader is not included. The fluid's noise hash is \"Hash without Sine\" by Dave Hoskins (MIT).",
+    note: "Recoloured to the sidebar's blue. The Canvas 2D fallback grain is a new drawing; the source's shader is not included.",
+  },
+  {
+    name: "Background Gradient Shader",
+    by: "nikolas-sapa",
+    use: "The sign-in panel's animated WebGL background.",
+    licence: "Adapted, see the file header",
+    licenceHref: "https://21st.dev/@nikolas-sapa/components/background-gradient-shader",
+    source: "21st.dev",
+    sourceHref: "https://21st.dev/@nikolas-sapa/components/background-gradient-shader",
+    note: "Shader adapted to the sidebar tokens, with a calm zone behind the text.",
   },
   {
     name: "Empty State",

@@ -3,43 +3,42 @@
 /**
  * The sign-in panel's animated background.
  *
- * Normally this is the WebGL fluid in ./fluid-gl.ts. If WebGL is missing, or
+ * Normally this is the WebGL field in ./tide-gl.ts. If WebGL is missing, or
  * stops working and does not recover, the canvas is replaced and the Canvas 2D
  * grain below takes over, so the panel is never blank. Until the first frame
- * the panel shows its own navy background.
+ * the panel shows its own sidebar gradient.
  *
  * The fallback's look comes from the `GrainGradient` shader (shape "corners")
  * used by "Auth Section 1" by solaceui on 21st.dev
  * (https://21st.dev/@solaceui/components/auth-section-1), rebuilt in Canvas 2D
  * with none of the shader's code:
  *  - each pixel is a corner-distance value plus a fixed noise offset, looked
- *    up in a 256-step ramp of cool colours (deep navy, pale azure fringe,
- *    brand azure); the source's orange and white are not used;
+ *    up in a 256-step ramp built from the sidebar tokens, so it follows the
+ *    theme; the source's orange and white are not used;
  *  - about 20 frames a second at a reduced resolution. requestAnimationFrame
  *    stops by itself in a hidden tab, and a canvas with no size draws nothing;
  *  - prefers-reduced-motion: one still frame.
  */
 import { useEffect, useRef, useState } from "react";
-import { CALM_SOFT, findCalmElements, measureCalm, startFluid } from "./fluid-gl";
+import { CALM_SOFT, findCalmElements, measureCalm, onThemeChange, readPanelColors, startTide } from "./tide-gl";
 import { usePrefersReducedMotion } from "./use-reduced-motion";
 
 const FRAME_MS = 50;
 const MAX_PIXELS = 300_000;
 const STILL_T = 12;
-/** Enough to push any value below the stipple's step, so the text sits on navy. */
+/** Enough to push any value below the stipple's step, so the text sits on --nav-bg. */
 const CALM_PUSH = 1.3;
 
-/** value (0-1) -> colour. The hard step at 0.5 is what makes the stipple. */
-const STOPS: [number, number, number, number][] = [
-  [0, 6, 14, 36],
-  [0.47, 9, 22, 56],
-  [0.5, 190, 212, 255],
-  [0.56, 111, 160, 255],
-  [0.66, 44, 99, 214],
-  [1, 30, 79, 184],
-];
-
 function buildRamp() {
+  const { deep, base, glow, pale } = readPanelColors();
+  // value (0-1) -> colour. The hard step at 0.5 is what makes the stipple.
+  const STOPS: [number, number, number, number][] = [
+    [0, ...deep],
+    [0.47, ...base],
+    [0.5, ...pale],
+    [0.56, ...glow],
+    [1, ...base],
+  ];
   const ramp = new Uint32Array(256);
   for (let i = 0; i < 256; i++) {
     const v = i / 255;
@@ -116,7 +115,7 @@ function startGrain(canvas: HTMLCanvasElement, still: boolean) {
   const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return;
 
-  const ramp = buildRamp();
+  let ramp = buildRamp();
   let raf = 0;
   let last = 0;
   let image: ImageData | null = null;
@@ -161,26 +160,31 @@ function startGrain(canvas: HTMLCanvasElement, still: boolean) {
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
   for (const element of calmElements) observer.observe(element);
+  const stopTheme = onThemeChange(() => {
+    ramp = buildRamp();
+    resize();
+  });
   resize();
   if (!still) raf = requestAnimationFrame(tick);
 
   return () => {
     cancelAnimationFrame(raf);
     observer.disconnect();
+    stopTheme();
   };
 }
 
 export function GrainField({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = usePrefersReducedMotion();
-  const [fluid, setFluid] = useState(true);
+  const [webgl, setWebgl] = useState(true);
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    return fluid ? startFluid(canvas, { still: reduce, onFail: () => setFluid(false) }) : startGrain(canvas, reduce);
-  }, [fluid, reduce]);
+    return webgl ? startTide(canvas, { still: reduce, onFail: () => setWebgl(false) }) : startGrain(canvas, reduce);
+  }, [webgl, reduce]);
 
   // A canvas keeps its first context type, so the fallback needs a new element.
-  return <canvas key={fluid ? "fluid" : "grain"} ref={ref} aria-hidden className={className} />;
+  return <canvas key={webgl ? "tide" : "grain"} ref={ref} aria-hidden className={className} />;
 }

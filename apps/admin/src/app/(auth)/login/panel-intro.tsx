@@ -38,7 +38,7 @@ export function PanelIntro() {
       </p>
 
       <motion.p
-        className="mt-auto flex min-h-12 items-center gap-3 self-start rounded-[10px] border border-white/25 bg-[#060E24]/70 px-4 py-2.5 text-body text-white/90"
+        className="mt-auto flex min-h-12 items-center gap-3 self-start rounded-[10px] border border-white/25 bg-[color-mix(in_srgb,var(--nav-bg-2)_85%,transparent)] px-4 py-2.5 text-body text-white"
         {...rise(AFTER_HEADLINE)}
       >
         <CalendarCheck2 className="size-[18px] shrink-0" strokeWidth={1.75} aria-hidden />
