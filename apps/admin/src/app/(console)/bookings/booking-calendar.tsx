@@ -23,6 +23,7 @@
  */
 
 import * as React from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import type { BookingRow } from "@/lib/data/queries";
 import type { BookingStatus, BookingTarget } from "@/lib/data/types";
@@ -46,7 +47,7 @@ const IST = 5.5 * HOUR;
 /** Soft fill + inset ring per status. Always rendered next to the status icon. */
 const TONE: Record<BookingStatus, string> = {
   confirmed: "bg-ok-soft ring-ok/35",
-  requested: "bg-warn-soft ring-warn/35",
+  requested: "bg-info-soft ring-info/35",
   meet_failed: "bg-bad-soft ring-bad/35",
   completed: "bg-sunken ring-line-strong",
   no_show: "bg-sunken ring-line-strong",
@@ -54,7 +55,7 @@ const TONE: Record<BookingStatus, string> = {
 };
 const ICON_TONE: Record<BookingStatus, string> = {
   confirmed: "text-on-ok-soft",
-  requested: "text-on-warn-soft",
+  requested: "text-on-info-soft",
   meet_failed: "text-on-bad-soft",
   completed: "text-ink-3",
   no_show: "text-ink-3",
@@ -372,6 +373,10 @@ function Legend({ status }: { status: BookingStatus }) {
   );
 }
 
+/* A collapsed slot is a shorter block plus the chip, together inside one 56px hour. */
+const GROUPED_H = 36;
+const CHIP_H = 18;
+
 const blockMotion =
   "transition-[transform,box-shadow] duration-150 ease-[var(--ease-out-quart)] hover:z-[3] hover:-translate-y-px " +
   "focus-visible:z-[3] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent";
@@ -417,6 +422,82 @@ function layoutLanes(items: BookingRow[], minMs: number) {
   }
   flush();
   return out;
+}
+
+/** Bookings that overlap, directly or through a chain, as drawn. */
+function overlapGroups(items: BookingRow[], minMs: number) {
+  const groups: BookingRow[][] = [];
+  let groupEnd = -Infinity;
+  for (const r of [...items].sort((a, b) => a.start - b.start || b.end - a.end)) {
+    if (r.start >= groupEnd) groups.push([]);
+    groups[groups.length - 1].push(r);
+    groupEnd = Math.max(groupEnd, r.end, r.start + minMs);
+  }
+  return groups;
+}
+
+/** Whatever needs an operator goes on top; otherwise the earliest stays first. */
+const byUrgency = (group: BookingRow[]) => [...group].sort((a, b) => MIX_ORDER.indexOf(a.status) - MIX_ORDER.indexOf(b.status));
+
+/**
+ * The rest of a dense week slot. A day column is too narrow for side-by-side
+ * lanes ("1..", "De..."), so a slot shows one readable booking and this chip
+ * under it; the menu lists every booking in the slot and opens any of them.
+ */
+function MoreChip({ group, top, onOpen }: { group: BookingRow[]; top: number; onOpen: (id: string) => void }) {
+  const picked = React.useRef(false);
+  const more = group.length - 1;
+  return (
+    <DropdownMenu.Root modal={false}>
+      <DropdownMenu.Trigger
+        aria-label={`${more} more ${more === 1 ? "booking" : "bookings"} in this slot, ${group.length} in all. Show them`}
+        className={cn(
+          "absolute inset-x-[3px] flex items-center rounded-[5px] bg-sunken px-1.5 text-left text-caption font-medium leading-none text-ink-2 ring-1 ring-inset ring-line-strong",
+          "hover:bg-surface hover:text-ink data-[state=open]:bg-surface data-[state=open]:text-ink",
+          blockMotion,
+        )}
+        style={{ top, height: CHIP_H, zIndex: group.length + 1 }}
+      >
+        +{more} more
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="start"
+          sideOffset={4}
+          collisionPadding={12}
+          onCloseAutoFocus={(e) => {
+            // A pick hands focus to the drawer; only a dismiss goes back to the chip.
+            if (picked.current) e.preventDefault();
+            picked.current = false;
+          }}
+          className="z-50 w-[280px] rounded-[12px] border border-line bg-raised p-1.5 shadow-[var(--shadow-overlay)] data-[state=open]:animate-rise"
+        >
+          <p className="px-2 pb-1 pt-1.5 text-micro font-medium uppercase tracking-[0.05em] text-ink-3">
+            <span className="num">{group.length}</span> bookings in this slot
+          </p>
+          {group.map((r) => (
+            <DropdownMenu.Item
+              key={r.id}
+              onSelect={() => {
+                picked.current = true;
+                onOpen(r.id);
+              }}
+              className="flex cursor-pointer flex-col gap-0.5 rounded-[8px] px-2 py-1.5 outline-none data-[highlighted]:bg-sunken"
+            >
+              <span className="flex items-center gap-1.5 text-caption text-ink-2">
+                <StatusIcon status={r.status} />
+                <span className="num whitespace-nowrap">{fmtTime(r.start)}</span>
+                <span className="text-ink-3">·</span>
+                <span className="truncate">{BOOKING_STATUS[r.status].label}</span>
+              </span>
+              <span className="truncate text-meta font-medium text-ink">{r.targetName}</span>
+              <span className="truncate text-caption text-ink-2">{r.learnerName}</span>
+            </DropdownMenu.Item>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
 }
 
 function hourLabel(h: number) {
@@ -496,7 +577,13 @@ function TimeGrid({
           const nowTop = ((now - d) / HOUR - first) * rowH;
           // Room for the time line plus one title line at the 13px caption floor.
           const minH = detailed ? 48 : 40;
-          const lanes = layoutLanes(items, ((minH + 4) / rowH) * HOUR);
+          const minMs = ((minH + 4) / rowH) * HOUR;
+          const lanes = layoutLanes(items, minMs);
+          // The week view collapses a dense slot; the wide day view keeps lanes.
+          const collapsed = detailed ? [] : overlapGroups(items, minMs).filter((g) => g.length > 1).map(byUrgency);
+          const hidden = new Set(collapsed.flatMap((g) => g.slice(1).map((r) => r.id)));
+          const shownItems = items.filter((r) => !hidden.has(r.id));
+          const groupOf = new Map(collapsed.map((g) => [g[0].id, g]));
           return (
             <div key={d} className="relative border-l border-line" style={{ height }}>
               {HOURS.map((h, i) => (
@@ -507,27 +594,25 @@ function TimeGrid({
                   <span className="absolute -left-1 -top-1 size-2 rounded-full bg-bad" />
                 </div>
               ) : null}
-              {items.map((r, idx) => {
+              {shownItems.map((r, idx) => {
                 const top = ((r.start - d) / HOUR - first) * rowH;
-                const h = Math.max(minH, ((r.end - r.start) / HOUR) * rowH - 4);
-                const { lane, lanes: count } = lanes.get(r.id) ?? {
-                  lane: 0,
-                  lanes: 1,
-                };
+                const group = groupOf.get(r.id);
+                const h = group ? GROUPED_H : Math.max(minH, ((r.end - r.start) / HOUR) * rowH - 4);
+                const { lane, lanes: count } = (detailed && lanes.get(r.id)) || { lane: 0, lanes: 1 };
                 const width = 100 / count;
                 const label = `${BOOKING_STATUS[r.status].label}: ${r.targetName} with ${r.learnerName}, ${fmtTime(r.start)}–${fmtTime(r.end)}`;
                 return (
+                  <React.Fragment key={r.id}>
                   <button
-                    key={r.id}
                     type="button"
                     onClick={() => onOpen(r.id)}
                     aria-label={label}
                     title={label}
                     className={cn(
-                      "absolute overflow-hidden rounded-[6px] px-1.5 py-1 text-left ring-1 ring-inset",
+                      "absolute overflow-hidden rounded-[6px] px-1.5 text-left ring-1 ring-inset",
+                      group ? "py-0.5" : "py-1",
                       TONE[r.status],
                       blockMotion,
-                      (r.status === "completed" || r.status === "no_show") && "opacity-85",
                     )}
                     style={{
                       top: top + 2,
@@ -560,6 +645,8 @@ function TimeGrid({
                       </span>
                     ) : null}
                   </button>
+                  {group ? <MoreChip group={group} top={top + 2 + GROUPED_H + 1} onOpen={onOpen} /> : null}
+                  </React.Fragment>
                 );
               })}
             </div>
