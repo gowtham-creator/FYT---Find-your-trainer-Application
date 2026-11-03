@@ -8,7 +8,7 @@ import { ALWAYS_GRANTED, DEFAULT_ADMIN_PERMISSIONS, ROLE_LABEL, canManage, type 
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Avatar, Button, Checkbox, Field, Input, Panel, PanelHeader } from "@/components/ui/primitives";
 import { Segmented } from "@/components/ui/choice";
-import { ConfirmDialog, Drawer } from "@/components/ui/overlays";
+import { ConfirmDialog, Drawer, besideDrawer } from "@/components/ui/overlays";
 import { AdminStatusPill, RoleBadge } from "@/components/ui/status";
 import { useServerAction } from "@/components/ui/use-action";
 import { cn, relTime } from "@/lib/utils";
@@ -177,10 +177,11 @@ function PermissionMatrix({ defs }: { defs: PermDef[] }) {
   return (
     <Panel className="mt-6">
       <PanelHeader icon={solarIcon("shield-check-bold-duotone")} title="What each role can do" description="Enforced on the server for every page and action, not just hidden in the menu." />
-      <div className="overflow-x-auto">
+      {/* Rows scroll inside the card so the role labels stay in view. */}
+      <div className="max-h-[calc(100dvh-12rem)] overflow-auto overscroll-contain">
         <table className="w-full text-meta">
           <caption className="sr-only">Permission matrix</caption>
-          <thead className="bg-sunken/70 text-left text-caption text-ink-2">
+          <thead className="sticky top-0 z-10 bg-sunken text-left text-caption text-ink-2 shadow-[inset_0_-1px_0_var(--line)]">
             <tr>
               <th scope="col" className="px-5 py-2.5 font-medium">Module</th>
               <th scope="col" className="w-28 px-3 py-2.5 text-center font-medium">Owner</th>
@@ -471,7 +472,7 @@ function InviteDrawer({ open, onOpenChange, assignable, grantable }: { open: boo
           </div>
           <div className="flex items-center gap-2">
             <Input readOnly value={link} className="num text-meta" onFocus={(e) => e.currentTarget.select()} />
-            <Button onClick={() => { void navigator.clipboard.writeText(link); toast.success("Invite link copied"); }}>
+            <Button onClick={() => { void navigator.clipboard.writeText(link); toast.success("Invite link copied", besideDrawer()); }}>
               <Copy className="size-4" strokeWidth={1.75} /> Copy
             </Button>
           </div>

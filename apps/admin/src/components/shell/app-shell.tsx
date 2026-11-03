@@ -150,19 +150,22 @@ export function AppShell({
               {demo ? (
                 <span
                   title="Figures come from seeded demo records, not live Firebase data."
-                  className="hidden h-7 items-center gap-1.5 rounded-full bg-info-soft px-2.5 text-caption font-medium text-on-info-soft md:inline-flex"
+                  className="hidden h-7 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-info-soft px-2.5 text-caption font-medium text-on-info-soft md:inline-flex"
                 >
-                  <Database className="size-3.5" strokeWidth={1.75} aria-hidden />
-                  Demo data
+                  <Database className="size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
+                  <span className="xl:hidden">Demo</span>
+                  <span className="hidden xl:inline">Demo data</span>
                 </span>
               ) : null}
               <button
                 onClick={() => setPaletteOpen(true)}
-                className="group hidden h-[38px] max-w-[420px] flex-1 items-center gap-2 rounded-[10px] border border-line bg-paper px-3 text-meta text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
+                aria-label="Search pages and actions"
+                className="group hidden h-[38px] min-w-0 max-w-[420px] flex-1 items-center gap-2 whitespace-nowrap rounded-[10px] border border-line bg-paper px-3 text-meta text-ink-3 transition-[border-color,color,background-color] duration-150 ease-[var(--ease-out-quart)] hover:border-line-strong hover:text-ink-2 md:flex"
               >
-                <UiIcon name="search" className="size-4 transition-colors duration-150 group-hover:text-ink-2" />
-                Search pages and actions…
-                <span className="ml-auto flex gap-1">
+                <UiIcon name="search" className="size-4 shrink-0 transition-colors duration-150 group-hover:text-ink-2" />
+                <span className="block min-w-0 truncate xl:hidden" aria-hidden>Search…</span>
+                <span className="hidden min-w-0 truncate xl:block" aria-hidden>Search pages and actions…</span>
+                <span className="ml-auto flex shrink-0 gap-1">
                   <Kbd>⌘</Kbd>
                   <Kbd>K</Kbd>
                 </span>
@@ -403,7 +406,9 @@ function initials(name: string) {
 
 function NavKbd({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-white/20 bg-white/10 px-1 font-mono text-caption leading-none text-white">
+    // A darkened well, not a white tint: white on the light-mode azure keeps
+    // about 7:1 (a white/10 tint over the button's white/12 sat near 5:1).
+    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-white/25 bg-black/25 px-1 font-mono text-caption leading-none text-white">
       {children}
     </kbd>
   );

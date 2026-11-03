@@ -9,6 +9,16 @@ import { cn } from "@/lib/utils";
 const scrim =
   "fixed inset-0 z-40 bg-[#0B1530]/40 backdrop-blur-[2px] data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out";
 
+/**
+ * Where a toast raised from inside an open drawer should go. The default
+ * bottom-right corner sits on the drawer's footer buttons, so these go to the
+ * other side: bottom-left beside a drawer, top-centre when the drawer fills a
+ * small screen. Call it from an event handler, not during render.
+ */
+export function besideDrawer(): { position: "bottom-left" | "top-center" } {
+  return { position: window.matchMedia("(min-width: 640px)").matches ? "bottom-left" : "top-center" };
+}
+
 /** Right-side editing drawer. Preferred over centered modals for edits. */
 export function Drawer({
   open,

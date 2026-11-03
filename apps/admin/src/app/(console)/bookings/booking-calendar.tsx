@@ -475,7 +475,8 @@ function MoreChip({ group, top, onOpen }: { group: BookingRow[]; top: number; on
           <p className="px-2 pb-1 pt-1.5 text-micro font-medium uppercase tracking-[0.05em] text-ink-3">
             <span className="num">{group.length}</span> bookings in this slot
           </p>
-          {group.map((r) => (
+          {/* The slot shows its most urgent booking; the list reads in time order. */}
+          {[...group].sort((a, b) => a.start - b.start || a.end - b.end).map((r) => (
             <DropdownMenu.Item
               key={r.id}
               onSelect={() => {

@@ -15,7 +15,7 @@ import type { BookingRow } from "@/lib/data/queries";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Button, Field, Input } from "@/components/ui/primitives";
 import { BookingStatusPill, BOOKING_STATUS } from "@/components/ui/status";
-import { ConfirmDialog, Drawer } from "@/components/ui/overlays";
+import { ConfirmDialog, Drawer, besideDrawer } from "@/components/ui/overlays";
 import { cn, fmtDate, fmtDateTime, fmtTime, relTime } from "@/lib/utils";
 import { cancelBooking, confirmBooking, markOutcome, rescheduleBooking, retryMeetLink, type ActionResult } from "./actions";
 import { solarIcon } from "@/components/icons/solar";
@@ -314,7 +314,7 @@ function BookingDrawer({ booking: b, now, onClose }: { booking: BookingRow | nul
                         aria-label="Copy Meet link"
                         onClick={() => {
                           void navigator.clipboard.writeText(b.meetLink!);
-                          toast.success("Meet link copied");
+                          toast.success("Meet link copied", besideDrawer());
                         }}
                       >
                         <Copy className="size-3.5" strokeWidth={1.75} />
