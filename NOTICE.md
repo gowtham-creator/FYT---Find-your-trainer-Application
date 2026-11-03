@@ -45,9 +45,41 @@ not taken from the source.
 | Event Manager | vaib215 | https://21st.dev/@vaib215/components/event-manager | Day, Week and Month booking calendar layout. Reference only, no source code included | `src/app/(console)/bookings/booking-calendar.tsx` |
 | Segmented Control | ddoemonn | https://21st.dev/@ddoemonn/components/segmented-control | Segmented view switch. Reference only, no source code included | `src/components/ui/choice.tsx` |
 | Auth Section 1 | solaceui | https://21st.dev/@solaceui/components/auth-section-1 | Layout of the sign-in, verification and invite screens. Canvas 2D fallback grain redrawn after its grain gradient; the source's shader is not included | `src/app/(auth)/login/` |
-| Background Gradient Shader | nikolas-sapa | https://21st.dev/@nikolas-sapa/components/background-gradient-shader | The sign-in panel's WebGL background. Shader code adapted to the sidebar tokens; the source states no licence | `src/app/(auth)/login/tide-gl.ts` |
+| Background Gradient Shader (ChromaTide) | nikolas-sapa (Nikolas Sapalidis, ns-ui) | https://21st.dev/@nikolas-sapa/components/background-gradient-shader | The sign-in panel's WebGL background. Shader code adapted to the sidebar tokens. **MIT licence**, notice below | `src/app/(auth)/login/tide-gl.ts` |
 | Empty State | serafimcloud | https://21st.dev/@serafimcloud/components/empty-state | The tilted card fan in empty states | `src/components/ui/primitives.tsx` |
 | OTPVerification | 21st.dev community | https://21st.dev | Sign-in code field | `src/components/ui/otp-input.tsx` |
+
+### Background Gradient Shader (ChromaTide): MIT licence
+
+`apps/admin/src/app/(auth)/login/tide-gl.ts` adapts code from the Background
+Gradient Shader in ns-ui. Registry source:
+https://design.helpmarq.com/r/background-gradient-shader.json; repository:
+https://github.com/nikolas-sapa/ns-ui. The same notice is kept in the file
+header.
+
+```
+MIT License
+
+Copyright (c) 2026 Nikolas Sapalidis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## Software packages
 
