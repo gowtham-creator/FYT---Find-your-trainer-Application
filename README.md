@@ -7,7 +7,7 @@ FYT (Find Your Trainer), a training marketplace for Hyderabad by CUBIXSO: learne
 <br>
 
 
-[![live](https://img.shields.io/badge/live-fyt--find--your--trainer--application.vercel.app-F59E0B?style=flat-square&labelColor=431407)](https://fyt-find-your-trainer-application.vercel.app) ![language](https://img.shields.io/badge/language-TypeScript-9A3412?style=flat-square&labelColor=431407) ![updated](https://img.shields.io/badge/updated-2026--11--03-7C2D12?style=flat-square&labelColor=431407)
+[![live](https://img.shields.io/badge/live-fyt--find--your--trainer--application.vercel.app-F59E0B?style=flat-square&labelColor=431407)](https://fyt-find-your-trainer-application.vercel.app) ![language](https://img.shields.io/badge/language-TypeScript-9A3412?style=flat-square&labelColor=431407) ![updated](https://img.shields.io/badge/updated-2026--11--04-7C2D12?style=flat-square&labelColor=431407)
 
 </div>
 
