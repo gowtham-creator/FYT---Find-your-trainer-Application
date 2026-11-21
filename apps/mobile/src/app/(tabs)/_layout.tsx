@@ -1,35 +1,35 @@
-import { Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import type { ComponentProps } from "react";
 import type { ColorValue } from "react-native";
+import { StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Icon, type IconName } from "../../components";
 import { font, usePalette } from "../../theme";
 
-type Icon = ComponentProps<typeof Feather>["name"];
-const tab = (title: string, icon: Icon) => ({
+const tab = (title: string, icon: IconName) => ({
   title,
-  tabBarIcon: ({ color, size }: { color: ColorValue; size: number }) => <Feather name={icon} size={size - 2} color={color as string} />,
+  tabBarIcon: ({ color, focused }: { color: ColorValue; focused: boolean }) => <Icon name={icon} size={24} weight={focused ? "fill" : "regular"} color={color} />,
 });
 
-/** Learner shell: Home, Explore, Bookings, Profile. Active tab = ink + marigold indicator. */
+/** Learner shell: Home, Explore, Bookings, Profile. Active = azure filled icon. */
 export default function LearnerTabs() {
   const p = usePalette();
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: p.ink,
+        tabBarActiveTintColor: p.accent,
         tabBarInactiveTintColor: p.ink3,
-        tabBarActiveBackgroundColor: p.accentSoft,
-        tabBarStyle: { backgroundColor: p.sunken, borderTopColor: p.line },
-        tabBarItemStyle: { borderRadius: 6, marginHorizontal: 6, marginVertical: 4 },
-        tabBarLabelStyle: { fontFamily: font.sansMedium, fontSize: 13 },
+        tabBarStyle: { backgroundColor: p.surface, borderTopColor: p.line, borderTopWidth: StyleSheet.hairlineWidth, height: 64 + insets.bottom, paddingTop: 6, paddingBottom: insets.bottom },
+        tabBarItemStyle: { height: 56, justifyContent: "center" },
+        tabBarLabelStyle: { fontFamily: font.sansMedium, fontSize: 12, lineHeight: 16, marginTop: 2 },
         sceneStyle: { backgroundColor: p.paper },
       }}
     >
       <Tabs.Screen name="home" options={tab("Home", "home")} />
-      <Tabs.Screen name="explore" options={tab("Explore", "search")} />
-      <Tabs.Screen name="bookings" options={tab("Bookings", "calendar")} />
-      <Tabs.Screen name="profile" options={tab("Profile", "user")} />
+      <Tabs.Screen name="explore" options={tab("Explore", "explore")} />
+      <Tabs.Screen name="bookings" options={tab("Bookings", "bookings")} />
+      <Tabs.Screen name="profile" options={tab("Profile", "profile")} />
     </Tabs>
   );
 }

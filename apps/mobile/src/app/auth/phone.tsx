@@ -4,18 +4,26 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { normalizeIndianPhone } from "@fyt/domain";
 import { backend, BackendError } from "../../backend";
-import { Button, Screen, TextField, Txt, Wordmark } from "../../components";
+import { Button, FadeUp, Icon, Screen, TextField, Txt, Wordmark } from "../../components";
+import { OpenDemos } from "../../features/auth/AuthAside";
 import { appEnv } from "../../config/env";
 import { messageFor } from "../../lib/messages";
 import { useSessionStore } from "../../session/store";
-import { usePalette } from "../../theme";
+import { usePalette, useTwoPane } from "../../theme";
 
+/**
+ * S05 Sign in, which is also the welcome: one screen, no tour, no social
+ * proof. Under the form, this week's open demos show what the app is for
+ * (in the right pane on an iPhone Duo inner display).
+ */
 export default function PhoneEntry() {
   const p = usePalette();
   const router = useRouter();
   const set = useSessionStore((s) => s.set);
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const digits = value.replace(/\D/g, "");
+  const valid = /^[6-9]\d{9}$/.test(digits);
 
   const send = useMutation({
     mutationFn: (phone: string) => backend().sendCode(phone),
@@ -28,57 +36,87 @@ export default function PhoneEntry() {
 
   const submit = () => {
     const phone = normalizeIndianPhone(value);
-    if (!phone) return setError("Enter a 10-digit Indian mobile number starting with 6, 7, 8 or 9.");
+    if (!phone) return setError("Enter the 10-digit number. It starts with 6, 7, 8 or 9.");
     setError(null);
     send.mutate(phone);
   };
 
+  const twoPane = useTwoPane();
   return (
-    <Screen footer={<Button label="Send code" onPress={submit} loading={send.isPending} />}>
-      <View style={styles.hero}>
+    <Screen
+      aside={<OpenDemos />}
+      footer={
+        <View style={styles.footer}>
+          <Button label="Send code" onPress={submit} disabled={!valid} loading={send.isPending} />
+          <Txt variant="caption" tone="ink3" style={styles.center}>
+            By continuing you agree to the <Txt variant="caption" tone="accent">Terms</Txt> and <Txt variant="caption" tone="accent">Privacy Policy</Txt>.
+          </Txt>
+        </View>
+      }
+    >
+      <FadeUp index={0} style={styles.hero}>
         <Wordmark />
-        <Txt variant="headline" accessibilityRole="header">
-          Find the right trainer, mentor or course
-        </Txt>
-        <Txt variant="body" tone="ink2">
-          {"Sign in with your mobile number. We'll text you a 6-digit code."}
-        </Txt>
-      </View>
-      <TextField
-        label="Mobile number"
-        value={value}
-        onChangeText={(t) => {
-          setValue(t.replace(/[^\d\s+]/g, ""));
-          if (error) setError(null);
-        }}
-        keyboardType="phone-pad"
-        textContentType="telephoneNumber"
-        autoComplete="tel"
-        maxLength={16}
-        placeholder="90000 00000"
-        returnKeyType="send"
-        onSubmitEditing={submit}
-        error={error}
-        hint="Indian numbers only for now."
-        mono
-        prefix={
-          <View style={[styles.prefix, { borderRightColor: p.line }]}>
-            <Txt variant="body" mono tone="ink2">
-              +91
+        <View style={styles.headline}>
+          <Txt variant="display" accessibilityRole="header">
+            Try the class before you pay the fee.
+          </Txt>
+          <Txt variant="bodyLg" tone="ink2">
+            Free demo classes from Hyderabad institutes and trainers: MERN, Java, DevOps, data science and testing. On Google Meet or in the classroom.
+          </Txt>
+        </View>
+      </FadeUp>
+      <FadeUp index={1} style={styles.form}>
+        <TextField
+          label="Mobile number"
+          value={value}
+          onChangeText={(t) => {
+            setValue(t.replace(/[^\d\s]/g, ""));
+            if (error) setError(null);
+          }}
+          keyboardType="number-pad"
+          textContentType="telephoneNumber"
+          autoComplete="tel"
+          maxLength={11}
+          placeholder="98765 43210"
+          returnKeyType="send"
+          onSubmitEditing={submit}
+          error={error}
+          hint="We'll text you a 6-digit code. There's no password."
+          mono
+          prefix={
+            <View style={[styles.prefix, { borderRightColor: p.line }]}>
+              <Txt variant="mono" tone="ink2">
+                +91
+              </Txt>
+            </View>
+          }
+        />
+        {appEnv.authBypass ? (
+          <View style={styles.dev}>
+            <Icon name="info" size={16} color={p.ink3} />
+            <Txt variant="caption" tone="ink3" style={styles.flex}>
+              Dev build, no SMS is sent. Code <Txt variant="caption" mono tone="ink2">123456</Txt>. <Txt variant="caption" mono tone="ink2">90000 00001</Txt> signs in a student, <Txt variant="caption" mono tone="ink2">90000 00002</Txt> a working professional.
             </Txt>
           </View>
-        }
-      />
-      {appEnv.authBypass ? (
-        <Txt variant="caption" tone="info">
-          Dev bypass is on: no SMS is sent and the code is 123456. Try 90000 00001 (student), 00002 (corporate), 00003 (new) or 00004 (blocked).
-        </Txt>
-      ) : null}
+        ) : null}
+      </FadeUp>
+      {twoPane ? null : (
+        <View style={[styles.preview, { borderTopColor: p.line }]}>
+          <OpenDemos />
+        </View>
+      )}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  hero: { gap: 12, paddingTop: 24, paddingBottom: 8 },
-  prefix: { paddingRight: 8, borderRightWidth: 1 },
+  flex: { flex: 1 },
+  hero: { gap: 32, paddingTop: 8 },
+  headline: { gap: 12, maxWidth: 560 },
+  form: { gap: 12, paddingTop: 8 },
+  prefix: { paddingRight: 10, borderRightWidth: 1 },
+  dev: { flexDirection: "row", gap: 6, alignItems: "flex-start" },
+  preview: { marginTop: 16, paddingTop: 24, borderTopWidth: StyleSheet.hairlineWidth },
+  footer: { gap: 12 },
+  center: { textAlign: "center" },
 });

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, type ComponentRef } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { formatIndianPhone } from "@fyt/domain";
 import { backend, BackendError } from "../../backend";
-import { Button, Screen, Txt } from "../../components";
+import { Button, Screen, TextLink, TopBar, Txt } from "../../components";
+import { NextSteps } from "../../features/auth/AuthAside";
 import { messageFor } from "../../lib/messages";
 import { useSessionStore } from "../../session/store";
 import { font, radius, usePalette } from "../../theme";
@@ -55,8 +56,8 @@ export default function OtpVerify() {
   if (!phone) {
     return (
       <Screen>
-        <Txt variant="body">Enter your number first.</Txt>
-        <Button label="Back" onPress={() => router.replace("/auth/phone")} />
+        <Txt variant="body">We need your mobile number before we can send a code.</Txt>
+        <Button label="Enter your number" onPress={() => router.replace("/auth/phone")} />
       </Screen>
     );
   }
@@ -69,17 +70,19 @@ export default function OtpVerify() {
   };
 
   return (
-    <Screen footer={<Button label="Verify" onPress={() => verify.mutate(code)} disabled={code.length !== LENGTH} loading={verify.isPending} />}>
+    <Screen header={<TopBar />} aside={<NextSteps step={1} />} footer={<Button label="Verify and continue" onPress={() => verify.mutate(code)} disabled={code.length !== LENGTH} loading={verify.isPending} />}>
       <View style={styles.head}>
-        <Txt variant="headline" accessibilityRole="header">
-          Enter the code
+        <Txt variant="display" accessibilityRole="header">
+          Enter the code we sent
         </Txt>
-        <Txt variant="body" tone="ink2">
-          Sent by SMS to{" "}
-          <Txt variant="body" mono>
+        <Txt variant="bodyLg" tone="ink2">
+          It went by SMS to{" "}
+          <Txt variant="bodyLg" mono tone="ink">
             {formatIndianPhone(phone)}
           </Txt>
+          . It can take up to a minute.
         </Txt>
+        <TextLink label="Wrong number? Change it" onPress={() => router.replace("/auth/phone")} />
       </View>
 
       <Pressable onPress={() => input.current?.focus()} accessibilityLabel={`Code, ${code.length} of ${LENGTH} digits entered`}>
@@ -87,8 +90,8 @@ export default function OtpVerify() {
           {Array.from({ length: LENGTH }, (_, i) => {
             const active = i === code.length && !verify.isPending;
             return (
-              <View key={i} style={[styles.cell, { backgroundColor: p.sunken, borderColor: error ? p.bad : active ? p.accent : p.lineStrong, borderWidth: active || error ? 2 : 1 }]}>
-                <Txt variant="title" mono style={{ fontFamily: font.monoMedium }}>
+              <View key={i} style={[styles.cell, { backgroundColor: p.surface, borderColor: error ? p.bad : active ? p.accent : p.lineField, borderWidth: active || error ? 2 : 1 }]}>
+                <Txt variant="monoXl" style={{ fontFamily: font.monoMedium }}>
                   {code[i] ?? ""}
                 </Txt>
               </View>
@@ -118,25 +121,24 @@ export default function OtpVerify() {
       <View style={styles.links}>
         {resends >= MAX_RESENDS ? (
           <Txt variant="caption" tone="ink3">
-            No more resends here. Go back and try again in a few minutes.
+            That was the last resend for now. Check the number, or try again in 10 minutes.
           </Txt>
         ) : cooldown > 0 ? (
-          <Txt variant="caption" tone="ink3">
-            Resend code in <Txt variant="caption" mono tone="ink3">{`0:${String(cooldown).padStart(2, "0")}`}</Txt>
+          <Txt variant="meta" tone="ink2">
+            Didn't get it? Resend in <Txt variant="mono" tone="ink">{`0:${String(cooldown).padStart(2, "0")}`}</Txt>
           </Txt>
         ) : (
           <Button variant="ghost" label="Resend code" onPress={() => resend.mutate()} loading={resend.isPending} />
         )}
-        <Button variant="ghost" label="Change number" onPress={() => router.replace("/auth/phone")} />
       </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  head: { gap: 8, paddingTop: 24 },
-  cells: { flexDirection: "row", gap: 8, justifyContent: "space-between" },
-  cell: { flex: 1, aspectRatio: 0.85, maxHeight: 64, borderRadius: radius.control, alignItems: "center", justifyContent: "center" },
+  head: { gap: 12, paddingTop: 8, paddingBottom: 16, alignItems: "flex-start" },
+  cells: { flexDirection: "row", gap: 8 },
+  cell: { flex: 1, maxWidth: 56, height: 64, borderRadius: radius.control, alignItems: "center", justifyContent: "center" },
   hidden: { position: "absolute", opacity: 0, width: 1, height: 1 },
-  links: { gap: 4, alignItems: "flex-start" },
+  links: { gap: 4, alignItems: "flex-start", paddingTop: 8 },
 });

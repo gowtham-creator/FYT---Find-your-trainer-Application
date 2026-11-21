@@ -71,6 +71,8 @@ export const ROUTES = {
 } as const;
 
 const LEARNER_TABS: readonly string[] = [ROUTES.home, ROUTES.explore, ROUTES.bookings, ROUTES.profile];
+/** Signed-in stacks pushed over the tabs: course detail, booking flow, session detail. */
+const LEARNER_STACKS: readonly string[] = ["/courses/", "/book/", "/bookings/", "/dev/"];
 
 /**
  * Where the router must go for `state` when it is at `path`, or null to stay.
@@ -96,6 +98,6 @@ export function redirectFor(state: SessionState, path: string): string | null {
       return stay(state.step === "details" ? [ROUTES.details, ROUTES.segment] : [ROUTES.segment], target);
     }
     case "ready":
-      return LEARNER_TABS.includes(p) || p.startsWith("/dev/") ? null : ROUTES.home;
+      return LEARNER_TABS.includes(p) || LEARNER_STACKS.some((s) => p.startsWith(s)) ? null : ROUTES.home;
   }
 }

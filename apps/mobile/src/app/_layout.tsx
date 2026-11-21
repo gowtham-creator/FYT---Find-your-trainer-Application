@@ -17,6 +17,10 @@ function SessionRouter() {
   const path = usePathname();
   const router = useRouter();
   useEffect(() => {
+    // Dev-only screenshot hook (web): lets a test driver open any screen after boot.
+    if (__DEV__ && typeof window !== "undefined") (globalThis as { __fytRouter?: unknown }).__fytRouter = router;
+  }, [router]);
+  useEffect(() => {
     const target = redirectFor(session, path);
     if (target && target !== path) router.replace(target as never);
   }, [session, path, router]);

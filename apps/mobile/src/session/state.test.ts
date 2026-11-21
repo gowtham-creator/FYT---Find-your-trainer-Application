@@ -91,6 +91,10 @@ describe("redirectFor", () => {
     [{ kind: "ready", segment: "corporate" }, ROUTES.bookings, null],
     [{ kind: "ready", segment: "corporate" }, "/profile/", null],
     [{ kind: "ready", segment: "corporate" }, ROUTES.explore, null],
+    [{ kind: "ready", segment: "student" }, "/courses/mern-vidyarth", null],
+    [{ kind: "ready", segment: "student" }, "/book/success", null],
+    [{ kind: "ready", segment: "student" }, "/bookings/b2", null],
+    [{ kind: "signedOut" }, "/courses/mern-vidyarth", ROUTES.phone],
   ];
   it.each(cases)("%j at %s -> %s", (state, path, expected) => {
     expect(redirectFor(state, path)).toBe(expected);

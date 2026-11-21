@@ -11,7 +11,7 @@ interface Props extends TextInputProps {
   mono?: boolean;
 }
 
-/** Label above, sunken fill, error below. The focus ring is marigold. */
+/** Label above, sunken fill, error below. The focus ring is azure. */
 export const TextField = forwardRef<ComponentRef<typeof TextInput>, Props>(function TextField({ label, error, hint, prefix, mono, style, onFocus, onBlur, ...rest }, ref) {
   const p = usePalette();
   const [focused, setFocused] = useState(false);
@@ -23,7 +23,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, Props>(funct
       <View
         style={[
           styles.box,
-          { backgroundColor: p.sunken, borderColor: error ? p.bad : focused ? p.accent : p.lineStrong, borderWidth: focused || error ? 2 : 1 },
+          { backgroundColor: p.surface, borderColor: error ? p.bad : focused ? p.accent : p.lineField, borderWidth: focused || error ? 2 : 1 },
         ]}
       >
         {prefix}
@@ -59,5 +59,5 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, Props>(funct
 const styles = StyleSheet.create({
   wrap: { gap: 6 },
   box: { minHeight: TOUCH + 4, borderRadius: radius.control, flexDirection: "row", alignItems: "center", paddingHorizontal: 12, gap: 8 },
-  input: { flex: 1, fontSize: 17, paddingVertical: 12 },
+  input: { flex: 1, fontSize: 17, paddingVertical: 14 },
 });

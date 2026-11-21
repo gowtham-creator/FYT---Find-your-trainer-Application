@@ -1,18 +1,16 @@
 import { StyleSheet, View } from "react-native";
-import { usePalette } from "../theme";
+import { font, usePalette } from "../theme";
 import { Txt } from "./Txt";
 
-/** Typographic FYT lockup: Playfair wordmark with a marigold rule. */
-export function Wordmark({ size = 34 }: { size?: number }) {
+/** Typographic FYT mark: SemiBold letters with an azure full stop. */
+export function Wordmark({ size = 22 }: { size?: number }) {
   const p = usePalette();
   return (
     <View style={styles.row} accessible accessibilityLabel="FYT, Find Your Trainer">
-      <Txt variant="display" style={{ fontSize: size, lineHeight: size * 1.15 }}>
-        FYT
-      </Txt>
-      <View style={[styles.rule, { backgroundColor: p.accent, height: Math.max(3, size / 10) }]} />
+      <Txt style={{ fontFamily: font.sansSemi, fontSize: size, lineHeight: size * 1.2, letterSpacing: -0.4 }}>FYT</Txt>
+      <View style={[styles.dot, { backgroundColor: p.accent, width: size / 4, height: size / 4, marginBottom: size * 0.22 }]} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({ row: { alignSelf: "flex-start", gap: 4 }, rule: { width: "60%", borderRadius: 2 } });
+const styles = StyleSheet.create({ row: { alignSelf: "flex-start", flexDirection: "row", alignItems: "flex-end", gap: 2 }, dot: { borderRadius: 99 } });

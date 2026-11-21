@@ -16,7 +16,7 @@ export const MOCK_OTP = "123456";
 
 type Listener<T> = (v: T) => void;
 
-export function createMockBackend(now: () => number = Date.now): Backend & { setConfig(patch: Partial<ConfigPublic>): void } {
+export function createMockBackend(now: () => number = Date.now, signedInAs?: string): Backend & { setConfig(patch: Partial<ConfigPublic>): void } {
   let user: AuthUser | null = null;
   let pendingPhone: string | null = null;
   let config: ConfigPublic = { ...DEFAULT_CONFIG_PUBLIC };
@@ -29,11 +29,19 @@ export function createMockBackend(now: () => number = Date.now): Backend & { set
   const seedFor = (phone: string): UserDoc | null => {
     const base = newUserDoc(phone, now());
     if (phone === "+919000000001")
-      return { ...base, name: "Asha Rao", segment: "student", institution: "Demo Engineering College", interests: ["Software development"], skillsToLearn: ["React"], onboarded: true, onboardingStep: "done" };
+      return { ...base, name: "Ananya Sharma", segment: "student", institution: "CBIT, Gandipet", interests: ["Software development"], skillsToLearn: ["React"], onboarded: true, onboardingStep: "done" };
     if (phone === "+919000000002")
-      return { ...base, name: "Ravi Kumar", segment: "corporate", currentRole: "QA engineer", yearsExperience: 3, skillsToLearn: ["Python"], onboarded: true, onboardingStep: "done" };
+      return { ...base, name: "Karthik Iyer", segment: "corporate", currentRole: "QA engineer", yearsExperience: 3, skillsToLearn: ["Python"], onboarded: true, onboardingStep: "done" };
     return null;
   };
+  // Dev fixture hook: start already signed in as a seeded learner (screenshots, design review).
+  if (signedInAs) {
+    const seeded = seedFor(signedInAs);
+    if (seeded) {
+      user = { uid: `mock-${signedInAs.slice(-4)}`, phone: signedInAs };
+      docs.set(user.uid, seeded);
+    }
+  }
   const delay = () => new Promise((r) => setTimeout(r, 350));
   const uidOf = (phone: string) => `mock-${phone.slice(-4)}`;
 

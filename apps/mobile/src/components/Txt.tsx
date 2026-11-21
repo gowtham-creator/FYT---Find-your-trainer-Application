@@ -1,27 +1,25 @@
 import { Text, type TextProps } from "react-native";
-import { type, usePalette, type Palette, type TextVariant } from "../theme";
+import { font, maxScale, type, usePalette, type Palette, type TextVariant } from "../theme";
 
-export type Tone = "ink" | "ink2" | "ink3" | "accentInk" | "bad" | "ok" | "info";
+export type Tone = "ink" | "ink2" | "ink3" | "accent" | "accentInk" | "onBand" | "onAccentSoft" | "onTealSoft" | "onOkSoft" | "onWarnSoft" | "bad" | "ok" | "info";
 
 interface Props extends TextProps {
   variant?: TextVariant;
   tone?: Tone;
-  /** Geist Mono with tabular figures: times, refs, codes, phone numbers. */
+  /** JetBrains Mono with tabular figures: times, dates, refs, fees, phone numbers. */
   mono?: boolean;
 }
 
-export function Txt({ variant = "body", tone = "ink", mono, style, ...rest }: Props) {
+/** All text. Honours Dynamic Type, capped per role so headings and mono facts keep their layout. */
+export function Txt({ variant = "body", tone = "ink", mono, style, maxFontSizeMultiplier, ...rest }: Props) {
   const p = usePalette();
   const base = type[variant];
+  const medium = base.fontFamily !== font.sans && base.fontFamily !== font.mono;
   return (
     <Text
       {...rest}
-      style={[
-        base,
-        { color: p[tone as keyof Palette] },
-        mono && { fontFamily: base.fontFamily?.includes("Medium") ? "GeistMono_500Medium" : "GeistMono_400Regular", fontVariant: ["tabular-nums"] },
-        style,
-      ]}
+      maxFontSizeMultiplier={maxFontSizeMultiplier ?? maxScale[variant]}
+      style={[base, { color: p[tone as keyof Palette] }, mono && { fontFamily: medium ? font.monoMedium : font.mono, fontVariant: ["tabular-nums"], letterSpacing: 0 }, style]}
     />
   );
 }

@@ -1,11 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import type { ComponentProps } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { Segment } from "@fyt/domain";
 import { backend, BackendError } from "../../backend";
 import { Screen, Txt } from "../../components";
 import { messageFor } from "../../lib/messages";
+import { ROUTES } from "../../session/state";
 import { useSessionStore } from "../../session/store";
 import { radius, usePalette } from "../../theme";
 
@@ -14,11 +16,17 @@ const OPTIONS: { segment: Segment; title: string; body: string; icon: ComponentP
   { segment: "corporate", title: "Working professional", body: "Mentors, upskilling courses and consultants for your next role.", icon: "briefcase" },
 ];
 
-/** Onboarding step 1. The router moves to the details step once the user doc updates. */
+/** Onboarding step 1. Saving the segment replaces to the details step. */
 export default function SegmentPicker() {
   const p = usePalette();
   const current = useSessionStore((s) => s.userDoc?.segment ?? null);
-  const save = useMutation({ mutationFn: (segment: Segment) => backend().saveProfile({ step: "segment", segment }) });
+  const router = useRouter();
+  // redirectFor lets "details" learners stay on this screen (to change their answer), so the
+  // session router never moves them on by itself: replace to details once the save lands.
+  const save = useMutation({
+    mutationFn: (segment: Segment) => backend().saveProfile({ step: "segment", segment }),
+    onSuccess: () => router.replace(ROUTES.details as never),
+  });
 
   return (
     <Screen>

@@ -37,11 +37,14 @@ export const ConfigPublic = z.object({
 });
 export type ConfigPublic = z.infer<typeof ConfigPublic>;
 
+/** Placeholder support address until the client confirms the real inbox (domain mirrors the app id). Never ship example.com. */
+export const SUPPORT_EMAIL_UNCONFIRMED = "support@findyourtrainer.in";
+
 /** Defaults used by the seed script and as the app's offline fallback. Synthetic values only. */
 export const DEFAULT_CONFIG_PUBLIC: ConfigPublic = {
   schemaVersion: SCHEMA_VERSION,
   platformName: "FYT",
-  supportEmail: "support@example.com",
+  supportEmail: SUPPORT_EMAIL_UNCONFIRMED,
   maintenance: { on: false },
   minAppVersion: { android: "1.0.0", ios: "1.0.0" },
   booking: {

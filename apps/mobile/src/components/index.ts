@@ -8,3 +8,6 @@ export { SectionHeader } from "./SectionHeader";
 export { TextField } from "./TextField";
 export { Txt } from "./Txt";
 export { Wordmark } from "./Wordmark";
+export { Icon, type IconName } from "./Icon";
+export * from "./kit";
+export { FadeUp, PressScale } from "./Motion";

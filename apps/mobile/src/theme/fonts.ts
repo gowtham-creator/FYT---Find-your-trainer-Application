@@ -1,9 +1,13 @@
-import { GeistMono_400Regular, GeistMono_500Medium } from "@expo-google-fonts/geist-mono";
-import { Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
-import { PlayfairDisplay_500Medium } from "@expo-google-fonts/playfair-display";
+import { JetBrainsMono_400Regular, JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
 import { useFonts } from "expo-font";
 
-/** Fonts are bundled with the app (no runtime fetch), so first paint works offline. */
+/** Bundled fonts (no runtime fetch): Open Sauce One (OFL, from the admin console) + JetBrains Mono. */
 export function useFytFonts(): [loaded: boolean, error: Error | null] {
-  return useFonts({ Inter_400Regular, Inter_500Medium, PlayfairDisplay_500Medium, GeistMono_400Regular, GeistMono_500Medium });
+  return useFonts({
+    "OpenSauceOne-Regular": require("../../assets/fonts/OpenSauceOne-Regular.ttf"),
+    "OpenSauceOne-Medium": require("../../assets/fonts/OpenSauceOne-Medium.ttf"),
+    "OpenSauceOne-SemiBold": require("../../assets/fonts/OpenSauceOne-SemiBold.ttf"),
+    JetBrainsMono_400Regular,
+    JetBrainsMono_500Medium,
+  });
 }
