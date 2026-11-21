@@ -10,23 +10,19 @@
  *    console's sidebar in both themes, over an animated field (the source's
  *    orange, black and white are not used), see ./tide-gl.ts;
  *  - the console's fonts and type scale, not the source's;
- *  - the FYT lockup on the dark pane;
+ *  - the FYT logo (reversed horizontal lockup, 40px minimum) on the dark pane;
  *  - below `lg` the dark pane shrinks to a short brand band above the form,
  *    so sign-in stays on one screen on a phone.
  */
-import { FytMark, FytWordmark } from "@/components/brand/fyt";
+import { FytLogo } from "@/components/brand/fyt";
 import { GrainField } from "./grain-field";
 import { PanelIntro } from "./panel-intro";
 import { ThemeToggle } from "./theme-toggle";
 
 function Lockup() {
   return (
-    <div data-grain-calm className="animate-rise relative flex items-center gap-3 self-start">
-      <FytMark tone="onDark" className="h-9 w-auto" />
-      <div className="leading-tight">
-        <FytWordmark tone="onDark" className="h-[17px] w-auto" />
-        <p className="mt-1 text-micro uppercase tracking-[0.16em] text-white/75">Find your trainer</p>
-      </div>
+    <div data-grain-calm className="animate-rise relative self-start">
+      <FytLogo tone="onDark" className="h-10 lg:h-12" />
     </div>
   );
 }

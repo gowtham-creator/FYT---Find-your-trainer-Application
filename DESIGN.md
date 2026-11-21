@@ -56,7 +56,7 @@ Each `*-soft` fill has an `--on-*-soft` text token that clears 4.5:1 on it. A st
 - Secondary buttons and topbar icon buttons lift 1px on hover. Motion runs 150–300ms with ease-out-quart and animates transform and opacity only: pages fade up 6px on route change, the drawer slides in, menus rise, and the sign-in panel's gradient crossfades and its glows float slowly. Everything respects `prefers-reduced-motion`.
 
 ## Layout
-- A 256px sidebar on the blue `--nav-bg` gradient, collapsible to 64px, becoming a sheet below `lg`: white mark and wordmark, a role tag pill, uppercase group labels, and a **white active pill** with blue text. A 64px frosted top bar shows breadcrumbs, the demo-data chip, a wide ⌘K search, theme and the account pill.
+- A 256px sidebar on the blue `--nav-bg` gradient, collapsible to 64px, becoming a sheet below `lg`: the reversed white FYT logo (horizontal lockup at 40px; the symbol alone when collapsed), uppercase group labels, and a **white active pill** with blue text. A 64px frosted top bar shows breadcrumbs, the demo-data chip, a wide ⌘K search, theme and the account pill.
 - Content is capped at `max-w-[1400px]` with a 16px grid gap. Overview is asymmetric (2fr / 1fr): the action queue and today on the left, the bookings trend and activity on the right.
 - **KPIs are separate cards** in a 2-up / 4-up grid, each with a 3px brand-gradient (or teal / sky / green) top bar, an uppercase label, a 28px/600 value, a delta pill and a 38px icon tile.
 - Tables are the primary data affordance: a card with an uppercase 12px header on surface, 11px row padding, a faint azure row hover, a sticky header, a bulk-select bar and skeleton rows. Panels are cards (surface, hairline, card shadow); their header has no full-width divider.

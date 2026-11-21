@@ -28,7 +28,7 @@ import type { Permission, Role } from "@/lib/rbac";
 import { PERMISSIONS } from "@/lib/rbac";
 import { cn } from "@/lib/utils";
 import { useLocalStorage } from "@/components/ui/use-local-storage";
-import { FytMark, FytWordmark } from "@/components/brand/fyt";
+import { FytLogo, FytSymbol } from "@/components/brand/fyt";
 import { solarIcon } from "@/components/icons/solar";
 import { UiIcon } from "@/components/icons/ui-icon";
 import { logout } from "@/app/(auth)/login/actions";
@@ -208,15 +208,9 @@ function Sidebar({
   return (
     <div className="flex h-full flex-col">
       <div className={cn("flex h-16 shrink-0 items-center gap-2.5 border-b border-nav-line", collapsed ? "justify-center px-0" : "px-4")}>
-        <FytMark tone="onDark" className="h-[30px] w-auto shrink-0" />
-        {!collapsed ? (
-          <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
-            <FytWordmark tone="onDark" className="h-[15px] w-auto" />
-            <span className="inline-flex h-6 items-center rounded-full border border-white/16 bg-white/12 px-2.5 text-caption font-medium text-white">
-              {viewer.role === "owner" ? "Owner" : viewer.role === "superadmin" ? "Super admin" : "Admin"}
-            </span>
-          </div>
-        ) : null}
+        {/* Full lockup at its 40px minimum; the symbol alone when collapsed. The
+            role badge lives in the account card at the foot of the sidebar. */}
+        {collapsed ? <FytSymbol tone="onDark" className="size-8" /> : <FytLogo tone="onDark" className="h-10" />}
       </div>
 
       <nav aria-label="Console" className="nav-scroll flex-1 overflow-y-auto px-3 py-4">

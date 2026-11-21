@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 432" role="img" aria-label="FYT">
+<title>FYT</title>
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E4FB8"/><stop offset="1" stop-color="#1A45A0"/></linearGradient></defs>
+<path fill="url(#g)" d="M36.48,216 A179.52 179.52 0 1 0 395.52,216 A179.52 179.52 0 1 0 36.48,216 Z"/>
+<path fill="#FFFFFF" d="M 212.32 208.57 L 246.52 174.38 A 15.9 15.9 0 0 1 269 196.87 L 228.22 237.65 V 281.96 A 15.9 15.9 0 0 1 196.41 281.96 V 237.65 L 155.63 196.87 A 15.9 15.9 0 0 1 178.12 174.38 Z M 121.48 154.78 A 14.54 14.54 0 1 0 150.57 154.78 A 14.54 14.54 0 1 0 121.48 154.78 Z M 271.54 148.67 A 23.18 23.18 0 1 0 317.89 148.67 A 23.18 23.18 0 1 0 271.54 148.67 Z"/>
+</svg>

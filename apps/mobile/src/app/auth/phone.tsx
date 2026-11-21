@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { normalizeIndianPhone } from "@fyt/domain";
 import { backend, BackendError } from "../../backend";
-import { Button, FadeUp, Icon, Screen, TextField, Txt, Wordmark } from "../../components";
+import { Button, FadeUp, FytLogo, Icon, Screen, TextField, Txt } from "../../components";
 import { OpenDemos } from "../../features/auth/AuthAside";
 import { appEnv } from "../../config/env";
 import { messageFor } from "../../lib/messages";
@@ -55,7 +55,7 @@ export default function PhoneEntry() {
       }
     >
       <FadeUp index={0} style={styles.hero}>
-        <Wordmark />
+        <FytLogo height={40} />
         <View style={styles.headline}>
           <Txt variant="display" accessibilityRole="header">
             Try the class before you pay the fee.
